@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <include layout="@layout/layout_common_toolbar" />
+
+    <EditText
+        android:id="@+id/ec_edit_username"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:background="@drawable/shape_pwd_act"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
+        android:paddingLeft="15dp"
+        android:drawablePadding="15dp"
+        android:hint="帐号" />
+
+    <EditText
+        android:id="@+id/ec_edit_password"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
+        android:paddingLeft="15dp"
+        android:drawablePadding="15dp"
+        android:background="@drawable/shape_pwd_act"
+        android:hint="密码"/>
+
+    <TextView
+        android:id="@+id/ec_btn_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/register_selector"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="登录" />
+    <TextView
+        android:id="@+id/btn_forget"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:clickable="true"
+        android:text="忘记密码" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        >
+        <View
+            android:layout_marginTop="11dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#1000"/>
+        <TextView
+            android:text="第三方登录"
+            android:textSize="15sp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            app:srcCompat="@drawable/ic_qq"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            app:srcCompat="@drawable/ic_wechat"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            app:srcCompat="@drawable/ic_sina"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

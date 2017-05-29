@@ -1,8 +1,10 @@
-package com.vary.salaryandcash;
+package com.vary.salaryandcash.modules;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.vary.salaryandcash.R;
 
 public class MainActivity extends AppCompatActivity {
 

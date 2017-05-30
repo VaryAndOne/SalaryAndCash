@@ -1,111 +1,245 @@
+
 #include <jni.h>
 #include <string>
+#include "native-lib.h";
 
 extern "C"
 {
+#include <libswscale/swscale.h>
+#include <libavutil/log.h>
+#include <libavutil/opt.h>
 #include <libavcodec/avcodec.h>
+
 #include <libavformat/avformat.h>
-#include <libavfilter/avfilter.h>
-
-//com.vary.salaryandcash.modules.MainActivity
-
-jstring
-Java_com_vary_salaryandcash_modules_MainActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
+#include <libavutil/imgutils.h>
+#include <libavutil/time.h>
 }
 
-jstring
-Java_com_vary_salaryandcash_modules_MainActivity_urlprotocolinfo(
-        JNIEnv *env, jobject) {
-    char info[40000] = {0};
-    av_register_all();
+#include <android/log.h>
+#define LOGE(format, ...)  __android_log_print(ANDROID_LOG_ERROR, "(>_<)ws-----------", format, ##__VA_ARGS__)
+#define LOGI(format, ...)  __android_log_print(ANDROID_LOG_INFO,  "(^_^)ws-----------", format, ##__VA_ARGS__)
 
-    struct URLProtocol *pup = NULL;
+AVFormatContext *ofmt_ctx;
+AVStream *video_st;
+AVCodecContext *pCodecCtx;
+AVCodec *pCodec;
+AVPacket enc_pkt;
+AVFrame *pFrameYUV;
 
-    struct URLProtocol **p_temp = &pup;
-    avio_enum_protocols((void **) p_temp, 0);
+int framecnt = 0;
+int yuv_width;
+int yuv_height;
+int y_length;
+int uv_length;
+int64_t start_time;
 
-    while ((*p_temp) != NULL) {
-        sprintf(info, "%sInput: %s\n", info, avio_enum_protocols((void **) p_temp, 0));
+//Output FFmpeg's av_log()
+void custom_log(void *ptr, int level, const char *fmt, va_list vl) {
+    FILE *fp = fopen("/storage/emulated/0/av_log.txt", "a+");
+    if (fp) {
+        vfprintf(fp, fmt, vl);
+        fflush(fp);
+        fclose(fp);
     }
-    pup = NULL;
-    avio_enum_protocols((void **) p_temp, 1);
-    while ((*p_temp) != NULL) {
-        sprintf(info, "%sInput: %s\n", info, avio_enum_protocols((void **) p_temp, 1));
-    }
-    return env->NewStringUTF(info);
 }
 
-jstring
-Java_com_vary_salaryandcash_modules_MainActivity_avformatinfo(
-        JNIEnv *env, jobject) {
-    char info[40000] = {0};
+// com.vary.salaryandcash.modules.CameraActivity
 
-    av_register_all();
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_initial
+        (JNIEnv *env, jobject obj, jint width, jint height) {
+    const char *out_path = "/storage/emulated/0/vao.flv";
+    yuv_width = width;
+    yuv_height = height;
+    y_length = width * height;
+    uv_length = width * height / 4;
 
-    AVInputFormat *if_temp = av_iformat_next(NULL);
-    AVOutputFormat *of_temp = av_oformat_next(NULL);
-    while (if_temp != NULL) {
-        sprintf(info, "%sInput: %s\n", info, if_temp->name);
-        if_temp = if_temp->next;
-    }
-    while (of_temp != NULL) {
-        sprintf(info, "%sOutput: %s\n", info, of_temp->name);
-        of_temp = of_temp->next;
-    }
-    return env->NewStringUTF(info);
-}
-
-jstring
-Java_com_vary_salaryandcash_modules_MainActivity_avcodecinfo(
-        JNIEnv *env, jobject) {
-    char info[40000] = {0};
+    //FFmpeg av_log() callback
+    av_log_set_callback(custom_log);
 
     av_register_all();
 
-    AVCodec *c_temp = av_codec_next(NULL);
+    //output initialize
+    avformat_alloc_output_context2(&ofmt_ctx, NULL, "flv", out_path);
+    //output encoder initialize
+    pCodec = avcodec_find_encoder(AV_CODEC_ID_H264);
+    if (!pCodec) {
+        LOGE("Can not find encoder!\n");
+        return -1;
+    }
+    pCodecCtx = avcodec_alloc_context3(pCodec);
+    if (!pCodecCtx) {
+        LOGE("Could not allocate video codec context\n");
+        return -1;
+    }
+    pCodecCtx->pix_fmt =  AV_PIX_FMT_YUV420P;//PIX_FMT_YUV420P新版加
+    pCodecCtx->width = width;
+    pCodecCtx->height = height;
+    pCodecCtx->time_base.num = 1;
+    pCodecCtx->time_base.den = 30;
+    pCodecCtx->bit_rate = 800000;
+    pCodecCtx->gop_size = 300;
+    /* Some formats want stream headers to be separate. */
+    if (ofmt_ctx->oformat->flags & AVFMT_GLOBALHEADER)
+        pCodecCtx->flags |= CODEC_FLAG_GLOBAL_HEADER;
 
-    while (c_temp != NULL) {
-        if (c_temp->decode != NULL) {
-            sprintf(info, "%sdecode:", info);
-        } else {
-            sprintf(info, "%sencode:", info);
+    //H264 codec param
+    //pCodecCtx->me_range = 16;
+    //pCodecCtx->max_qdiff = 4;
+    //pCodecCtx->qcompress = 0.6;
+    pCodecCtx->qmin = 10;
+    pCodecCtx->qmax = 51;
+    //Optional Param
+    pCodecCtx->max_b_frames = 3;
+    // Set H264 preset and tune
+    AVDictionary *param = 0;
+    av_dict_set(&param, "preset", "ultrafast", 0);
+    av_dict_set(&param, "tune", "zerolatency", 0);
+
+    if (avcodec_open2(pCodecCtx, pCodec, &param) < 0) {
+        LOGE("Failed to open encoder!\n");
+        return -1;
+    }
+
+    //Add a new stream to output,should be called by the user before avformat_write_header() for muxing
+    video_st = avformat_new_stream(ofmt_ctx, pCodec);
+    if (video_st == NULL) {
+        return -1;
+    }
+    video_st->time_base.num = 1;
+    video_st->time_base.den = 30;
+    video_st->codec = pCodecCtx;
+
+    //Open output URL,set before avformat_write_header() for muxing
+    if (avio_open(&ofmt_ctx->pb, out_path, AVIO_FLAG_READ_WRITE) < 0) {
+        LOGE("Failed to open output file!\n");
+        return -1;
+    }
+
+    //Write File Header
+    avformat_write_header(ofmt_ctx, NULL);
+
+    start_time = av_gettime();
+    return 0;
+}
+
+
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_encode
+        (JNIEnv *env, jobject obj, jbyteArray yuv) {
+    int ret;
+    int enc_got_frame = 0;
+    int i = 0;
+
+    pFrameYUV = av_frame_alloc();//旧版 avcodec_alloc_frame()
+    uint8_t *out_buffer = (uint8_t *) av_malloc(
+            avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height));
+    avpicture_fill((AVPicture *) pFrameYUV, out_buffer, AV_PIX_FMT_YUV420P, pCodecCtx->width,
+                   pCodecCtx->height);
+
+    //安卓摄像头数据为NV21格式，此处将其转换为YUV420P格式
+    jbyte *in = (jbyte *) env->GetByteArrayElements(yuv, 0);
+    memcpy(pFrameYUV->data[0], in, y_length);
+    for (i = 0; i < uv_length; i++) {
+        *(pFrameYUV->data[2] + i) = *(in + y_length + i * 2);
+        *(pFrameYUV->data[1] + i) = *(in + y_length + i * 2 + 1);
+    }
+
+    pFrameYUV->format = AV_PIX_FMT_YUV420P;
+    pFrameYUV->width = yuv_width;
+    pFrameYUV->height = yuv_height;
+
+    enc_pkt.data = NULL;
+    enc_pkt.size = 0;
+    av_init_packet(&enc_pkt);
+    ret = avcodec_encode_video2(pCodecCtx, &enc_pkt, pFrameYUV, &enc_got_frame);
+    av_frame_free(&pFrameYUV);
+
+    if (enc_got_frame == 1) {
+        LOGI("Succeed to encode frame: %5d\tsize:%5d\n", framecnt, enc_pkt.size);
+        framecnt++;
+        enc_pkt.stream_index = video_st->index;
+
+        //Write PTS
+        AVRational time_base = ofmt_ctx->streams[0]->time_base;//{ 1, 1000 };
+        AVRational r_framerate1 = {60, 2};//{ 50, 2 };
+        AVRational time_base_q = {1, AV_TIME_BASE};
+        //Duration between 2 frames (us)
+        int64_t calc_duration = (double) (AV_TIME_BASE) * (1 / av_q2d(r_framerate1));    //内部时间戳
+        //Parameters
+        //enc_pkt.pts = (double)(framecnt*calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
+        enc_pkt.pts = av_rescale_q(framecnt * calc_duration, time_base_q, time_base);
+        enc_pkt.dts = enc_pkt.pts;
+        enc_pkt.duration = av_rescale_q(calc_duration, time_base_q,
+                                        time_base); //(double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
+        enc_pkt.pos = -1;
+
+        //Delay
+        int64_t pts_time = av_rescale_q(enc_pkt.dts, time_base, time_base_q);
+        int64_t now_time = av_gettime() - start_time;
+        if (pts_time > now_time)
+            av_usleep(pts_time - now_time);
+
+        ret = av_interleaved_write_frame(ofmt_ctx, &enc_pkt);
+        av_free_packet(&enc_pkt);
+    }
+
+    return 0;
+}
+
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_flush
+        (JNIEnv *env, jobject obj) {
+    int ret;
+    int got_frame;
+    AVPacket enc_pkt;
+    if (!(ofmt_ctx->streams[0]->codec->codec->capabilities &
+          CODEC_CAP_DELAY))
+        return 0;
+    while (1) {
+        enc_pkt.data = NULL;
+        enc_pkt.size = 0;
+        av_init_packet(&enc_pkt);
+        ret = avcodec_encode_video2(ofmt_ctx->streams[0]->codec, &enc_pkt,
+                                    NULL, &got_frame);
+        if (ret < 0)
+            break;
+        if (!got_frame) {
+            ret = 0;
+            break;
         }
-        switch (c_temp->type) {
-            case AVMEDIA_TYPE_VIDEO:
-                sprintf(info, "%s(video):", info);
-                break;
-            case AVMEDIA_TYPE_AUDIO:
-                sprintf(info, "%s(audio):", info);
-                break;
-            default:
-                sprintf(info, "%s(other):", info);
-                break;
-        }
-        sprintf(info, "%s[%10s]\n", info, c_temp->name);
-        c_temp = c_temp->next;
-    }
+        LOGI("Flush Encoder: Succeed to encode 1 frame!\tsize:%5d\n", enc_pkt.size);
 
-    return env->NewStringUTF(info);
+        //Write PTS
+        AVRational time_base = ofmt_ctx->streams[0]->time_base;//{ 1, 1000 };
+        AVRational r_framerate1 = {60, 2};
+        AVRational time_base_q = {1, AV_TIME_BASE};
+        //Duration between 2 frames (us)
+        int64_t calc_duration = (double) (AV_TIME_BASE) * (1 / av_q2d(r_framerate1));    //内部时间戳
+        //Parameters
+        enc_pkt.pts = av_rescale_q(framecnt * calc_duration, time_base_q, time_base);
+        enc_pkt.dts = enc_pkt.pts;
+        enc_pkt.duration = av_rescale_q(calc_duration, time_base_q, time_base);
+
+        //转换PTS/DTS（Convert PTS/DTS）
+        enc_pkt.pos = -1;
+        framecnt++;
+        ofmt_ctx->duration = enc_pkt.duration * framecnt;
+
+        /* mux encoded frame */
+        ret = av_interleaved_write_frame(ofmt_ctx, &enc_pkt);
+        if (ret < 0)
+            break;
+    }
+    //Write file trailer
+    av_write_trailer(ofmt_ctx);
+    return 0;
 }
 
-jstring
-Java_com_vary_salaryandcash_modules_MainActivity_avfilterinfo(
-        JNIEnv *env, jobject) {
-    char info[40000] = {0};
-    avfilter_register_all();
-
-    AVFilter *f_temp = (AVFilter *) avfilter_next(NULL);
-    while (f_temp != NULL) {
-        sprintf(info, "%s%s\n", info, f_temp->name);
-        f_temp = f_temp->next;
-    }
-    return env->NewStringUTF(info);
-}
-
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_close
+        (JNIEnv *env, jobject obj) {
+    if (video_st)
+        avcodec_close(video_st->codec);
+    avio_close(ofmt_ctx->pb);
+    avformat_free_context(ofmt_ctx);
+    return 0;
 }
 
 

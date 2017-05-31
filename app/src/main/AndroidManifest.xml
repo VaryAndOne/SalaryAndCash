@@ -6,10 +6,12 @@
         android:allowBackup="true"
         android:icon="@drawable/icon_app"
         android:label="@string/app_name"
+        android:name=".app.SalaryApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".modules.CameraActivity"
+        <activity android:name=".modules.MainActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".modules.PersonActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.CAMERA"/>

@@ -30,7 +30,7 @@ public class CameraActivity extends AppCompatActivity {
         System.loadLibrary("native-lib");
     }
 
-    private static final String TAG= "MainActivity";
+    private static final String TAG= CameraActivity.class.getSimpleName();
     private Button mTakeButton;
     private Camera mCamera;
     private SurfaceView mSurfaceView;
@@ -197,7 +197,6 @@ public class CameraActivity extends AppCompatActivity {
     public native int encode(byte[] yuvimage);
     public native int flush();
     public native int close();
-
 
 
 }

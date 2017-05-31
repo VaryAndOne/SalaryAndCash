@@ -189,9 +189,6 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     //JNI
     public native int initial(int width,int height);
     public native int encode(byte[] yuvimage);

@@ -14,8 +14,6 @@ import com.vary.salaryandcash.base.BaseRecyclerAdapter;
 import com.vary.salaryandcash.base.CommonHolder;
 import com.vary.salaryandcash.modules.CatchActivity;
 import com.vary.salaryandcash.modules.FillStyleActivity;
-import com.vary.salaryandcash.modules.MainActivity;
-import com.vary.salaryandcash.modules.MineActivity;
 import com.vary.salaryandcash.modules.SettingActivity;
 import com.vary.salaryandcash.modules.TaskActivity;
 import com.vary.salaryandcash.mvp.model.Person;
@@ -82,14 +80,9 @@ public class PersonAdapter extends BaseRecyclerAdapter<Person> {
                             SalaryApplication.appContext.startActivity(intent);
                             break;
                         case 4:
-                            intent = new Intent(SalaryApplication.appContext, MineActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            SalaryApplication.appContext.startActivity(intent);
+                            ToastUtil.show("缓存已清理");
                             break;
                         case 5:
-                            ToastUtil.show("getLayoutPosition : " + getLayoutPosition());
-                            break;
-                        case 6:
                             intent = new Intent(SalaryApplication.appContext, SettingActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             SalaryApplication.appContext.startActivity(intent);

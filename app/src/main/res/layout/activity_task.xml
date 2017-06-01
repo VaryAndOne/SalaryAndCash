@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <include layout="@layout/layout_task_toolbar" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_post_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="#fff"
-        android:visibility="visible"/>
-    <!--android:background="#e4e4e4"-->
-</android.support.design.widget.CoordinatorLayout >
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/rv_post_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+        <!--android:background="#fff"-->
+        <!--android:visibility="visible"/>-->
+
+    <include layout="@layout/item_task"
+        />
+    <ImageView
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/iv_icon1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/shape_pwd_act"/>
+    <ImageView
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/iv_icon2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/shape_pwd_act"/>
+
+</LinearLayout>

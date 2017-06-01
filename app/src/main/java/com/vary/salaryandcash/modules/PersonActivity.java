@@ -43,10 +43,8 @@ public class PersonActivity extends AppCompatActivity {
         persons.add(new Person("群组",R.drawable.ic_group_black_24dp));
         persons.add(new Person("盯紧",R.drawable.ic_flag_black_24dp));
         persons.add(new Person("我的",R.drawable.ic_camera_alt_black_24dp));
-        persons.add(new Person("清除缓存",R.drawable.ic_delete_sweep_black_24dp));
+        persons.add(new Person("清扫",R.drawable.ic_delete_sweep_black_24dp));
         persons.add(new Person("设置",R.drawable.ic_settings_black_24dp));
-//        persons.add(new Food("Fresh Strawberries and Blackberries in Little Bowl", "BY VIKTOR HANACEK", R.drawable.food4, R.drawable.avatar3));
-//        persons.add(new Food("Baked Healthy Fitness Broccoli Pie with Basil", "BY VIKTOR HANACEK", R.drawable.food5, R.drawable.avatar4));
         foodAdapter.setDataList(persons);
     }
 }

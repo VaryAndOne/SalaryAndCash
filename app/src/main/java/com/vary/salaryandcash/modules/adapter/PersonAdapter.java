@@ -12,7 +12,12 @@ import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseRecyclerAdapter;
 import com.vary.salaryandcash.base.CommonHolder;
+import com.vary.salaryandcash.modules.CatchActivity;
+import com.vary.salaryandcash.modules.FillStyleActivity;
 import com.vary.salaryandcash.modules.MainActivity;
+import com.vary.salaryandcash.modules.MineActivity;
+import com.vary.salaryandcash.modules.SettingActivity;
+import com.vary.salaryandcash.modules.TaskActivity;
 import com.vary.salaryandcash.mvp.model.Person;
 import com.vary.salaryandcash.utilities.ToastUtil;
 
@@ -56,18 +61,38 @@ public class PersonAdapter extends BaseRecyclerAdapter<Person> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Intent intent = null;
                     switch (getLayoutPosition()){
                         case 0:
                             ToastUtil.show("getLayoutPosition : " + getLayoutPosition());
                             break;
                         case 1:
-                            ToastUtil.show("getLayoutPosition : " + getLayoutPosition());
+                            intent = new Intent(SalaryApplication.appContext, TaskActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            SalaryApplication.appContext.startActivity(intent);
                             break;
                         case 2:
-                            ToastUtil.show("getLayoutPosition : " + getLayoutPosition());
+                            intent = new Intent(SalaryApplication.appContext, FillStyleActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            SalaryApplication.appContext.startActivity(intent);
                             break;
                         case 3:
+                            intent = new Intent(SalaryApplication.appContext, CatchActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            SalaryApplication.appContext.startActivity(intent);
+                            break;
+                        case 4:
+                            intent = new Intent(SalaryApplication.appContext, MineActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            SalaryApplication.appContext.startActivity(intent);
+                            break;
+                        case 5:
                             ToastUtil.show("getLayoutPosition : " + getLayoutPosition());
+                            break;
+                        case 6:
+                            intent = new Intent(SalaryApplication.appContext, SettingActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            SalaryApplication.appContext.startActivity(intent);
                             break;
                     }
                 }

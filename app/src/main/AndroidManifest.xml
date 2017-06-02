@@ -27,6 +27,8 @@
         <activity android:name=".modules.TaskActivity" />
         <activity android:name=".modules.CatchActivity" />
         <activity android:name=".modules.SettingActivity" />
+        <activity android:name=".modules.SuggestActivity" />
+        <activity android:name=".modules.HelpActivity" />
     </application>
 
     <uses-permission android:name="android.permission.CAMERA"/>

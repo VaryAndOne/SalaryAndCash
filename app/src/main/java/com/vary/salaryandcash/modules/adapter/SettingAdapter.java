@@ -32,17 +32,9 @@ public class SettingAdapter extends BaseRecyclerAdapter<Person> {
 
     class CardHolder extends CommonHolder<Person> {
 
-//        @Bind(R.id.avatar)
-//        CircleImageView avatar;
-//
         @Bind(R.id.tv_person)
         TextView tv_food;
-//
-//        @Bind(R.id.tv_info)
-//        TextView tv_info;
 
-        @Bind(R.id.iv_person)
-        ImageView iv_food;
 
         public CardHolder(Context context, ViewGroup root) {
             super(context, root, R.layout.item_setting);
@@ -50,9 +42,7 @@ public class SettingAdapter extends BaseRecyclerAdapter<Person> {
 
         @Override
         public void bindData(final Person person) {
-            iv_food.setImageResource(person.imageSrc);
             tv_food.setText(person.title);
-
         }
     }
 }

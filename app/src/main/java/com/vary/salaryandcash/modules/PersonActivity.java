@@ -44,6 +44,8 @@ public class PersonActivity extends AppCompatActivity {
         persons.add(new Person("盯紧",R.drawable.ic_flag_black_24dp));
         persons.add(new Person("清扫",R.drawable.ic_delete_sweep_black_24dp));
         persons.add(new Person("设置",R.drawable.ic_settings_black_24dp));
+        persons.add(new Person("意见反馈",R.drawable.ic_announcement_black_24dp));
+        persons.add(new Person("帮助",R.drawable.ic_help_outline_black_24dp));
         foodAdapter.setDataList(persons);
     }
 }

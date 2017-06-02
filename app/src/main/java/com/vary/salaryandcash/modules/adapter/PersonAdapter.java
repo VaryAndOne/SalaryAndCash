@@ -14,7 +14,9 @@ import com.vary.salaryandcash.base.BaseRecyclerAdapter;
 import com.vary.salaryandcash.base.CommonHolder;
 import com.vary.salaryandcash.modules.CatchActivity;
 import com.vary.salaryandcash.modules.FillStyleActivity;
+import com.vary.salaryandcash.modules.HelpActivity;
 import com.vary.salaryandcash.modules.SettingActivity;
+import com.vary.salaryandcash.modules.SuggestActivity;
 import com.vary.salaryandcash.modules.TaskActivity;
 import com.vary.salaryandcash.mvp.model.Person;
 import com.vary.salaryandcash.utilities.ToastUtil;
@@ -87,6 +89,17 @@ public class PersonAdapter extends BaseRecyclerAdapter<Person> {
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             SalaryApplication.appContext.startActivity(intent);
                             break;
+                        case 6:
+                            intent = new Intent(SalaryApplication.appContext, SuggestActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            SalaryApplication.appContext.startActivity(intent);
+                            break;
+                        case 7:
+                            intent = new Intent(SalaryApplication.appContext, HelpActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            SalaryApplication.appContext.startActivity(intent);
+                            break;
+
                     }
                 }
             });

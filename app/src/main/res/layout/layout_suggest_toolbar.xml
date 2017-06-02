@@ -13,9 +13,9 @@
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <TextView
-                android:text="任务"
+                android:text="意见反馈"
                 android:textSize="15sp"
-                android:textColor="#DD5044"
+                android:textColor="#FFA109"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -33,35 +33,6 @@
                 android:layout_marginTop="28dp"
                 android:padding="5dp"
                 />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                app:srcCompat="@drawable/ic_add_black_24dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="28dp"
-                android:padding="5dp"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                app:srcCompat="@drawable/ic_delete_forever_black_24dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="28dp"
-                android:padding="5dp"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                app:srcCompat="@drawable/ic_power_settings_new_black_24dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="28dp"
-                android:padding="5dp"
-                />
-
         </android.support.v7.widget.Toolbar>
 
 </android.support.design.widget.AppBarLayout>

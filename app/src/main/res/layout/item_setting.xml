@@ -5,12 +5,6 @@
     android:background="#fff"
     android:padding="15dp"
     android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/iv_person"
-        android:layout_marginLeft="25dp"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        />
 
     <TextView
         android:id="@+id/tv_person"

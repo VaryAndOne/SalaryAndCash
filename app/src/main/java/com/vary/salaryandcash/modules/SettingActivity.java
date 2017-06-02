@@ -38,6 +38,7 @@ public class SettingActivity extends AppCompatActivity {
 
     void refreshCard() {
         List<Person> persons = new ArrayList<>();
+        persons.add(new Person("服务条款及隐私权政策",R.drawable.ic_help_outline_black_24dp));
         persons.add(new Person("帮助",R.drawable.ic_help_outline_black_24dp));
         persons.add(new Person("关于我们",R.drawable.ic_help_outline_black_24dp));
         persons.add(new Person("版本 1.0",R.drawable.ic_help_outline_black_24dp));

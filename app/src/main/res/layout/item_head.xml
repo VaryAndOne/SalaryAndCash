@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
             android:gravity="center"
-            android:text="风轻云淡"
+            android:text="唯一ID"
             android:textColor="#000"
             android:textSize="14sp" />
     </LinearLayout>

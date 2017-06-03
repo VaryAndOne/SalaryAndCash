@@ -58,4 +58,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.jaeger.ninegridimageview:library:1.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.8.1'
 }

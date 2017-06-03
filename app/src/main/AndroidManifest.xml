@@ -29,6 +29,9 @@
         <activity android:name=".modules.SettingActivity" />
         <activity android:name=".modules.SuggestActivity" />
         <activity android:name=".modules.HelpActivity" />
+        <activity android:name=".modules.VideoPlayerActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
     </application>
 
     <uses-permission android:name="android.permission.CAMERA"/>

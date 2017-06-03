@@ -1,14 +1,17 @@
 package com.vary.salaryandcash.modules;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.app.SalaryApplication;
 
 /**
  * Created by Administrator on 2017-06-01.
@@ -20,9 +23,17 @@ public class TaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
-        ((ImageView)findViewById(R.id.iv_icon)).setImageBitmap(bmp);
+        ImageView iv_icon = ((ImageView)findViewById(R.id.iv_icon));
         ((ImageView)findViewById(R.id.iv_icon1)).setImageBitmap(bmp1);
         ((ImageView)findViewById(R.id.iv_icon2)).setImageBitmap(bmp2);
+        iv_icon.setImageBitmap(bmp);
+        iv_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TaskActivity.this, VideoPlayerActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public static Bitmap createVideoThumbnail(String filePath, int kind) {

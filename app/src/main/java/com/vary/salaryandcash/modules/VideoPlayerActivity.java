@@ -27,9 +27,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         videoView = (IjkVideoView) findViewById(R.id.ijkPlayer);
         AndroidMediaController controller = new AndroidMediaController(this, false);
         videoView.setMediaController(controller);
-//        String url = "https://wdl.wallstreetcn.com/41aae4d2-390a-48ff-9230-ee865552e72d";
-        String url = "http://60.206.109.52/hls/output.m3u8";
-        // String url = "http://o6wf52jln.bkt.clouddn.com/演员.mp3";
+        String url = "http://60.206.109.44/hls/output.m3u8";
         videoView.setVideoURI(Uri.parse(url));
         videoView.start();
     }

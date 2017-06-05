@@ -1,5 +1,6 @@
 package com.vary.salaryandcash.modules;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,10 +41,14 @@ public class FillStyleActivity extends BaseActivity {
     };
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int getContentView() {
+        return R.layout.activity_recycler;
+    }
+
+    @Override
+    protected void onViewReady(Bundle savedInstanceState, Intent intent) {
+        super.onViewReady(savedInstanceState, intent);
         this.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        setContentView(R.layout.activity_recycler);
         mRvPostLister = (RecyclerView) findViewById(R.id.rv_post_list);
         mRvPostLister.setLayoutManager(new GridLayoutManager(this,3));
         mPostList = new ArrayList<>();
@@ -57,5 +62,4 @@ public class FillStyleActivity extends BaseActivity {
         mPostAdapter = new PostAdapter(this, mPostList, NineGridImageView.STYLE_GRID);
         mRvPostLister.setAdapter(mPostAdapter);
     }
-
 }

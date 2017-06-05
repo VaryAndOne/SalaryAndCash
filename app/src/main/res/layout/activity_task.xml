@@ -12,22 +12,11 @@
         <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
         <!--android:background="#fff"-->
         <!--android:visibility="visible"/>-->
-
-    <include layout="@layout/item_task"
-        />
-    <ImageView
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:id="@+id/iv_icon1"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/shape_pwd_act"/>
-    <ImageView
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:id="@+id/iv_icon2"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/shape_pwd_act"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cake_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="2dp"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

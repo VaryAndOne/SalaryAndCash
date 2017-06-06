@@ -1,16 +1,19 @@
 package com.vary.salaryandcash.mvp.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017-06-05.
  */
 
-public class Salary {
+public class Salary implements Serializable {
 
     private String detailDescription;
     private String previewDescription;
     private int id;
     private String title;
     private String microVideo;
+    private String image;
 
     public String getDetailDescription() {
         return this.detailDescription;
@@ -26,6 +29,14 @@ public class Salary {
 
     public void setPreviewDescription(String previewDescription) {
         this.previewDescription = previewDescription;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getId() {

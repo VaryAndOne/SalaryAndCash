@@ -24,7 +24,9 @@
             android:launchMode="singleTop" />
         <activity android:name=".modules.CameraActivity" />
         <activity android:name=".modules.FillStyleActivity" />
-        <activity android:name=".modules.TaskActivity" />
+        <activity android:name=".modules.TaskActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
         <activity android:name=".modules.CatchActivity" />
         <activity android:name=".modules.SettingActivity" />
         <activity android:name=".modules.SuggestActivity" />

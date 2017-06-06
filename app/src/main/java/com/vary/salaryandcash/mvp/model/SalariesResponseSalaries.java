@@ -6,6 +6,7 @@ public class SalariesResponseSalaries {
     private int id;
     private String title;
     private String microVideo;
+    private String image;
 
     public String getDetailDescription() {
         return this.detailDescription;
@@ -25,6 +26,14 @@ public class SalariesResponseSalaries {
 
     public int getId() {
         return this.id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setId(int id) {

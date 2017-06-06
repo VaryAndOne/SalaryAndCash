@@ -91,20 +91,20 @@ public class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.Holder> {
 
         @Override
         public void onClick(View v) {
-//            if (mCakeClickListener != null) {
-//                mCakeClickListener.onClick(mCakeIcon, mCake, getAdapterPosition());
-//            }
+            if (mCakeClickListener != null) {
+                mCakeClickListener.onClick(mCakeIcon, mCake, getAdapterPosition());
+            }
         }
     }
 
-//    public void setCakeClickListener(OnCakeClickListener listener) {
-//        mCakeClickListener = listener;
-//    }
-//
-//    private OnCakeClickListener mCakeClickListener;
-//
-//    public interface OnCakeClickListener {
-//
-//        void onClick(View v, Cake cake, int position);
-//    }
+    public void setCakeClickListener(OnCakeClickListener listener) {
+        mCakeClickListener = listener;
+    }
+
+    private OnCakeClickListener mCakeClickListener;
+
+    public interface OnCakeClickListener {
+
+        void onClick(View v, Salary cake, int position);
+    }
 }

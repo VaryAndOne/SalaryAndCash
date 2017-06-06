@@ -1,5 +1,6 @@
 package com.vary.salaryandcash.modules;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -55,7 +56,7 @@ public class TaskActivity extends BaseActivity implements MainView{
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mCakeAdapter = new SalaryAdapter(getLayoutInflater());
-//        mCakeAdapter.setCakeClickListener(mCakeClickListener);
+        mCakeAdapter.setCakeClickListener(mCakeClickListener);
         mCakeList.setAdapter(mCakeAdapter);
     }
 
@@ -92,6 +93,22 @@ public class TaskActivity extends BaseActivity implements MainView{
         mCakeAdapter.clearCakes();
     }
 
+    private SalaryAdapter.OnCakeClickListener mCakeClickListener = new SalaryAdapter.OnCakeClickListener() {
+        @Override
+        public void onClick(View v, Salary cake, int position) {
+            Intent intent = new Intent(TaskActivity.this, VideoPlayerActivity.class);
+            intent.putExtra(VideoPlayerActivity.CAKE, cake);
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(TaskActivity.this, v, "cakeImageAnimation");
+//                startActivity(intent, options.toBundle());
+//            } else {
+//                startActivity(intent);
+//            }
+            startActivity(intent);
+        }
+    };
+}
+
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -115,4 +132,4 @@ public class TaskActivity extends BaseActivity implements MainView{
 //    Bitmap bmp = createVideoThumbnail(Environment.getExternalStorageDirectory().getPath()+"/recordtest"+"/20173283240.mp4", MediaStore.Video.Thumbnails.MICRO_KIND);
 //    Bitmap bmp1 = createVideoThumbnail(Environment.getExternalStorageDirectory().getPath()+"/gifshow"+"/20170302_060751.mp4", MediaStore.Video.Thumbnails.MICRO_KIND);
 //    Bitmap bmp2 = createVideoThumbnail(Environment.getExternalStorageDirectory().getPath()+"/gifshow"+"/20100101_105339.mp4", MediaStore.Video.Thumbnails.MICRO_KIND);
-}
+

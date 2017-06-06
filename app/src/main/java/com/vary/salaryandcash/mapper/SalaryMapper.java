@@ -32,6 +32,7 @@ public class SalaryMapper {
                     myCake.setDetailDescription(cake.getDetailDescription());
                     myCake.setPreviewDescription(cake.getPreviewDescription());
                     myCake.setMicroVideo(cake.getMicroVideo());
+                    myCake.setImage(cake.getImage());
                     cakeList.add(myCake);
                 }
             }

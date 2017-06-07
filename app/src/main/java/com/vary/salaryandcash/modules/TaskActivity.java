@@ -109,27 +109,3 @@ public class TaskActivity extends BaseActivity implements MainView{
     };
 }
 
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_task);
-//        ImageView iv_icon = ((ImageView)findViewById(R.id.iv_icon));
-//        ((ImageView)findViewById(R.id.iv_icon1)).setImageBitmap(bmp1);
-//        ((ImageView)findViewById(R.id.iv_icon2)).setImageBitmap(bmp2);
-//        iv_icon.setImageBitmap(bmp);
-//        iv_icon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(TaskActivity.this, VideoPlayerActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-//
-//    public static Bitmap createVideoThumbnail(String filePath, int kind) {
-//        return ThumbnailUtils.createVideoThumbnail(filePath, kind);
-//    }
-//    Bitmap bmp = createVideoThumbnail(Environment.getExternalStorageDirectory().getPath()+"/recordtest"+"/20173283240.mp4", MediaStore.Video.Thumbnails.MICRO_KIND);
-//    Bitmap bmp1 = createVideoThumbnail(Environment.getExternalStorageDirectory().getPath()+"/gifshow"+"/20170302_060751.mp4", MediaStore.Video.Thumbnails.MICRO_KIND);
-//    Bitmap bmp2 = createVideoThumbnail(Environment.getExternalStorageDirectory().getPath()+"/gifshow"+"/20100101_105339.mp4", MediaStore.Video.Thumbnails.MICRO_KIND);
-

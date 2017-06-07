@@ -74,4 +74,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    compile 'com.yarolegovich:discrete-scrollview:1.1.4'
 }

@@ -14,20 +14,25 @@ import com.vary.salaryandcash.di.module.ApplicationModule;
 public class SalaryApplication extends Application {
 
     public static Context appContext;
-
+    private static SalaryApplication instance;
     private ApplicationComponent mApplicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         appContext = this;
+        instance = this;
         initializeApplicationComponent();
+    }
+
+    public static SalaryApplication getInstance() {
+        return instance;
     }
 
     private void initializeApplicationComponent() {
         mApplicationComponent = DaggerApplicationComponent
                 .builder()
-                .applicationModule(new ApplicationModule(this, "http://60.206.109.44:8080"))
+                .applicationModule(new ApplicationModule(this, "http://60.206.109.52:8080"))
                 .build();
     }
 

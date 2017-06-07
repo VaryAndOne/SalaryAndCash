@@ -6,6 +6,7 @@ import com.vary.salaryandcash.modules.CatchActivity;
 import com.vary.salaryandcash.modules.TaskActivity;
 import com.vary.salaryandcash.modules.fragment.LeftFragment;
 import com.vary.salaryandcash.modules.fragment.MyFragment;
+import com.vary.salaryandcash.modules.fragment.RightFragment;
 
 import dagger.Component;
 
@@ -20,4 +21,5 @@ public interface SalaryComponent {
     void inject(CatchActivity activity);
     void inject(MyFragment activity);
     void inject(LeftFragment activity);
+    void inject(RightFragment activity);
 }

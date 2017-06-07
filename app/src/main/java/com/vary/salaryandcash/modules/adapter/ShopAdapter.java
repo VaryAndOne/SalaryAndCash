@@ -1,55 +1,64 @@
 package com.vary.salaryandcash.modules.adapter;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vary.salaryandcash.R;
-import com.vary.salaryandcash.mvp.model.Item;
+import com.vary.salaryandcash.base.BaseRecyclerAdapter;
+import com.vary.salaryandcash.base.CommonHolder;
+import com.vary.salaryandcash.mvp.model.Salary;
 
-import java.util.List;
+import butterknife.Bind;
 
 /**
- * Created by yarolegovich on 07.03.2017.
+ * Created by lcodecore on 2016/12/7.
  */
 
-public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
+public class ShopAdapter extends BaseRecyclerAdapter<Salary> {
 
-    private List<Item> data;
-
-    public ShopAdapter(List<Item> data) {
-        this.data = data;
-    }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_shop_card, parent, false);
-        return new ViewHolder(v);
+    public CommonHolder<Salary> setViewHolder(ViewGroup parent) {
+        return new CardHolder(parent.getContext(), parent);
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Glide.with(holder.itemView.getContext())
-                .load(data.get(position).getImage())
-                .into(holder.image);
-    }
+    class CardHolder extends CommonHolder<Salary> {
 
-    @Override
-    public int getItemCount() {
-        return data.size();
-    }
+//        @Bind(R.id.tv_info)
+//        TextView tv_info;
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.image)
+        ImageView iv_pic;
 
-        private ImageView image;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.image);
+        public CardHolder(Context context, ViewGroup root) {
+            super(context, root, R.layout.item_shop_card);
         }
+
+        @Override
+        public void bindData(Salary photo) {
+//            iv_pic.setImageResource(photo.imgSrc);
+//            tv_info.setText(photo.name);
+            Glide.with(itemView.getContext()).load(photo.getMicroVideo())
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(iv_pic);
+            iv_pic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    ToastUtil.show("item clicked!");
+//                    Intent intent = new Intent(TkApplication.appContext, VideoPlayerActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    TkApplication.appContext.startActivity(intent);
+
+                }
+            });
+        }
+
+
     }
+
 }

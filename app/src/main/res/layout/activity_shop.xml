@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="16dp" />
 
-    <com.yarolegovich.discretescrollview.DiscreteScrollView
+    <com.vary.salaryandcash.modules.widget.ReDiscreteScrollView
         android:id="@+id/item_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

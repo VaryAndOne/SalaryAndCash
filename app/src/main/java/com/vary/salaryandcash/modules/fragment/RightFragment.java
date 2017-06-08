@@ -15,6 +15,7 @@ import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.ShopAdapter;
+import com.vary.salaryandcash.modules.widget.ReDiscreteScrollView;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
@@ -36,7 +37,7 @@ public class RightFragment extends Fragment implements DiscreteScrollView.OnItem
     protected SalaryPresenter mPresenter;
 
     private TextView currentItemPrice;
-    private DiscreteScrollView itemPicker;
+    private ReDiscreteScrollView itemPicker;
     private ShopAdapter shopAdapter;
 
     public static RightFragment getInstance(int position){
@@ -62,7 +63,7 @@ public class RightFragment extends Fragment implements DiscreteScrollView.OnItem
             //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
         currentItemPrice = (TextView) layout.findViewById(R.id.item_price);
-        itemPicker = (DiscreteScrollView) layout.findViewById(R.id.item_picker);
+        itemPicker = (ReDiscreteScrollView) layout.findViewById(R.id.item_picker);
         itemPicker.setOrientation(Orientation.HORIZONTAL);
         itemPicker.setOnItemChangedListener(this);
         shopAdapter = new ShopAdapter();

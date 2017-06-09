@@ -12,13 +12,13 @@ import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseRecyclerAdapter;
 import com.vary.salaryandcash.base.CommonHolder;
-import com.vary.salaryandcash.modules.CatchActivity;
-import com.vary.salaryandcash.modules.FillStyleActivity;
-import com.vary.salaryandcash.modules.HelpActivity;
-import com.vary.salaryandcash.modules.SettingActivity;
-import com.vary.salaryandcash.modules.SuggestActivity;
-import com.vary.salaryandcash.modules.TaskActivity;
+import com.vary.salaryandcash.modules.fragment.CatchFragment;
+import com.vary.salaryandcash.modules.fragment.GroupFragment;
+import com.vary.salaryandcash.modules.fragment.HelpFragment;
 import com.vary.salaryandcash.modules.fragment.HomeFragment;
+import com.vary.salaryandcash.modules.fragment.SettingFragment;
+import com.vary.salaryandcash.modules.fragment.SuggestFragment;
+import com.vary.salaryandcash.modules.fragment.TaskFragment;
 import com.vary.salaryandcash.mvp.model.Person;
 import com.vary.salaryandcash.utilities.ToastUtil;
 
@@ -74,38 +74,25 @@ public class PersonAdapter extends BaseRecyclerAdapter<Person> {
                             ToastUtil.show("getLayoutPosition : " + getLayoutPosition());
                             break;
                         case 1:
-//                            intent = new Intent(SalaryApplication.appContext, TaskActivity.class);
-//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            SalaryApplication.appContext.startActivity(intent);
-                            homeFragment.startTaskFragment();
+                            homeFragment.start(new TaskFragment());
                             break;
                         case 2:
-                            intent = new Intent(SalaryApplication.appContext, FillStyleActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            SalaryApplication.appContext.startActivity(intent);
+                            homeFragment.start(new GroupFragment());
                             break;
                         case 3:
-                            intent = new Intent(SalaryApplication.appContext, CatchActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            SalaryApplication.appContext.startActivity(intent);
+                            homeFragment.start(new CatchFragment());
                             break;
                         case 4:
                             ToastUtil.show("缓存已清理");
                             break;
                         case 5:
-                            intent = new Intent(SalaryApplication.appContext, SettingActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            SalaryApplication.appContext.startActivity(intent);
+                            homeFragment.start(new SettingFragment());
                             break;
                         case 6:
-                            intent = new Intent(SalaryApplication.appContext, SuggestActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            SalaryApplication.appContext.startActivity(intent);
+                            homeFragment.start(new SuggestFragment());
                             break;
                         case 7:
-                            intent = new Intent(SalaryApplication.appContext, HelpActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            SalaryApplication.appContext.startActivity(intent);
+                            homeFragment.start(new HelpFragment());
                             break;
 
                     }

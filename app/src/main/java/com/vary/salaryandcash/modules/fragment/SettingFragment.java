@@ -1,10 +1,12 @@
-package com.vary.salaryandcash.modules;
+package com.vary.salaryandcash.modules.fragment;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.modules.adapter.PersonAdapter;
@@ -14,19 +16,32 @@ import com.vary.salaryandcash.mvp.model.Person;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yokeyword.fragmentation.SupportFragment;
+
 /**
- * Created by Administrator on 2017-06-01.
+ * Created by Administrator on 2017-06-09.
  */
 
-public class SettingActivity extends AppCompatActivity {
-
+public class SettingFragment extends SupportFragment {
+    private View view;
     private SettingAdapter foodAdapter;
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        // todo,当该Fragment对用户可见时
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_setting, container, false);
+        return view;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-        setupRecyclerView((RecyclerView) findViewById(R.id.recyclerview));
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupRecyclerView((RecyclerView) view.findViewById(R.id.recyclerview));
     }
 
     private void setupRecyclerView(RecyclerView rv) {
@@ -35,7 +50,6 @@ public class SettingActivity extends AppCompatActivity {
         rv.setAdapter(foodAdapter);
         refreshCard();
     }
-
     void refreshCard() {
         List<Person> persons = new ArrayList<>();
         persons.add(new Person("服务条款及隐私权政策",R.drawable.ic_help_outline_black_24dp));

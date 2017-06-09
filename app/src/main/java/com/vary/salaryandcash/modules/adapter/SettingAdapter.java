@@ -4,19 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
-import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseRecyclerAdapter;
 import com.vary.salaryandcash.base.CommonHolder;
-import com.vary.salaryandcash.modules.CatchActivity;
-import com.vary.salaryandcash.modules.FillStyleActivity;
-import com.vary.salaryandcash.modules.SettingActivity;
-import com.vary.salaryandcash.modules.TaskActivity;
 import com.vary.salaryandcash.mvp.model.Person;
-import com.vary.salaryandcash.utilities.ToastUtil;
 
 import butterknife.Bind;
 

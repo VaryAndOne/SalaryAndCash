@@ -63,9 +63,4 @@ public class HomeFragment extends SupportFragment {
         persons.add(new Person("帮助",R.drawable.ic_help_outline_black_24dp));
         foodAdapter.setDataList(persons);
     }
-
-    public void startTaskFragment() {
-        // 启动新的Fragment, 另外还有start(fragment,SINGTASK)、startForResult、startWithPop等启动方法
-        start(new TaskFragment());
-    }
 }

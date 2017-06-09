@@ -13,7 +13,7 @@ import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
-import com.vary.salaryandcash.modules.adapter.PersonAdapter;
+import com.vary.salaryandcash.modules.adapter.CatchAdapter;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
@@ -30,12 +30,12 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Created by Administrator on 2017-06-09.
  */
 
-public class TaskFragment extends SupportFragment implements MainView {
+public class CatchFragment extends SupportFragment implements MainView {
     private View view;
     @Inject
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
-    private SalaryAdapter mCakeAdapter;
+    private CatchAdapter mCakeAdapter;
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
@@ -45,7 +45,7 @@ public class TaskFragment extends SupportFragment implements MainView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_task, container, false);
+        view = inflater.inflate(R.layout.fragment_catch, container, false);
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
@@ -60,7 +60,7 @@ public class TaskFragment extends SupportFragment implements MainView {
         mCakeList = (RecyclerView) view.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState));
+        mCakeAdapter = new CatchAdapter(getLayoutInflater(savedInstanceState));
 //        mCakeAdapter.setCakeClickListener(mCakeClickListener);
         mCakeList.setAdapter(mCakeAdapter);
     }

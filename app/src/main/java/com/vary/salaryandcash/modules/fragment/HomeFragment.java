@@ -45,7 +45,7 @@ public class HomeFragment extends SupportFragment {
 
     private void setupRecyclerView(RecyclerView rv) {
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
-        foodAdapter = new PersonAdapter();
+        foodAdapter = new PersonAdapter(this);
         View view = View.inflate(getActivity(), R.layout.item_head, null);
         foodAdapter.setHeadHolder(view);
         rv.setAdapter(foodAdapter);
@@ -64,8 +64,8 @@ public class HomeFragment extends SupportFragment {
         foodAdapter.setDataList(persons);
     }
 
-    private void xxx() {
+    public void startTaskFragment() {
         // 启动新的Fragment, 另外还有start(fragment,SINGTASK)、startForResult、startWithPop等启动方法
-//        start(DetailFragment.newInstance(HomeBean));
+        start(new TaskFragment());
     }
 }

@@ -18,6 +18,7 @@ import com.vary.salaryandcash.modules.HelpActivity;
 import com.vary.salaryandcash.modules.SettingActivity;
 import com.vary.salaryandcash.modules.SuggestActivity;
 import com.vary.salaryandcash.modules.TaskActivity;
+import com.vary.salaryandcash.modules.fragment.HomeFragment;
 import com.vary.salaryandcash.mvp.model.Person;
 import com.vary.salaryandcash.utilities.ToastUtil;
 
@@ -28,6 +29,12 @@ import butterknife.Bind;
  */
 
 public class PersonAdapter extends BaseRecyclerAdapter<Person> {
+    private HomeFragment homeFragment;
+    public PersonAdapter(HomeFragment homeFragment) {
+        super();
+        this.homeFragment = homeFragment;
+    }
+
     @Override
     public CommonHolder<Person> setViewHolder(ViewGroup parent) {
         return new PersonAdapter.CardHolder(parent.getContext(), parent);
@@ -67,9 +74,10 @@ public class PersonAdapter extends BaseRecyclerAdapter<Person> {
                             ToastUtil.show("getLayoutPosition : " + getLayoutPosition());
                             break;
                         case 1:
-                            intent = new Intent(SalaryApplication.appContext, TaskActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            SalaryApplication.appContext.startActivity(intent);
+//                            intent = new Intent(SalaryApplication.appContext, TaskActivity.class);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            SalaryApplication.appContext.startActivity(intent);
+                            homeFragment.startTaskFragment();
                             break;
                         case 2:
                             intent = new Intent(SalaryApplication.appContext, FillStyleActivity.class);

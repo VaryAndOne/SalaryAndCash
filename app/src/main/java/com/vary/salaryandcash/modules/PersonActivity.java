@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yokeyword.fragmentation.SupportActivity;
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
  * Created by Administrator on 2017-04-21.

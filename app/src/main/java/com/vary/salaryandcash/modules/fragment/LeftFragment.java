@@ -44,7 +44,7 @@ public class LeftFragment extends Fragment implements MainView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.activity_food, container, false);
+        View layout = inflater.inflate(R.layout.app_recycler_view, container, false);
 
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())

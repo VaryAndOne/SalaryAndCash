@@ -76,4 +76,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
     compile 'com.yarolegovich:discrete-scrollview:1.1.4'
+
+    compile 'me.yokeyword:fragmentation:0.10.5'
 }

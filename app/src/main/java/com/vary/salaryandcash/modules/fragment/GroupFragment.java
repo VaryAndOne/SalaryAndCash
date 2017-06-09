@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jaeger.ninegridimageview.NineGridImageView;
 import com.vary.salaryandcash.R;
@@ -52,6 +53,8 @@ public class GroupFragment extends SupportFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group, container, false);
+        TextView app_title = (TextView) view.findViewById(R.id.app_title);
+        app_title.setText("群组");
         return view;
     }
 

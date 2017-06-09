@@ -13,7 +13,8 @@
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <TextView
-                android:text="群组"
+                android:text="app_title"
+                android:id="@+id/app_title"
                 android:textSize="15sp"
                 android:textColor="#FFA109"
                 android:layout_width="wrap_content"
@@ -33,15 +34,6 @@
                 android:layout_marginTop="28dp"
                 android:padding="5dp"
                 />
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:src="@drawable/ic_add_black_24dp"-->
-                <!--android:layout_marginRight="15dp"-->
-                <!--android:layout_marginTop="28dp"-->
-                <!--android:padding="5dp"-->
-                <!--/>-->
         </android.support.v7.widget.Toolbar>
 
 </android.support.design.widget.AppBarLayout>

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
 
@@ -26,6 +27,8 @@ public class SuggestFragment extends SupportFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_suggest, container, false);
+        TextView app_title = (TextView) view.findViewById(R.id.app_title);
+        app_title.setText("意见反馈");
         return view;
     }
 }

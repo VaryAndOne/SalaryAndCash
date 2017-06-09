@@ -19,9 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.PersonActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop" />
         <activity android:name=".modules.CameraActivity" />
         <activity android:name=".modules.VideoPlayerActivity"
             android:screenOrientation="portrait"

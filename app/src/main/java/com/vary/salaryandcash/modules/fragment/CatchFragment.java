@@ -46,7 +46,7 @@ public class CatchFragment extends SupportFragment implements MainView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_catch, container, false);
+        view = inflater.inflate(R.layout.fragment_app, container, false);
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))

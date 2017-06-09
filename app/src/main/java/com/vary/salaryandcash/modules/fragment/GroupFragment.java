@@ -52,7 +52,7 @@ public class GroupFragment extends SupportFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_group, container, false);
+        view = inflater.inflate(R.layout.fragment_app, container, false);
         TextView app_title = (TextView) view.findViewById(R.id.app_title);
         app_title.setText("群组");
         return view;

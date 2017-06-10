@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/frame_Layout_root">
-</FrameLayout>
+    android:id="@+id/activity_main"
+    tools:context=".modules.MainActivity"
+    >
+    <ViewStub
+        android:layout="@layout/main_layout"
+        android:id="@+id/content_viewstub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container">
+    </FrameLayout>
+</RelativeLayout>
 

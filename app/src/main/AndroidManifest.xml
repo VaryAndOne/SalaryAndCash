@@ -7,12 +7,12 @@
         android:icon="@drawable/icon_app"
         android:label="@string/app_name"
         android:name=".app.SalaryApplication"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        >
         <activity android:name=".modules.MainActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

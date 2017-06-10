@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.base.BaseSupportFragment;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -15,13 +16,8 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Created by Administrator on 2017-06-09.
  */
 
-public class SuggestFragment extends SupportFragment {
+public class SuggestFragment extends BaseSupportFragment {
     private View view;
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        // todo,当该Fragment对用户可见时
-    }
 
     @Nullable
     @Override

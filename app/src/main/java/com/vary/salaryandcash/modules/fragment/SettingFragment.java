@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.modules.adapter.PersonAdapter;
 import com.vary.salaryandcash.modules.adapter.SettingAdapter;
 import com.vary.salaryandcash.mvp.model.Person;
@@ -23,14 +24,9 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Created by Administrator on 2017-06-09.
  */
 
-public class SettingFragment extends SupportFragment {
+public class SettingFragment extends BaseSupportFragment {
     private View view;
     private SettingAdapter foodAdapter;
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        // todo,当该Fragment对用户可见时
-    }
 
     @Nullable
     @Override

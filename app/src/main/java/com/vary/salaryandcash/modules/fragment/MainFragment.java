@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.modules.CameraActivity;
 import com.vary.salaryandcash.modules.adapter.MyPagerAdapter;
 
@@ -22,11 +23,6 @@ import me.yokeyword.fragmentation.SupportFragment;
 public class MainFragment extends SupportFragment {
     private View view;
     private ViewPager mPager;
-    @Override
-    public void onSupportVisible() {
-        super.onSupportVisible();
-        // todo,当该Fragment对用户可见时
-    }
 
     @Nullable
     @Override

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_main"
     tools:context=".modules.MainActivity"
+    android:id="@+id/activity_main"
     >
     <ViewStub
         android:layout="@layout/main_layout"
@@ -13,6 +13,7 @@
         android:layout_height="match_parent" />
 
     <FrameLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/container">

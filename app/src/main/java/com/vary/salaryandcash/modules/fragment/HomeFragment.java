@@ -7,10 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
-import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.modules.adapter.PersonAdapter;
 import com.vary.salaryandcash.mvp.model.Person;
 
@@ -18,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yokeyword.fragmentation.SupportFragment;
-import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
-import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
  * Created by Administrator on 2017-06-09.

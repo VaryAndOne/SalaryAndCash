@@ -22,7 +22,7 @@ public class HelpFragment extends BaseSupportFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_help, container, false);
+        view = inflater.inflate(R.layout.fragment_web, container, false);
         TextView app_title = (TextView) view.findViewById(R.id.app_title);
         app_title.setText("帮助");
         return view;

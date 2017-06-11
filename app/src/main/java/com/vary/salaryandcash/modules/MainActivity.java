@@ -7,8 +7,10 @@ import android.os.SystemClock;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.modules.fragment.HomeFragment;
 import com.vary.salaryandcash.modules.fragment.MainFragment;
 import com.vary.salaryandcash.modules.fragment.SplashFragment;
 
@@ -20,25 +22,28 @@ public class MainActivity extends SupportActivity {
     private MyHandler mHandler = new MyHandler(this);
     private ProgressBar mNetLoadingBar;
     private SplashFragment splashFragment;
+    // 再点一次退出程序时间设置
+    private static final long WAIT_TIME = 2000L;
+    private long TOUCH_TIME = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
-        splashFragment = new SplashFragment();
         final ViewStub mainLayout = (ViewStub) findViewById(R.id.content_viewstub);
+        splashFragment = SplashFragment.newInstance();
         if (savedInstanceState == null) {
             loadRootFragment(R.id.container, splashFragment);
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SystemClock.sleep(1000);
-                mHandler.sendEmptyMessage(0);
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                SystemClock.sleep(1000);
+//                mHandler.sendEmptyMessage(0);
+//            }
+//        }).start();
 
         getWindow().getDecorView().post(new Runnable() {
             @Override
@@ -98,4 +103,16 @@ public class MainActivity extends SupportActivity {
             mHandler.removeCallbacksAndMessages(null);
         }
     }
+
+//    @Override
+//    public void onBackPressedSupport() {
+//
+//        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+//            finish();
+//        } else {
+//            TOUCH_TIME = System.currentTimeMillis();
+//            Toast.makeText(this, "再点一次退出哦", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+
 }

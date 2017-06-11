@@ -22,6 +22,10 @@ import me.yokeyword.fragmentation.SupportFragment;
 public class SplashFragment extends SupportFragment {
     private View view;
 
+    public static SplashFragment newInstance() {
+        return new SplashFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

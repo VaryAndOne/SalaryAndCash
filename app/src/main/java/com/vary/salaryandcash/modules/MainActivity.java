@@ -35,7 +35,7 @@ public class MainActivity extends SupportActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SystemClock.sleep(3000);
+                SystemClock.sleep(1000);
                 mHandler.sendEmptyMessage(0);
             }
         }).start();
@@ -51,7 +51,7 @@ public class MainActivity extends SupportActivity {
         getWindow().getDecorView().post(new Runnable() {
             @Override
             public void run() {
-                mHandler.postDelayed(new DelayRunnableImpl(),2000);
+                mHandler.postDelayed(new DelayRunnableImpl(),1000);
             }
         });
     }

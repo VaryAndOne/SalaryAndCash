@@ -40,7 +40,7 @@ public class SplashFragment extends SupportFragment {
     private void playAnimator(ImageView imageView) {
         if (imageView != null) {
             PropertyValuesHolder pvha = PropertyValuesHolder.ofFloat("alpha", 1f);
-            ObjectAnimator.ofPropertyValuesHolder(imageView,pvha).setDuration(2000).start();
+            ObjectAnimator.ofPropertyValuesHolder(imageView,pvha).setDuration(1000).start();
         }
     }
 }

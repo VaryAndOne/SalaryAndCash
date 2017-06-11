@@ -21,9 +21,9 @@ public class MyPagerAdapter extends FragmentPagerAdapter{
 
     public MyPagerAdapter(FragmentManager fm) {
         super(fm);
-        fragments.add(new RightFragment());
-        fragments.add(new MyFragment());
-        fragments.add(new LeftFragment());
+        fragments.add(RightFragment.getInstance(1));
+        fragments.add(MyFragment.getInstance(2));
+        fragments.add(LeftFragment.getInstance(3));
     }
 
     @Override

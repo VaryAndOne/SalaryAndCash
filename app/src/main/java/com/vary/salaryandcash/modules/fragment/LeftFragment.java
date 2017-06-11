@@ -33,8 +33,8 @@ public class LeftFragment extends Fragment implements MainView {
     @Inject
     protected SalaryPresenter mPresenter;
 
-    public static MyFragment getInstance(int position){
-        MyFragment myFragment = new MyFragment();
+    public static LeftFragment getInstance(int position){
+        LeftFragment myFragment = new LeftFragment();
         Bundle args = new Bundle();
         args.putInt("position",position);
         myFragment.setArguments(args);
@@ -64,7 +64,6 @@ public class LeftFragment extends Fragment implements MainView {
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
         foodAdapter = new FoodAdapter();
         rv.setAdapter(foodAdapter);
-//        refreshCard();
 
     }
     @Override

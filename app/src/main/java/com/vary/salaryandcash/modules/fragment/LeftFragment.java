@@ -23,13 +23,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import me.yokeyword.fragmentation.SupportFragment;
+
 /**
  * Created by Administrator on 2017-04-20.
  */
 
-public class LeftFragment extends Fragment implements MainView {
+public class LeftFragment extends SupportFragment implements MainView {
 
     private FoodAdapter foodAdapter;
+    private View mView;
     @Inject
     protected SalaryPresenter mPresenter;
 
@@ -44,28 +47,32 @@ public class LeftFragment extends Fragment implements MainView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.app_recycler_view, container, false);
-
+        mView = inflater.inflate(R.layout.app_recycler_view, container, false);
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        mPresenter.getSalaries();
         //   textView = (TextView) layout.findViewById(R.id.position);
-        setupRecyclerView((RecyclerView) layout.findViewById(R.id.recyclerview),layout);
         Bundle bundle = getArguments();
         if (bundle != null) {
             //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
-        return layout;
+        return mView;
     }
 
     private void setupRecyclerView(RecyclerView rv, View layout) {
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
         foodAdapter = new FoodAdapter();
         rv.setAdapter(foodAdapter);
-
     }
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState){
+        mPresenter.getSalaries();
+        if (mView != null) {
+            setupRecyclerView((RecyclerView) mView.findViewById(R.id.recyclerview),mView);
+        }
+    }
+
     @Override
     public void onSalaryLoaded(List<Salary> salaries) {
         foodAdapter.addItems(salaries);

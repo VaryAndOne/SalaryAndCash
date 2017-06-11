@@ -13,6 +13,7 @@ import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.modules.CameraActivity;
 import com.vary.salaryandcash.modules.adapter.MyPagerAdapter;
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -46,5 +47,9 @@ public class MainFragment extends SupportFragment {
             }
         });
         return view;
+    }
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState){
+       mPager.setCurrentItem(1,true);
     }
 }

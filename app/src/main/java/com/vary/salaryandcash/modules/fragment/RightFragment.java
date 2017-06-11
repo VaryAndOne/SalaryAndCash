@@ -27,11 +27,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import me.yokeyword.fragmentation.SupportFragment;
+
 /**
  * Created by Administrator on 2017-04-21.
  */
 
-public class RightFragment extends Fragment implements DiscreteScrollView.OnItemChangedListener,
+public class RightFragment extends SupportFragment implements DiscreteScrollView.OnItemChangedListener,
         View.OnClickListener, MainView {
     @Inject
     protected SalaryPresenter mPresenter;
@@ -39,6 +41,7 @@ public class RightFragment extends Fragment implements DiscreteScrollView.OnItem
     private TextView currentItemPrice;
     private ReDiscreteScrollView itemPicker;
     private ShopAdapter shopAdapter;
+    private View mView;
 
     public static RightFragment getInstance(int position){
         RightFragment myFragment = new RightFragment();
@@ -51,31 +54,35 @@ public class RightFragment extends Fragment implements DiscreteScrollView.OnItem
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.activity_shop, container, false);
+        mView = inflater.inflate(R.layout.activity_shop, container, false);
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        mPresenter.getSalaries();
         //   textView = (TextView) layout.findViewById(R.id.position);
         Bundle bundle = getArguments();
         if (bundle != null) {
             //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
-        currentItemPrice = (TextView) layout.findViewById(R.id.item_price);
-        itemPicker = (ReDiscreteScrollView) layout.findViewById(R.id.item_picker);
+        currentItemPrice = (TextView) mView.findViewById(R.id.item_price);
+        itemPicker = (ReDiscreteScrollView) mView.findViewById(R.id.item_picker);
         itemPicker.setOrientation(Orientation.HORIZONTAL);
         itemPicker.setOnItemChangedListener(this);
         shopAdapter = new ShopAdapter();
-        itemPicker.setAdapter(shopAdapter);
- //       itemPicker.setAdapter(new ShopAdapter(data));
-//        //    itemPicker.setItemTransitionTimeMillis(DiscreteScrollViewOptions.getTransitionTime());
-        itemPicker.setItemTransformer(new ScaleTransformer.Builder()
-                .setMinScale(0.8f)
-                .build());
+        return mView;
+    }
 
+    public void onLazyInitView(@Nullable Bundle savedInstanceState){
+        mPresenter.getSalaries();
+        if (mView != null) {
+            itemPicker.setAdapter(shopAdapter);
+            //       itemPicker.setAdapter(new ShopAdapter(data));
+//        //    itemPicker.setItemTransitionTimeMillis(DiscreteScrollViewOptions.getTransitionTime());
+            itemPicker.setItemTransformer(new ScaleTransformer.Builder()
+                    .setMinScale(0.8f)
+                    .build());
 //        onItemChanged(data.get(0));
-        return layout;
+        }
     }
 
     @Override

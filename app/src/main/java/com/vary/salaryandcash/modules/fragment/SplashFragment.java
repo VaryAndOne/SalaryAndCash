@@ -47,4 +47,5 @@ public class SplashFragment extends SupportFragment {
             ObjectAnimator.ofPropertyValuesHolder(imageView,pvha).setDuration(1000).start();
         }
     }
+
 }

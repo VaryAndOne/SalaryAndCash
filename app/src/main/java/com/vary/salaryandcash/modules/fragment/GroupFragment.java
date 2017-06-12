@@ -3,6 +3,7 @@ package com.vary.salaryandcash.modules.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,12 @@ import android.widget.TextView;
 
 import com.jaeger.ninegridimageview.NineGridImageView;
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragment;
+import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
+import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.PostAdapter;
+import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.mvp.model.Post;
 
 import java.util.ArrayList;
@@ -47,7 +52,7 @@ public class GroupFragment extends BaseSupportFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_app, container, false);
-        TextView app_title = (TextView) mView.findViewById(R.id.app_title);
+        app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("群组");
         mRvPostLister = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mRvPostLister.setLayoutManager(new GridLayoutManager(getActivity(),3));

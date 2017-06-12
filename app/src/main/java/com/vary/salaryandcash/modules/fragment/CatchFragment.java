@@ -45,7 +45,7 @@ public class CatchFragment extends BaseSupportFragment implements MainView {
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        TextView app_title = (TextView) mView.findViewById(R.id.app_title);
+        app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("盯紧");
         mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);

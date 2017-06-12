@@ -22,8 +22,9 @@ public class SuggestFragment extends BaseSupportFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_web, container, false);
-        TextView app_title = (TextView) mView.findViewById(R.id.app_title);
+        app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("意见反馈");
         return mView;
     }
+
 }

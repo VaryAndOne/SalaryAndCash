@@ -13,9 +13,9 @@ import rx.Observable;
 
 public interface  SalaryApiService {
 
-    @GET("/salary.json")
+    @GET("salary.json")
     Observable<SalariesResponse> getSalaries();
 
-    @GET("/salary.json")
+    @GET("salary.json")
     Call<SalariesResponse> getTheSalaries();
 }

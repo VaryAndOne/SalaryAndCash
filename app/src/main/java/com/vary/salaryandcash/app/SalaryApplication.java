@@ -39,7 +39,7 @@ public class SalaryApplication extends Application {
     private void initializeApplicationComponent() {
         mApplicationComponent = DaggerApplicationComponent
                 .builder()
-                .applicationModule(new ApplicationModule(this, "http://vary.oss-cn-shanghai.aliyuncs.com/json/"))
+                .applicationModule(new ApplicationModule(this, "http://vary.oss-cn-beijing.aliyuncs.com/json/"))
                 .build();
     }
 

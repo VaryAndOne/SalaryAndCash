@@ -25,17 +25,20 @@ public class MainFragment extends SupportFragment {
     private View view;
     private ViewPager mPager;
 
+    public static MainFragment newInstance() {
+        return new MainFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
         mPager = (ViewPager) view.findViewById(R.id.pager);
-        mPager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager()));
+//        mPager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager()));
+        mPager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
         view.findViewById(R.id.account).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), PersonActivity.class);
-//                startActivity(intent);
                 start(new HomeFragment());
             }
         });

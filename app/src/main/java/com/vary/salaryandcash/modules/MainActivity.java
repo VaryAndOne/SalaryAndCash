@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ProgressBar;
@@ -17,6 +18,7 @@ import com.vary.salaryandcash.modules.fragment.SplashFragment;
 import java.lang.ref.WeakReference;
 
 import me.yokeyword.fragmentation.SupportActivity;
+import me.yokeyword.fragmentation.SupportFragment;
 
 public class MainActivity extends SupportActivity {
     private MyHandler mHandler = new MyHandler(this);
@@ -92,7 +94,7 @@ public class MainActivity extends SupportActivity {
     private class DelayRunnableImpl implements Runnable {
         @Override
         public void run() {
-              splashFragment.start(new MainFragment());
+              splashFragment.start(MainFragment.newInstance());
         }
     }
 
@@ -104,15 +106,27 @@ public class MainActivity extends SupportActivity {
         }
     }
 
-//    @Override
-//    public void onBackPressedSupport() {
-//
-//        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
-//            finish();
-//        } else {
-//            TOUCH_TIME = System.currentTimeMillis();
-//            Toast.makeText(this, "再点一次退出哦", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onBackPressedSupport() {
+
+        Fragment topFragment = getTopFragment();
+
+//        // 主页的Fragment
+//        if (topFragment instanceof BaseMainFragment) {
+//            mNavigationView.setCheckedItem(R.id.nav_home);
 //        }
-//    }
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            pop();
+        } else {
+            if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+                finish();
+            } else {
+                TOUCH_TIME = System.currentTimeMillis();
+                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
 }

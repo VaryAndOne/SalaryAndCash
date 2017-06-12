@@ -43,22 +43,20 @@ public class GroupFragment extends BaseSupportFragment {
             "https://pic3.zhimg.com/f6dc1c1cecd7ba8f4c61c7c31847773e_xll.jpg",
     };
 
-    private View view;
+    private View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_app, container, false);
-        TextView app_title = (TextView) view.findViewById(R.id.app_title);
+        mView = inflater.inflate(R.layout.fragment_app, container, false);
+        TextView app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("群组");
-        return view;
+        mRvPostLister = (RecyclerView) mView.findViewById(R.id.recyclerview);
+        mRvPostLister.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        return mView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mRvPostLister = (RecyclerView) view.findViewById(R.id.recyclerview);
-        mRvPostLister.setLayoutManager(new GridLayoutManager(getActivity(),3));
+    public void onLazyInitView(@Nullable Bundle savedInstanceState){
         mPostList = new ArrayList<>();
         List<String> imgUrls = new ArrayList<>();
         imgUrls.addAll(Arrays.asList(IMG_URL_LIST));
@@ -66,8 +64,14 @@ public class GroupFragment extends BaseSupportFragment {
             Post post = new Post("看图，字不重要。想看大图？抱歉我还没做这个 ( •̀ .̫ •́ )", imgUrls);
             mPostList.add(post);
         }
+    }
 
-        mPostAdapter = new PostAdapter(getActivity(), mPostList, NineGridImageView.STYLE_GRID);
-        mRvPostLister.setAdapter(mPostAdapter);
+    @Override
+    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
+        if (mView != null) {
+            mPostAdapter = new PostAdapter(getActivity(), mPostList, NineGridImageView.STYLE_GRID);
+            mRvPostLister.setAdapter(mPostAdapter);
+        }
     }
 }

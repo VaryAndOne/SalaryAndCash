@@ -28,7 +28,7 @@ public class SalaryApplication extends Application {
 
         Fragmentation.builder()
                 // 显示悬浮球 ; 其他Mode:SHAKE: 摇一摇唤出   NONE：隐藏
-                .stackViewMode(Fragmentation.NONE)
+                .stackViewMode(Fragmentation.BUBBLE)
                 .install();
     }
 
@@ -39,7 +39,7 @@ public class SalaryApplication extends Application {
     private void initializeApplicationComponent() {
         mApplicationComponent = DaggerApplicationComponent
                 .builder()
-                .applicationModule(new ApplicationModule(this, "http://60.206.109.55:8080"))
+                .applicationModule(new ApplicationModule(this, "http://60.206.109.52:8080"))
                 .build();
     }
 

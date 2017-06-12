@@ -23,7 +23,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 public class MainActivity extends SupportActivity {
     private MyHandler mHandler = new MyHandler(this);
     private ProgressBar mNetLoadingBar;
-    private SplashFragment splashFragment;
+//    private SplashFragment splashFragment;
     // 再点一次退出程序时间设置
     private static final long WAIT_TIME = 2000L;
     private long TOUCH_TIME = 0;
@@ -34,9 +34,9 @@ public class MainActivity extends SupportActivity {
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
         final ViewStub mainLayout = (ViewStub) findViewById(R.id.content_viewstub);
-        splashFragment = SplashFragment.newInstance();
+//        splashFragment = SplashFragment.newInstance();
         if (savedInstanceState == null) {
-            loadRootFragment(R.id.container, splashFragment);
+            loadRootFragment(R.id.container, MainFragment.newInstance());
         }
 
 //        new Thread(new Runnable() {
@@ -94,7 +94,7 @@ public class MainActivity extends SupportActivity {
     private class DelayRunnableImpl implements Runnable {
         @Override
         public void run() {
-            splashFragment.start(MainFragment.newInstance());
+//            splashFragment.start(MainFragment.newInstance());
         }
     }
 

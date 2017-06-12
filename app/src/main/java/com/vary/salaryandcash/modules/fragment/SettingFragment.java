@@ -25,22 +25,20 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class SettingFragment extends BaseSupportFragment {
-    private View view;
     private SettingAdapter foodAdapter;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_app, container, false);
-        TextView app_title = (TextView) view.findViewById(R.id.app_title);
+        mView = inflater.inflate(R.layout.fragment_app, container, false);
+        TextView app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("设置");
-        return view;
+        return mView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setupRecyclerView((RecyclerView) view.findViewById(R.id.recyclerview));
+        setupRecyclerView((RecyclerView) mView.findViewById(R.id.recyclerview));
     }
 
     private void setupRecyclerView(RecyclerView rv) {

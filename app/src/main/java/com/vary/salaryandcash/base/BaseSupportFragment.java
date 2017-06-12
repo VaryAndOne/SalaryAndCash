@@ -1,5 +1,9 @@
 package com.vary.salaryandcash.base;
 
+import android.view.View;
+
+import com.vary.salaryandcash.R;
+
 import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
@@ -9,11 +13,17 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
  */
 
 public class BaseSupportFragment extends SupportFragment {
-
+    public View mView;
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
         // todo,当该Fragment对用户可见时
+        mView.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
     }
 
     @Override

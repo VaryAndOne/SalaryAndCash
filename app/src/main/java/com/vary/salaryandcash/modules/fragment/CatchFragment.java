@@ -32,7 +32,6 @@ import butterknife.Bind;
  */
 
 public class CatchFragment extends BaseSupportFragment implements MainView {
-    private View mView;
     @Inject
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;

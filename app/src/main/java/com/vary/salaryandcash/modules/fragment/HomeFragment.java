@@ -29,15 +29,15 @@ public class HomeFragment extends SupportFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
+        setupRecyclerView((RecyclerView) view.findViewById(R.id.recyclerview));
+        view.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
         return view;
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setupRecyclerView((RecyclerView) view.findViewById(R.id.recyclerview));
-    }
-
     private void setupRecyclerView(RecyclerView rv) {
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
         foodAdapter = new PersonAdapter(this);

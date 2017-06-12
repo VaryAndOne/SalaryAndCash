@@ -32,7 +32,6 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class TaskFragment extends BaseSupportFragment implements MainView {
-    private View mView;
     @Inject
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;

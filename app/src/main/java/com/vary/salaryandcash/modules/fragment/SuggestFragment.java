@@ -17,14 +17,13 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class SuggestFragment extends BaseSupportFragment {
-    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_web, container, false);
-        TextView app_title = (TextView) view.findViewById(R.id.app_title);
+        mView = inflater.inflate(R.layout.fragment_web, container, false);
+        TextView app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("意见反馈");
-        return view;
+        return mView;
     }
 }

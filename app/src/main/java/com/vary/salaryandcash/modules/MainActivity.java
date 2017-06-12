@@ -94,7 +94,7 @@ public class MainActivity extends SupportActivity {
     private class DelayRunnableImpl implements Runnable {
         @Override
         public void run() {
-              splashFragment.start(MainFragment.newInstance());
+            splashFragment.start(MainFragment.newInstance());
         }
     }
 

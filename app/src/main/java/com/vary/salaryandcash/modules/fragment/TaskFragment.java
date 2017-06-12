@@ -32,7 +32,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class TaskFragment extends BaseSupportFragment implements MainView {
-    private View view;
+    private View mView;
     @Inject
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
@@ -41,24 +41,24 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_task, container, false);
+        mView = inflater.inflate(R.layout.fragment_task, container, false);
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        mPresenter.getSalaries();
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mCakeList = (RecyclerView) view.findViewById(R.id.recyclerview);
+        mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState));
+        return mView;
+    }
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState){
+        mPresenter.getSalaries();
+        if (mView != null) {
 //        mCakeAdapter.setCakeClickListener(mCakeClickListener);
-        mCakeList.setAdapter(mCakeAdapter);
+            mCakeList.setAdapter(mCakeAdapter);
+        }
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.CatchAdapter;
+import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
@@ -31,35 +32,35 @@ import butterknife.Bind;
  */
 
 public class CatchFragment extends BaseSupportFragment implements MainView {
-    private View view;
+    private View mView;
     @Inject
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
-    private CatchAdapter mCakeAdapter;
+    private SalaryAdapter mCakeAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_app, container, false);
+        mView = inflater.inflate(R.layout.fragment_app, container, false);
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        mPresenter.getSalaries();
-        TextView app_title = (TextView) view.findViewById(R.id.app_title);
+        TextView app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("盯紧");
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mCakeList = (RecyclerView) view.findViewById(R.id.recyclerview);
+        mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mCakeAdapter = new CatchAdapter(getLayoutInflater(savedInstanceState));
+        mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState));
+        return mView;
+    }
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState){
+        mPresenter.getSalaries();
+        if (mView != null) {
 //        mCakeAdapter.setCakeClickListener(mCakeClickListener);
-        mCakeList.setAdapter(mCakeAdapter);
+            mCakeList.setAdapter(mCakeAdapter);
+        }
     }
 
     @Override

@@ -24,7 +24,17 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
-
+/**
+ * Created by
+ *
+ * 温家才
+ * 性别 男 民族 汉
+ * 生日1993年9月7日
+ * 住址 吉林省农安县青山口乡柳条沟村乡约屯17组
+ * 公民身份证号 220122199309077010
+ *
+ * on 2017-06-03.
+ */
 public interface IRenderView {
     int AR_ASPECT_FIT_PARENT = 0; // without clip
     int AR_ASPECT_FILL_PARENT = 1; // may clip

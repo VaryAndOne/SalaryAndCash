@@ -1,8 +1,5 @@
 package com.vary.salaryandcash.modules.adapter;
 
-/**
- * Created by Administrator on 2017-06-05.
- */
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -25,9 +22,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * @author Filippo Engidashet <filippo.eng@gmail.com>
- * @version 1.0.0
- * @since 9/24/2016
+ * Created by
+ *
+ * 温家才
+ * 性别 男 民族 汉
+ * 生日1993年9月7日
+ * 住址 吉林省农安县青山口乡柳条沟村乡约屯17组
+ * 公民身份证号 220122199309077010
+ *
+ * on 2017-06-03.
  */
 public class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.Holder> {
 

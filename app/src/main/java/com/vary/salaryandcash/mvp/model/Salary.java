@@ -2,10 +2,6 @@ package com.vary.salaryandcash.mvp.model;
 
 import java.io.Serializable;
 
-/**
- * Created by Administrator on 2017-06-05.
- */
-
 public class Salary implements Serializable {
 
     private String detailDescription;

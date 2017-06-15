@@ -35,6 +35,7 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
  *
  * on 2017-06-03.
  */
+
 public interface IRenderView {
     int AR_ASPECT_FIT_PARENT = 0; // without clip
     int AR_ASPECT_FILL_PARENT = 1; // may clip

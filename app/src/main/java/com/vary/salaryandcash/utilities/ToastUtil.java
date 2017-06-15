@@ -1,9 +1,6 @@
 package com.vary.salaryandcash.utilities;
-
 import android.widget.Toast;
-
 import com.vary.salaryandcash.app.SalaryApplication;
-
 
 /**
  * Created by

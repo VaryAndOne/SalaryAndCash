@@ -1,5 +1,4 @@
 package com.vary.salaryandcash.modules;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

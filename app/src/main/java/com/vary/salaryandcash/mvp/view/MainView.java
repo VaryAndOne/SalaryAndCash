@@ -1,9 +1,6 @@
 package com.vary.salaryandcash.mvp.view;
-
 import com.vary.salaryandcash.mvp.model.Salary;
-
 import java.util.List;
-
 /**
  * Created by
  *

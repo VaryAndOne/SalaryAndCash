@@ -1,5 +1,6 @@
 package com.vary.salaryandcash.modules.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,6 +53,12 @@ public class HomeFragment extends SupportFragment {
         foodAdapter.setHeadHolder(view);
         rv.setAdapter(foodAdapter);
         refreshCard();
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start(new LoginFragment());
+            }
+        });
     }
 
     void refreshCard() {

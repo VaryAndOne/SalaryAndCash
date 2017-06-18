@@ -34,9 +34,9 @@ import java.io.IOException;
 public class CameraActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
-    }
+//    static {
+//        System.loadLibrary("native-lib");
+//    }
 
     private static final String TAG= CameraActivity.class.getSimpleName();
     private Button mTakeButton;
@@ -61,7 +61,6 @@ public class CameraActivity extends AppCompatActivity {
                 Log.i(TAG, "fps: " + mCamera.getParameters().getPreviewFrameRate());
                 encode(mData);
             }
-
             return null;
         }
     }

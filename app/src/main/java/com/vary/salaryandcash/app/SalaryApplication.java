@@ -25,10 +25,14 @@ public class SalaryApplication extends Application {
     public static Context appContext;
     private static SalaryApplication instance;
     private ApplicationComponent mApplicationComponent;
+    static {
+        System.loadLibrary("native-lib");
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         appContext = this;
         instance = this;
         initializeApplicationComponent();

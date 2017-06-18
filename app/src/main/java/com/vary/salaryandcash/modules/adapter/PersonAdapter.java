@@ -75,11 +75,7 @@ public class PersonAdapter extends BaseRecyclerAdapter<Person> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = null;
                     switch (getLayoutPosition()){
-                        case 0:
-                            ToastUtil.show("getLayoutPosition : " + getLayoutPosition());
-                            break;
                         case 1:
                             homeFragment.start(new TaskFragment());
                             break;

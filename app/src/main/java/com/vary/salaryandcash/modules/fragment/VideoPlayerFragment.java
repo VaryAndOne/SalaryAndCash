@@ -1,22 +1,23 @@
-package com.vary.salaryandcash.modules;
+package com.vary.salaryandcash.modules.fragment;
 
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
-import com.vary.salaryandcash.base.BaseActivity;
+import com.vary.salaryandcash.base.BaseSupportFragment;
+import com.vary.salaryandcash.modules.widget.ViewServer;
 import com.vary.salaryandcash.modules.widget.media.AndroidMediaController;
 import com.vary.salaryandcash.modules.widget.media.IjkVideoView;
-import com.vary.salaryandcash.mvp.model.Salary;
 
+import me.yokeyword.fragmentation.SupportFragment;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
+
 /**
  * Created by
  *
@@ -28,32 +29,24 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
  *
  * on 2017-06-03.
  */
-public class VideoPlayerActivity extends BaseActivity {
+
+public class VideoPlayerFragment extends SupportFragment {
     IjkVideoView videoView;
-
-    public static final String CAKE = "cake";
+    @Nullable
     @Override
-    protected int getContentView() {
-        return R.layout.activity_videoplayer;
-    }
-
-    @Override
-    protected void onViewReady(Bundle savedInstanceState, Intent intent) {
-        super.onViewReady(savedInstanceState, intent);
-
-        Salary cake = (Salary) intent.getSerializableExtra(CAKE);
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View mView = inflater.inflate(R.layout.activity_videoplayer, container, false);
         IjkMediaPlayer.loadLibrariesOnce(null);
         IjkMediaPlayer.native_profileBegin("libijkplayer.so");
-        videoView = (IjkVideoView) findViewById(R.id.ijkPlayer);
-        AndroidMediaController controller = new AndroidMediaController(this, false);
+        videoView = (IjkVideoView) mView.findViewById(R.id.ijkPlayer);
+        AndroidMediaController controller = new AndroidMediaController(getActivity(), false);
         videoView.setMediaController(controller);
 //        String url = "http://60.206.109.44/hls/20100101_105339.m3u8";
         String url = "https://wdl.wallstreetcn.com/41aae4d2-390a-48ff-9230-ee865552e72d";
 //        String url = cake.getImage();
         videoView.setVideoURI(Uri.parse(url));
         videoView.start();
-
+        return mView;
     }
 
     @Override
@@ -62,7 +55,7 @@ public class VideoPlayerActivity extends BaseActivity {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         videoView.pause();
     }
@@ -78,4 +71,5 @@ public class VideoPlayerActivity extends BaseActivity {
         super.onResume();
         videoView.resume();
     }
+
 }

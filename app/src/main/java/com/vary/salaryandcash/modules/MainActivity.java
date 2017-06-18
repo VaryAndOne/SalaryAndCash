@@ -13,6 +13,7 @@ import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.modules.fragment.HomeFragment;
 import com.vary.salaryandcash.modules.fragment.MainFragment;
 import com.vary.salaryandcash.modules.fragment.SplashFragment;
+import com.vary.salaryandcash.modules.fragment.VideoPlayerFragment;
 
 import java.lang.ref.WeakReference;
 

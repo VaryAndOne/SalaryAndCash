@@ -15,8 +15,14 @@ import com.bumptech.glide.request.target.Target;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.base.BaseRecyclerAdapter;
 import com.vary.salaryandcash.base.CommonHolder;
+import com.vary.salaryandcash.modules.fragment.HomeFragment;
+import com.vary.salaryandcash.modules.fragment.MainFragment;
+import com.vary.salaryandcash.modules.fragment.MyFragment;
+import com.vary.salaryandcash.modules.fragment.SuggestFragment;
+import com.vary.salaryandcash.modules.fragment.VideoPlayerFragment;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.utilities.ImageUtils;
+import com.vary.salaryandcash.utilities.ToastUtil;
 
 import butterknife.Bind;
 
@@ -35,7 +41,6 @@ import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
  */
 
 public class PhotoAdapter extends BaseRecyclerAdapter<Salary> {
-
 
     @Override
     public CommonHolder<Salary> setViewHolder(ViewGroup parent) {
@@ -84,7 +89,7 @@ public class PhotoAdapter extends BaseRecyclerAdapter<Salary> {
             iv_pic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    ToastUtil.show("item clicked!");
+                    ToastUtil.show("item clicked!");
 //                    Intent intent = new Intent(TkApplication.appContext, VideoPlayerActivity.class);
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    TkApplication.appContext.startActivity(intent);

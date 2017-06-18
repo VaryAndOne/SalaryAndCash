@@ -39,6 +39,12 @@ public class VideoPlayerFragment extends SupportFragment {
         IjkMediaPlayer.loadLibrariesOnce(null);
         IjkMediaPlayer.native_profileBegin("libijkplayer.so");
         videoView = (IjkVideoView) mView.findViewById(R.id.ijkPlayer);
+        mView.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
         AndroidMediaController controller = new AndroidMediaController(getActivity(), false);
         videoView.setMediaController(controller);
 //        String url = "http://60.206.109.44/hls/20100101_105339.m3u8";

@@ -67,7 +67,7 @@ public class MyFragment extends SupportFragment implements MainView {
 
     private void setupRecyclerView(RecyclerView rv, View layout) {
         rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        photoAdapter = new PhotoAdapter();
+        photoAdapter = new PhotoAdapter(this);
         rv.setAdapter(photoAdapter);
     }
 

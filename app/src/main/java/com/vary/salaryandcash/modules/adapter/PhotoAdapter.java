@@ -25,6 +25,8 @@ import com.vary.salaryandcash.utilities.ImageUtils;
 import com.vary.salaryandcash.utilities.ToastUtil;
 
 import butterknife.Bind;
+import me.yokeyword.fragmentation.Fragmentation;
+import me.yokeyword.fragmentation.SupportFragment;
 
 import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
 
@@ -41,6 +43,11 @@ import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
  */
 
 public class PhotoAdapter extends BaseRecyclerAdapter<Salary> {
+private MyFragment myFragment;
+    public PhotoAdapter(MyFragment myFragment) {
+        super();
+        this.myFragment= myFragment;
+    }
 
     @Override
     public CommonHolder<Salary> setViewHolder(ViewGroup parent) {
@@ -82,14 +89,13 @@ public class PhotoAdapter extends BaseRecyclerAdapter<Salary> {
                             // 然后在改变一下bitmap的宽高
                             iv_pic.setImageBitmap(bitmap);
                         }
-
-
                     });
 
             iv_pic.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ToastUtil.show("item clicked!");
+                    ((SupportFragment)myFragment.getParentFragment()).start(new VideoPlayerFragment());
 //                    Intent intent = new Intent(TkApplication.appContext, VideoPlayerActivity.class);
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    TkApplication.appContext.startActivity(intent);

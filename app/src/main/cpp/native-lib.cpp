@@ -44,8 +44,9 @@ void custom_log(void *ptr, int level, const char *fmt, va_list vl) {
 }
 
 // com.vary.salaryandcash.modules.CameraActivity
+// com.vary.salaryandcash.modules.fragment.CameraFragment
 
-JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_initial
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragment_initial
         (JNIEnv *env, jobject obj, jint width, jint height) {
     const char *out_path = "/storage/emulated/0/vao.flv";
     yuv_width = width;
@@ -123,7 +124,7 @@ JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_initia
 }
 
 
-JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_encode
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragment_encode
         (JNIEnv *env, jobject obj, jbyteArray yuv) {
     int ret;
     int enc_got_frame = 0;
@@ -185,7 +186,7 @@ JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_encode
     return 0;
 }
 
-JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_flush
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragment_flush
         (JNIEnv *env, jobject obj) {
     int ret;
     int got_frame;
@@ -233,7 +234,7 @@ JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_flush
     return 0;
 }
 
-JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_close
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragment_close
         (JNIEnv *env, jobject obj) {
     if (video_st)
         avcodec_close(video_st->codec);

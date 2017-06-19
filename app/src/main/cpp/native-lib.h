@@ -14,16 +14,16 @@
 extern "C" {
 #endif
 
-JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_initial
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragment_initial
         (JNIEnv *, jobject, jint , jint );
 
-JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_encode
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragment_encode
         (JNIEnv *, jobject , jbyteArray );
 
-JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_flush
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragment_flush
         (JNIEnv *, jobject );
 
-JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_CameraActivity_close
+JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragment_close
         (JNIEnv *, jobject );
 
 #ifdef __cplusplus

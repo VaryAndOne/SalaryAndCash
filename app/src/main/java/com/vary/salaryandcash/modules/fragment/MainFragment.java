@@ -52,8 +52,9 @@ public class MainFragment extends SupportFragment {
         view.findViewById(R.id.camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CameraActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), CameraActivity.class);
+//                startActivity(intent);
+                start(new CameraFragment());
             }
         });
         return view;

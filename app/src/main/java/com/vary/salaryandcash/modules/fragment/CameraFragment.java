@@ -1,4 +1,33 @@
-package com.vary.salaryandcash.modules;
+package com.vary.salaryandcash.modules.fragment;
+
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.base.BaseSupportFragment;
+import com.vary.salaryandcash.modules.CameraActivity;
+
+import java.io.IOException;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by
@@ -12,47 +41,31 @@ package com.vary.salaryandcash.modules;
  * on 2017-06-03.
  */
 
-import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+public class CameraFragment extends SupportFragment {
 
-import com.vary.salaryandcash.R;
-import java.io.IOException;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-
-
-public class CameraActivity extends AppCompatActivity {
-
-    // Used to load the 'native-lib' library on application startup.
-//    static {
-//        System.loadLibrary("native-lib");
-//    }
-
-    private static final String TAG= CameraActivity.class.getSimpleName();
+    private static final String TAG= CameraFragment.class.getSimpleName();
     private Button mTakeButton;
     private Camera mCamera;
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
     private boolean isRecording = false;
+    private View mView;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.activity_camera, container, false);
+        mView.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
+        initView();
+        return mView;
+    }
 
+    private void initView() {
         final Camera.PreviewCallback mPreviewCallbacx=new Camera.PreviewCallback() {
             @Override
             public void onPreviewFrame(final byte[] arg0, Camera arg1) {
@@ -96,9 +109,9 @@ public class CameraActivity extends AppCompatActivity {
         };
 
 
-        mTakeButton=(Button)findViewById(R.id.take_button);
+        mTakeButton=(Button)mView.findViewById(R.id.take_button);
 
-        PackageManager pm=this.getPackageManager();
+        PackageManager pm=getActivity().getPackageManager();
         boolean hasCamera=pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) ||
                 pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT) ||
                 Build.VERSION.SDK_INT<Build.VERSION_CODES.GINGERBREAD;
@@ -114,7 +127,7 @@ public class CameraActivity extends AppCompatActivity {
                     if (isRecording) {
                         mTakeButton.setText("Start");
                         mCamera.setPreviewCallback(null);
-                        Toast.makeText(CameraActivity.this, "encode done", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "encode done", Toast.LENGTH_SHORT).show();
                         isRecording = false;
                     }else {
                         mTakeButton.setText("Stop");
@@ -127,7 +140,7 @@ public class CameraActivity extends AppCompatActivity {
         });
 
 
-        mSurfaceView=(SurfaceView)findViewById(R.id.surfaceView1);
+        mSurfaceView=(SurfaceView)mView.findViewById(R.id.surfaceView1);
         SurfaceHolder holder=mSurfaceView.getHolder();
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
@@ -175,13 +188,23 @@ public class CameraActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
-    @TargetApi(9)
+//    @TargetApi(9)
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.GINGERBREAD){
+//            mCamera=Camera.open(0);
+//        }else
+//        {
+//            mCamera=Camera.open();
+//        }
+//    }
+
     @Override
-    protected void onResume(){
-        super.onResume();
+    public void onSupportVisible() {
+        super.onSupportVisible();
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.GINGERBREAD){
             mCamera=Camera.open(0);
         }else
@@ -191,8 +214,8 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause(){
-        super.onPause();
+    public void onSupportInvisible() {
+        super.onSupportInvisible();
         flush();
         close();
         if(mCamera!=null){
@@ -201,11 +224,21 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+//    @Override
+//    public void onPause(){
+//        super.onPause();
+//        flush();
+//        close();
+//        if(mCamera!=null){
+//            mCamera.release();
+//            mCamera=null;
+//        }
+//    }
+
     //JNI
     public native int initial(int width,int height);
     public native int encode(byte[] yuvimage);
     public native int flush();
     public native int close();
-
 
 }

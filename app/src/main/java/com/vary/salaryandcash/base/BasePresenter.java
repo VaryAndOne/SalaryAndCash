@@ -1,18 +1,13 @@
 package com.vary.salaryandcash.base;
+import android.util.Log;
 
-/**
- * Created by Administrator on 2017-06-05.
- */
-
-
+import com.vary.salaryandcash.mvp.model.SalariesResponse;
 import com.vary.salaryandcash.mvp.view.BaseView;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import javax.inject.Inject;
 
 /**
  * Created by
@@ -26,17 +21,8 @@ import rx.schedulers.Schedulers;
  * on 2017-06-03.
  */
 public class BasePresenter<V extends BaseView> {
-
     @Inject protected V mView;
-
     protected V getView() {
         return mView;
-    }
-
-    protected <T> void subscribe(Observable<T> observable, Observer<T> observer) {
-        observable.subscribeOn(Schedulers.newThread())
-                .toSingle()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
     }
 }

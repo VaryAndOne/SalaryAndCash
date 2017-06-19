@@ -18,6 +18,8 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -65,7 +67,6 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
     private StreamTask mStreamTask;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,5 +1,7 @@
 package com.vary.salaryandcash.mvp.presenter;
 
+import android.util.Log;
+
 import com.vary.salaryandcash.api.SalaryApiService;
 import com.vary.salaryandcash.base.BasePresenter;
 import com.vary.salaryandcash.mapper.SalaryMapper;
@@ -10,9 +12,9 @@ import com.vary.salaryandcash.mvp.view.MainView;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import rx.Observable;
-import rx.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by
@@ -26,10 +28,12 @@ import rx.Observer;
  * on 2017-06-03.
  */
 
-public class SalaryPresenter extends BasePresenter<MainView> implements Observer<SalariesResponse>{
+public class SalaryPresenter extends BasePresenter<MainView> {
 
-    @Inject protected SalaryApiService mApiService;
-    @Inject protected SalaryMapper mSalaryMapper;
+    @Inject
+    protected SalaryApiService mApiService;
+    @Inject
+    protected SalaryMapper mSalaryMapper;
 
     @Inject
     public SalaryPresenter() {
@@ -37,26 +41,22 @@ public class SalaryPresenter extends BasePresenter<MainView> implements Observer
 
     public void getSalaries() {
         getView().onShowDialog("Loading cakes....");
-        Observable<SalariesResponse> salariesResponseObservable = mApiService.getSalaries();
-        subscribe(salariesResponseObservable,this);
-    }
-
-    @Override
-    public void onCompleted() {
-        getView().onHideDialog();
-        getView().onShowToast("Cakes loading complete!");
-    }
-
-    @Override
-    public void onError(Throwable e) {
-        getView().onHideDialog();
-        getView().onShowToast("Error loading cakes " + e.getMessage());
-    }
-
-    @Override
-    public void onNext(SalariesResponse salariesResponse) {
-        List<Salary>  salaries = mSalaryMapper.mapCakes(salariesResponse);
-        getView().onClearItems();
-        getView().onSalaryLoaded(salaries);
+        mApiService.getSalaries()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SalariesResponse>() {
+                    @Override
+                    public void accept(SalariesResponse response) throws Exception {
+                        Log.d("TAG", response.getReleaseDate());
+                        List<Salary> salaries = mSalaryMapper.mapCakes(response);
+                        getView().onClearItems();
+                        getView().onSalaryLoaded(salaries);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.w("Error", throwable);
+                    }
+                });
     }
 }

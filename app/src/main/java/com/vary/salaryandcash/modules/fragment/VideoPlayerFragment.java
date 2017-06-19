@@ -47,8 +47,8 @@ public class VideoPlayerFragment extends SupportFragment {
         });
         AndroidMediaController controller = new AndroidMediaController(getActivity(), false);
         videoView.setMediaController(controller);
-//        String url = "http://60.206.109.44/hls/20100101_105339.m3u8";
-        String url = "https://wdl.wallstreetcn.com/41aae4d2-390a-48ff-9230-ee865552e72d";
+        String url = "http://vary.oss-cn-beijing.aliyuncs.com/video/20100101_105339.m3u8";
+//        String url = "https://wdl.wallstreetcn.com/41aae4d2-390a-48ff-9230-ee865552e72d";
 //        String url = cake.getImage();
         videoView.setVideoURI(Uri.parse(url));
         videoView.start();

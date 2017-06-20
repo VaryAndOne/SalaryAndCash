@@ -1,5 +1,6 @@
 package com.vary.salaryandcash.modules.fragment;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -26,7 +27,9 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -51,6 +54,7 @@ public class CameraFragment extends SupportFragment {
     private boolean isRecording = false;
     private View mView;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,16 +70,19 @@ public class CameraFragment extends SupportFragment {
     }
 
     private void initView() {
-        final Camera.PreviewCallback mPreviewCallbacx=new Camera.PreviewCallback() {
+         final Camera.PreviewCallback mPreviewCallbacx=new Camera.PreviewCallback() {
             @Override
             public void onPreviewFrame(final byte[] arg0, Camera arg1) {
                 // TODO Auto-generated method stub
 
                 //创建一个上游 Observable：
-                Observable<byte[]> observable; observable = Observable.create(new ObservableOnSubscribe<byte[]>() {
+                Observable<byte[]>  observable = Observable.create(new ObservableOnSubscribe<byte[]>() {
                     @Override
-                    public void subscribe(ObservableEmitter<byte[]> emitter) throws Exception {
-                        emitter.onNext(arg0);
+                    public void subscribe( ObservableEmitter<byte[]> emitter) throws Exception {
+
+                        if (arg0 != null) {
+                            emitter.onNext(arg0);
+                        }
                         emitter.onComplete();
                     }
                 });
@@ -85,6 +92,7 @@ public class CameraFragment extends SupportFragment {
                     @Override
                     public void onSubscribe(Disposable d) {
                         Log.d("TAG", "subscribe");
+
                     }
 
                     @Override
@@ -95,16 +103,20 @@ public class CameraFragment extends SupportFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("TAG", "error");
+
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d("TAG", "complete");
+
                     }
                 };
                 //建立连接
-                observable.subscribe(observer);
+                observable
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(observer);
+
             }
         };
 
@@ -240,5 +252,6 @@ public class CameraFragment extends SupportFragment {
     public native int encode(byte[] yuvimage);
     public native int flush();
     public native int close();
+
 
 }

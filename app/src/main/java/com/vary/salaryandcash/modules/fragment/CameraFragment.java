@@ -18,8 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
-import com.vary.salaryandcash.base.BaseSupportFragment;
-import com.vary.salaryandcash.modules.CameraActivity;
 
 import java.io.IOException;
 
@@ -31,6 +29,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.yokeyword.fragmentation.SupportFragment;
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
  * Created by
@@ -53,7 +53,6 @@ public class CameraFragment extends SupportFragment {
     private SurfaceHolder mSurfaceHolder;
     private boolean isRecording = false;
     private View mView;
-
 
     @Nullable
     @Override
@@ -83,7 +82,7 @@ public class CameraFragment extends SupportFragment {
                         if (arg0 != null) {
                             emitter.onNext(arg0);
                         }
-                        emitter.onComplete();
+//                        emitter.onComplete();
                     }
                 });
 
@@ -202,18 +201,6 @@ public class CameraFragment extends SupportFragment {
         });
     }
 
-//    @TargetApi(9)
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.GINGERBREAD){
-//            mCamera=Camera.open(0);
-//        }else
-//        {
-//            mCamera=Camera.open();
-//        }
-//    }
-
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
@@ -228,24 +215,13 @@ public class CameraFragment extends SupportFragment {
     @Override
     public void onSupportInvisible() {
         super.onSupportInvisible();
-        flush();
-        close();
+//        flush();
+//        close();
         if(mCamera!=null){
             mCamera.release();
             mCamera=null;
         }
     }
-
-//    @Override
-//    public void onPause(){
-//        super.onPause();
-//        flush();
-//        close();
-//        if(mCamera!=null){
-//            mCamera.release();
-//            mCamera=null;
-//        }
-//    }
 
     //JNI
     public native int initial(int width,int height);

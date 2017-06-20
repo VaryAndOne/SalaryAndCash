@@ -99,4 +99,7 @@ dependencies {
 
     //    https://github.com/YoKeyword/Fragmentation
     compile 'me.yokeyword:fragmentation:0.10.5'
+
+//    https://github.com/greenrobot/EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

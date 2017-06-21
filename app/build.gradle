@@ -102,4 +102,7 @@ dependencies {
 
 //    https://github.com/greenrobot/EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
+
+//    https://github.com/ChadCSong/ShineButton
+    compile 'com.sackcentury:shinebutton:0.1.7'
 }

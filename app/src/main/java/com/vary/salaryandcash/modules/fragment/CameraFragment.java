@@ -1,7 +1,5 @@
 package com.vary.salaryandcash.modules.fragment;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Build;
@@ -17,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sackcentury.shinebuttonlib.ShineButton;
 import com.vary.salaryandcash.R;
 
 import java.io.IOException;
@@ -31,6 +30,8 @@ import io.reactivex.schedulers.Schedulers;
 import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
+
+import static com.vary.salaryandcash.R.id.camera;
 
 /**
  * Created by
@@ -206,9 +207,11 @@ public class CameraFragment extends SupportFragment {
         super.onSupportVisible();
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.GINGERBREAD){
             mCamera=Camera.open(0);
+            mCamera.setDisplayOrientation(90);
         }else
         {
             mCamera=Camera.open();
+            mCamera.setDisplayOrientation(90);
         }
     }
 

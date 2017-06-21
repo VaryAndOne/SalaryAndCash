@@ -20,11 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
-            <Button
-                android:id="@+id/take_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="开始" />
+
         </LinearLayout>
     </FrameLayout>
     <ImageView
@@ -37,4 +33,13 @@
         android:padding="5dp"
         android:layout_marginLeft="15dp"
         />
+    <Button
+        android:id="@+id/take_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:color/darker_gray"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:text="开始" />
 </RelativeLayout>

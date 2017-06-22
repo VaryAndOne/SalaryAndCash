@@ -166,8 +166,8 @@ JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragme
         //Duration between 2 frames (us)
         int64_t calc_duration = (double) (AV_TIME_BASE) * (1 / av_q2d(r_framerate1));    //内部时间戳
         //Parameters
-        //enc_pkt.pts = (double)(framecnt*calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
-        enc_pkt.pts = av_rescale_q(framecnt * calc_duration, time_base_q, time_base);
+        enc_pkt.pts = (double)(framecnt*calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
+//        enc_pkt.pts = av_rescale_q(framecnt * calc_duration, time_base_q, time_base);
         enc_pkt.dts = enc_pkt.pts;
         enc_pkt.duration = av_rescale_q(calc_duration, time_base_q,
                                         time_base); //(double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));

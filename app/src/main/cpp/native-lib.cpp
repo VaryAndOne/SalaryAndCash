@@ -169,12 +169,15 @@ JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragme
         enc_pkt.pts = (double)(framecnt*calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
 //        enc_pkt.pts = av_rescale_q(framecnt * calc_duration, time_base_q, time_base);
         enc_pkt.dts = enc_pkt.pts;
-        enc_pkt.duration = av_rescale_q(calc_duration, time_base_q,
-                                        time_base); //(double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
+//        enc_pkt.duration = av_rescale_q(calc_duration, time_base_q,
+//                                        time_base); //(double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
+        enc_pkt.duration =  (double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
+
         enc_pkt.pos = -1;
 
         //Delay
-        int64_t pts_time = av_rescale_q(enc_pkt.dts, time_base, time_base_q);
+//        int64_t pts_time = av_rescale_q(enc_pkt.dts, time_base, time_base_q);
+        int64_t pts_time = (double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
         int64_t now_time = av_gettime() - start_time;
         if (pts_time > now_time)
             av_usleep(pts_time - now_time);

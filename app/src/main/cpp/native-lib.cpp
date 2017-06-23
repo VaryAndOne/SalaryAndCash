@@ -1,4 +1,6 @@
 
+
+
 #include <jni.h>
 #include <string>
 #include "native-lib.h";
@@ -42,13 +44,10 @@ void custom_log(void *ptr, int level, const char *fmt, va_list vl) {
         fclose(fp);
     }
 }
-
-// com.vary.salaryandcash.modules.CameraActivity
-// com.vary.salaryandcash.modules.fragment.CameraFragment
-
+//com.vary.salaryandcash.modules.fragment.CameraFragment
 JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragment_initial
         (JNIEnv *env, jobject obj, jint width, jint height) {
-    const char *out_path = "/storage/emulated/0/vao.flv";
+    const char *out_path = "/storage/emulated/0/wsffmpegcamera.mp4";
     yuv_width = width;
     yuv_height = height;
     y_length = width * height;
@@ -60,7 +59,7 @@ JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragme
     av_register_all();
 
     //output initialize
-    avformat_alloc_output_context2(&ofmt_ctx, NULL, "flv", out_path);
+    avformat_alloc_output_context2(&ofmt_ctx, NULL, "mpegts", out_path);
     //output encoder initialize
     pCodec = avcodec_find_encoder(AV_CODEC_ID_H264);
     if (!pCodec) {
@@ -166,18 +165,15 @@ JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragme
         //Duration between 2 frames (us)
         int64_t calc_duration = (double) (AV_TIME_BASE) * (1 / av_q2d(r_framerate1));    //内部时间戳
         //Parameters
-        enc_pkt.pts = (double)(framecnt*calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
-//        enc_pkt.pts = av_rescale_q(framecnt * calc_duration, time_base_q, time_base);
+        //enc_pkt.pts = (double)(framecnt*calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
+        enc_pkt.pts = av_rescale_q(framecnt * calc_duration, time_base_q, time_base);
         enc_pkt.dts = enc_pkt.pts;
-//        enc_pkt.duration = av_rescale_q(calc_duration, time_base_q,
-//                                        time_base); //(double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
-        enc_pkt.duration =  (double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
-
+        enc_pkt.duration = av_rescale_q(calc_duration, time_base_q,
+                                        time_base); //(double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
         enc_pkt.pos = -1;
 
         //Delay
-//        int64_t pts_time = av_rescale_q(enc_pkt.dts, time_base, time_base_q);
-        int64_t pts_time = (double)(calc_duration)*(double)(av_q2d(time_base_q)) / (double)(av_q2d(time_base));
+        int64_t pts_time = av_rescale_q(enc_pkt.dts, time_base, time_base_q);
         int64_t now_time = av_gettime() - start_time;
         if (pts_time > now_time)
             av_usleep(pts_time - now_time);
@@ -245,6 +241,5 @@ JNIEXPORT jint JNICALL Java_com_vary_salaryandcash_modules_fragment_CameraFragme
     avformat_free_context(ofmt_ctx);
     return 0;
 }
-
 
 

@@ -1,16 +1,21 @@
 package com.vary.salaryandcash.modules.fragment;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -186,7 +191,14 @@ public class CameraFragment extends SupportFragment {
             public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
                 // TODO Auto-generated method stub
                 if(mCamera==null) return;
+
+                int rotation = getDisplayOrientation();
+                mCamera.setDisplayOrientation(rotation);
+
                 Camera.Parameters parameters=mCamera.getParameters();
+
+                parameters.setRotation(rotation);
+
                 parameters.setPreviewSize(640,480);
                 parameters.setPictureSize(640,480);
                 mCamera.setParameters(parameters);
@@ -202,16 +214,44 @@ public class CameraFragment extends SupportFragment {
         });
     }
 
+    public int getDisplayOrientation() {
+
+        android.hardware.Camera.CameraInfo camInfo =
+                new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.getCameraInfo(Camera.CameraInfo.CAMERA_FACING_BACK, camInfo);
+        Display display = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int rotation = display.getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
+        }
+
+        int result = (camInfo.orientation - degrees + 360) % 360;
+        return result;
+    }
+
+
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.GINGERBREAD){
             mCamera=Camera.open(0);
-            mCamera.setDisplayOrientation(90);
+//            mCamera.setDisplayOrientation(90);
         }else
         {
             mCamera=Camera.open();
-            mCamera.setDisplayOrientation(90);
+//            mCamera.setDisplayOrientation(90);
         }
     }
 

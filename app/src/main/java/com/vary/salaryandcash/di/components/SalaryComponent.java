@@ -4,6 +4,7 @@ import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.di.scope.PerActivity;
 import com.vary.salaryandcash.modules.MainActivity;
 import com.vary.salaryandcash.modules.fragment.CatchFragment;
+import com.vary.salaryandcash.modules.fragment.GroupFragment;
 import com.vary.salaryandcash.modules.fragment.LeftFragment;
 import com.vary.salaryandcash.modules.fragment.MyFragment;
 import com.vary.salaryandcash.modules.fragment.RightFragment;
@@ -32,4 +33,5 @@ public interface SalaryComponent {
     void inject(TaskFragment activity);
     void inject(CatchFragment activity);
     void inject(MainActivity activity);
+    void inject(GroupFragment activity);
 }

@@ -16,4 +16,5 @@
         app:imgGap="2dp"
         app:showStyle="grid"
         app:singleImgSize="500dp"/>
+
 </LinearLayout>

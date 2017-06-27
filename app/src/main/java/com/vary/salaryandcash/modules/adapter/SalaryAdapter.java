@@ -41,9 +41,10 @@ public class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.Holder> {
         mLayoutInflater = inflater;
     }
 
+
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_task, parent, false);
+        View view = mLayoutInflater.inflate(R.layout.item_group, parent, false);
         return new Holder(view);
     }
 

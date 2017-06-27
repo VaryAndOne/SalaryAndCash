@@ -86,8 +86,9 @@ public class RightFragment extends SupportFragment implements DiscreteScrollView
         return mView;
     }
 
-    public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getSalaries();
+    @Override
+    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
         if (mView != null) {
             itemPicker.setAdapter(mCakeAdapter);
             //       itemPicker.setAdapter(new ShopAdapter(data));
@@ -97,6 +98,9 @@ public class RightFragment extends SupportFragment implements DiscreteScrollView
                     .build());
 //        onItemChanged(data.get(0));
         }
+    }
+    public void onLazyInitView(@Nullable Bundle savedInstanceState){
+        mPresenter.getSalaries();
     }
 
     @Override

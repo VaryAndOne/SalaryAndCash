@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
@@ -48,11 +49,13 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_task, container, false);
+        mView = inflater.inflate(R.layout.fragment_app, container, false);
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
+        app_title = (TextView) mView.findViewById(R.id.app_title);
+        app_title.setText("群组");
         mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -67,12 +70,17 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
         return mView;
     }
 
-    public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getSalaries();
+    @Override
+    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
         if (mView != null) {
 //        mCakeAdapter.setCakeClickListener(mCakeClickListener);
             mCakeList.setAdapter(mCakeAdapter);
         }
+    }
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState){
+        mPresenter.getSalaries();
     }
 
     @Override

@@ -65,12 +65,17 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
         return mView;
     }
 
-    public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getSalaries();
+    @Override
+    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
         if (mView != null) {
 //        mCakeAdapter.setCakeClickListener(mCakeClickListener);
             mCakeList.setAdapter(mCakeAdapter);
         }
+    }
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState){
+        mPresenter.getSalaries();
     }
 
     @Override

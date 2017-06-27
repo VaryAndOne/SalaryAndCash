@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
@@ -28,6 +29,7 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
 public  class BaseSupportFragment extends SupportFragment {
     public View mView;
     public TextView app_title;
+    public ImageView remove;
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();

@@ -2,24 +2,22 @@ package com.vary.salaryandcash.modules;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
-import com.vary.salaryandcash.modules.fragment.HomeFragment;
+import com.vary.salaryandcash.modules.itf.MyOnTouchListener;
 import com.vary.salaryandcash.modules.fragment.MainFragment;
-import com.vary.salaryandcash.modules.fragment.MyFragment;
-import com.vary.salaryandcash.modules.fragment.SplashFragment;
-import com.vary.salaryandcash.modules.fragment.VideoPlayerFragment;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import me.yokeyword.fragmentation.SupportActivity;
-import me.yokeyword.fragmentation.SupportFragment;
+
 /**
  * Created by
  *
@@ -137,6 +135,25 @@ public class MainActivity extends SupportActivity {
                 Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private ArrayList<MyOnTouchListener> onTouchListeners = new ArrayList<MyOnTouchListener>(
+            10);
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        for (MyOnTouchListener listener : onTouchListeners) {
+            if(listener != null) {
+                listener.onTouch(ev);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+    public void registerMyOnTouchListener(MyOnTouchListener myOnTouchListener) {
+        onTouchListeners.add(myOnTouchListener);
+    }
+    public void unregisterMyOnTouchListener(MyOnTouchListener myOnTouchListener) {
+        onTouchListeners.remove(myOnTouchListener) ;
     }
 
 

@@ -1,5 +1,6 @@
 package com.vary.salaryandcash.di.components;
 
+
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.di.scope.PerActivity;
 import com.vary.salaryandcash.modules.MainActivity;

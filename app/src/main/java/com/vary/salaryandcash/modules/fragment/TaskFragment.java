@@ -5,16 +5,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.modules.itf.MyOnTouchListener;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
-import com.vary.salaryandcash.modules.adapter.PersonAdapter;
+import com.vary.salaryandcash.modules.MainActivity;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
@@ -25,7 +27,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
-import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by
@@ -44,6 +45,8 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
     private SalaryAdapter mCakeAdapter;
+
+
 
     @Nullable
     @Override

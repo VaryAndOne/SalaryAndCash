@@ -2,36 +2,28 @@ package com.vary.salaryandcash.modules.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jaeger.ninegridimageview.NineGridImageView;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
-import com.vary.salaryandcash.modules.adapter.PostAdapter;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
-import com.vary.salaryandcash.mvp.model.Post;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
-import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by
@@ -64,7 +56,14 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
         mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState));
+        mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
+            @Override
+            public int getView() {
+                return R.layout.item_group;
+            }
+        };
+
+
         return mView;
     }
 

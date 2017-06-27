@@ -56,7 +56,12 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
         mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState));
+        mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
+            @Override
+            public int getView() {
+                return R.layout.item_task;
+            }
+        };
         return mView;
     }
 

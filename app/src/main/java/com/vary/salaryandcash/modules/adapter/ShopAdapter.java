@@ -29,7 +29,6 @@ import butterknife.Bind;
 
 public class ShopAdapter extends BaseRecyclerAdapter<Salary> {
 
-
     @Override
     public CommonHolder<Salary> setViewHolder(ViewGroup parent) {
         return new CardHolder(parent.getContext(), parent);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.mvp.model.Salary;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
  *
  * on 2017-06-03.
  */
-public class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.Holder> {
+public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.Holder> {
 
     private LayoutInflater mLayoutInflater;
     private List<Salary> mCakeList = new ArrayList<>();
@@ -41,10 +42,11 @@ public class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.Holder> {
         mLayoutInflater = inflater;
     }
 
+    public  abstract int getView();
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.item_group, parent, false);
+        View view = mLayoutInflater.inflate(getView(),parent, false);
         return new Holder(view);
     }
 

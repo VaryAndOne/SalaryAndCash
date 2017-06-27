@@ -11,7 +11,7 @@ import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
-import com.vary.salaryandcash.modules.adapter.FoodAdapter;
+import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
@@ -36,7 +36,6 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 public class LeftFragment extends SupportFragment implements MainView {
 
-    private FoodAdapter foodAdapter;
     private View mView;
     @Inject
     protected SalaryPresenter mPresenter;
@@ -48,7 +47,7 @@ public class LeftFragment extends SupportFragment implements MainView {
         myFragment.setArguments(args);
         return myFragment;
     }
-
+    private SalaryAdapter mCakeAdapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,22 +64,28 @@ public class LeftFragment extends SupportFragment implements MainView {
         return mView;
     }
 
-    private void setupRecyclerView(RecyclerView rv, View layout) {
-        rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
-        foodAdapter = new FoodAdapter();
-        rv.setAdapter(foodAdapter);
-    }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
         mPresenter.getSalaries();
         if (mView != null) {
-            setupRecyclerView((RecyclerView) mView.findViewById(R.id.recyclerview),mView);
+            RecyclerView rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
+            rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
+
+            rv.setHasFixedSize(true);
+            rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+            mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
+                @Override
+                public int getView() {
+                    return R.layout.item_food;
+                }
+            };
+            rv.setAdapter(mCakeAdapter);
         }
     }
 
     @Override
     public void onSalaryLoaded(List<Salary> salaries) {
-        foodAdapter.addItems(salaries);
+        mCakeAdapter.addCakes(salaries);
     }
 
     @Override
@@ -100,6 +105,6 @@ public class LeftFragment extends SupportFragment implements MainView {
 
     @Override
     public void onClearItems() {
-        foodAdapter.clearDatas();
+        mCakeAdapter.clearCakes();
     }
 }

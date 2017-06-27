@@ -14,7 +14,7 @@ import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
-import com.vary.salaryandcash.modules.adapter.ShopAdapter;
+import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.widget.ReDiscreteScrollView;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
@@ -48,7 +48,6 @@ public class RightFragment extends SupportFragment implements DiscreteScrollView
 
     private TextView currentItemPrice;
     private ReDiscreteScrollView itemPicker;
-    private ShopAdapter shopAdapter;
     private View mView;
 
     public static RightFragment getInstance(int position){
@@ -59,6 +58,7 @@ public class RightFragment extends SupportFragment implements DiscreteScrollView
         return myFragment;
     }
 
+    private SalaryAdapter mCakeAdapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,14 +76,20 @@ public class RightFragment extends SupportFragment implements DiscreteScrollView
         itemPicker = (ReDiscreteScrollView) mView.findViewById(R.id.item_picker);
         itemPicker.setOrientation(Orientation.HORIZONTAL);
         itemPicker.setOnItemChangedListener(this);
-        shopAdapter = new ShopAdapter();
+//        shopAdapter = new ShopAdapter();
+        mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
+            @Override
+            public int getView() {
+                return R.layout.item_shop_card;
+            }
+        };
         return mView;
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
         mPresenter.getSalaries();
         if (mView != null) {
-            itemPicker.setAdapter(shopAdapter);
+            itemPicker.setAdapter(mCakeAdapter);
             //       itemPicker.setAdapter(new ShopAdapter(data));
 //        //    itemPicker.setItemTransitionTimeMillis(DiscreteScrollViewOptions.getTransitionTime());
             itemPicker.setItemTransformer(new ScaleTransformer.Builder()
@@ -118,7 +124,7 @@ public class RightFragment extends SupportFragment implements DiscreteScrollView
 
     @Override
     public void onSalaryLoaded(List<Salary> salaries) {
-        shopAdapter.addItems(salaries);
+        mCakeAdapter.addCakes(salaries);
     }
 
     @Override
@@ -138,6 +144,6 @@ public class RightFragment extends SupportFragment implements DiscreteScrollView
 
     @Override
     public void onClearItems() {
-        shopAdapter.clearDatas();
+        mCakeAdapter.clearCakes();
     }
 }

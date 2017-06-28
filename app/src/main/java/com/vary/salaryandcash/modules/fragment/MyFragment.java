@@ -48,6 +48,7 @@ public class MyFragment extends SupportFragment implements MainView {
     @Inject
     protected SalaryPresenter mPresenter;
     private static MainFragment mMainFragment;
+    private  RecyclerView rv;
 
     public static MyFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
@@ -70,18 +71,17 @@ public class MyFragment extends SupportFragment implements MainView {
         if (bundle != null) {
    //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
-
+        rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
 
         final PtrFrameLayout ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_refresh);
         MaterialHeader header = new MaterialHeader(getContext());
         header.setPadding(0, 20, 0, 20);
 //        header.initWithString("Ultra PTR");
-        ptrFrameLayout.setDurationToCloseHeader(1500);
+        ptrFrameLayout.setDurationToCloseHeader(100);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
 
         final boolean[] refresh = {true};
-
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -91,7 +91,7 @@ public class MyFragment extends SupportFragment implements MainView {
                         refresh[0] = verticalOffset>=0?true:false;
                     }
                 });
-                return refresh[0];
+                return refresh[0]&&PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
 
             @Override
@@ -101,17 +101,16 @@ public class MyFragment extends SupportFragment implements MainView {
                     public void run() {
                         ptrFrameLayout.refreshComplete();
                     }
-                }, 1500);
+                }, 100);
             }
         });
-        ;
+
         return mView;
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
         mPresenter.getSalaries();
         if (mView != null) {
-            RecyclerView rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
             rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
             photoAdapter = new PhotoAdapter(this);
             rv.setAdapter(photoAdapter);

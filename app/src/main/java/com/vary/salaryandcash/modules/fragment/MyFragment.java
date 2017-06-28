@@ -2,6 +2,7 @@ package com.vary.salaryandcash.modules.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -22,6 +23,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.MaterialHeader;
+import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import me.yokeyword.fragmentation.SupportFragment;
 /**
  * Created by
@@ -41,8 +47,10 @@ public class MyFragment extends SupportFragment implements MainView {
     private PhotoAdapter photoAdapter;
     @Inject
     protected SalaryPresenter mPresenter;
+    private static MainFragment mMainFragment;
 
-    public static MyFragment getInstance(int position){
+    public static MyFragment getInstance(int position, MainFragment mainFragment){
+        mMainFragment=mainFragment;
         MyFragment myFragment = new MyFragment();
         Bundle args = new Bundle();
         args.putInt("position",position);
@@ -62,19 +70,51 @@ public class MyFragment extends SupportFragment implements MainView {
         if (bundle != null) {
    //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
-        return mView;
-    }
 
-    private void setupRecyclerView(RecyclerView rv, View layout) {
-        rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        photoAdapter = new PhotoAdapter(this);
-        rv.setAdapter(photoAdapter);
+
+        final PtrFrameLayout ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_refresh);
+        MaterialHeader header = new MaterialHeader(getContext());
+        header.setPadding(0, 20, 0, 20);
+//        header.initWithString("Ultra PTR");
+        ptrFrameLayout.setDurationToCloseHeader(1500);
+        ptrFrameLayout.setHeaderView(header);
+        ptrFrameLayout.addPtrUIHandler(header);
+
+        final boolean[] refresh = {true};
+
+        ptrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                mMainFragment.getApp_bar_layout().addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                    @Override
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                        refresh[0] = verticalOffset>=0?true:false;
+                    }
+                });
+                return refresh[0];
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                ptrFrameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ptrFrameLayout.refreshComplete();
+                    }
+                }, 1500);
+            }
+        });
+        ;
+        return mView;
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
         mPresenter.getSalaries();
         if (mView != null) {
-            setupRecyclerView((RecyclerView) mView.findViewById(R.id.recyclerview),mView);
+            RecyclerView rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
+            rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            photoAdapter = new PhotoAdapter(this);
+            rv.setAdapter(photoAdapter);
         }
     }
 

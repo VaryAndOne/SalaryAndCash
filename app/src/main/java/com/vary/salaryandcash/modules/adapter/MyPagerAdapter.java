@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.vary.salaryandcash.modules.fragment.LeftFragment;
+import com.vary.salaryandcash.modules.fragment.MainFragment;
 import com.vary.salaryandcash.modules.fragment.MyFragment;
 import com.vary.salaryandcash.modules.fragment.RightFragment;
 
@@ -27,10 +28,10 @@ public class MyPagerAdapter extends FragmentPagerAdapter{
 
     List<Fragment> fragments = new ArrayList<Fragment>();
 
-    public MyPagerAdapter(FragmentManager fm) {
+    public MyPagerAdapter(FragmentManager fm, MainFragment mainFragment) {
         super(fm);
         fragments.add(RightFragment.getInstance(1));
-        fragments.add(MyFragment.getInstance(2));
+        fragments.add(MyFragment.getInstance(2,mainFragment));
         fragments.add(LeftFragment.getInstance(3));
     }
 

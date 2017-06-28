@@ -3,11 +3,16 @@ package com.vary.salaryandcash.modules.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.modules.adapter.MyPagerAdapter;
@@ -28,6 +33,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 public class MainFragment extends SupportFragment {
     private View view;
     private ViewPager mPager;
+    private AppBarLayout app_bar_layout;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -39,7 +45,7 @@ public class MainFragment extends SupportFragment {
         view = inflater.inflate(R.layout.fragment_main, container, false);
         mPager = (ViewPager) view.findViewById(R.id.pager);
 //        mPager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager()));
-        mPager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
+        mPager.setAdapter(new MyPagerAdapter(getChildFragmentManager(),this));
         view.findViewById(R.id.account).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,10 +58,21 @@ public class MainFragment extends SupportFragment {
                 start(new MediaFragment());
             }
         });
+        app_bar_layout = (AppBarLayout) view.findViewById(R.id.app_bar_layout);
         return view;
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
        mPager.setCurrentItem(1,true);
+    }
+
+    public AppBarLayout getApp_bar_layout() {
+        return app_bar_layout;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }

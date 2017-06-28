@@ -59,8 +59,6 @@ public  class BaseSupportFragment extends SupportFragment {
                     case MotionEvent.ACTION_UP:
                         if (mCurPosX - mPosX > 10
                                 && (Math.abs(mCurPosX - mPosX) > 60)) {
-                            //向下滑動
-                            Toast.makeText(SalaryApplication.appContext, "向下滑動", Toast.LENGTH_SHORT).show();
                             pop();
                         }
                         break;

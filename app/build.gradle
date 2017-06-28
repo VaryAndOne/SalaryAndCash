@@ -105,4 +105,7 @@ dependencies {
 
 //    https://github.com/ChadCSong/ShineButton
     compile 'com.sackcentury:shinebutton:0.1.7'
+
+//    https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
 }

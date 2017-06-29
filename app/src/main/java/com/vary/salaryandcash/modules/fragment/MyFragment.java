@@ -49,6 +49,7 @@ public class MyFragment extends SupportFragment implements MainView {
     protected SalaryPresenter mPresenter;
     private static MainFragment mMainFragment;
     private  RecyclerView rv;
+    private  PtrFrameLayout ptrFrameLayout;
 
     public static MyFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
@@ -73,14 +74,13 @@ public class MyFragment extends SupportFragment implements MainView {
         }
         rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
 
-        final PtrFrameLayout ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_refresh);
+        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_refresh);
         MaterialHeader header = new MaterialHeader(getContext());
         header.setPadding(0, 20, 0, 20);
 //        header.initWithString("Ultra PTR");
-        ptrFrameLayout.setDurationToCloseHeader(100);
+        ptrFrameLayout.setDurationToCloseHeader(1000);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-
         final boolean[] refresh = {true};
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
@@ -100,21 +100,27 @@ public class MyFragment extends SupportFragment implements MainView {
                     @Override
                     public void run() {
                         ptrFrameLayout.refreshComplete();
+                        mPresenter.getSalaries();
                     }
-                }, 100);
+                }, 1000);
             }
         });
-
         return mView;
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getSalaries();
-        if (mView != null) {
-            rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-            photoAdapter = new PhotoAdapter(this);
-            rv.setAdapter(photoAdapter);
-        }
+        photoAdapter = new PhotoAdapter(this);
+        ptrFrameLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mPresenter.getSalaries();
+                ptrFrameLayout.autoRefresh(true);
+                if (mView != null) {
+                    rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                    rv.setAdapter(photoAdapter);
+                }
+            }
+        }, 1000);
     }
 
 

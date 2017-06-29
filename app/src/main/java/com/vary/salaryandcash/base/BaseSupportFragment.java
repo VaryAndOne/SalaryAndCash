@@ -58,7 +58,7 @@ public  class BaseSupportFragment extends SupportFragment {
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mCurPosX - mPosX > 10
-                                && (Math.abs(mCurPosX - mPosX) > 60)) {
+                                && (Math.abs(mCurPosX - mPosX) > 120)) {
                             pop();
                         }
                         break;

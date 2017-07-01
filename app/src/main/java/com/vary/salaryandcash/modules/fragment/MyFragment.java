@@ -3,6 +3,7 @@ package com.vary.salaryandcash.modules.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -27,6 +29,12 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.MaterialHeader;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import me.yokeyword.fragmentation.SupportFragment;
 /**
  * Created by
@@ -100,9 +108,46 @@ public class MyFragment extends SupportFragment implements MainView {
                 ptrFrameLayout.autoRefresh(true);
             }
         },1500);
-        if (mView != null) {
-            rv.setAdapter(photoAdapter);
-        }
+        onCodeClick();
+    }
+
+    public void onCodeClick() {
+        final long count =  4; // 设置60秒
+        Observable.interval(0, 1, TimeUnit.SECONDS)
+                .take(count + 1)
+                .map(new Function<Long, Long>() {
+                    @Override
+                    public Long apply(@NonNull Long aLong) throws Exception {
+                        return count - aLong; // 由于是倒计时，需要将倒计时的数字反过来
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(@NonNull Disposable disposable) throws Exception {
+//                        button.setEnabled(false);
+//                        button.setTextColor(Color.GRAY);
+                    }
+                })
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+                    @Override
+                    public void onNext(Long aLong) {
+//                        button.setText(aLong + "秒后重发");
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                    @Override
+                    public void onComplete() {
+//                        button.setEnabled(true);
+//                        button.setTextColor(Color.RED);
+//                        button.setText("发送验证码");
+                        rv.setAdapter(photoAdapter);
+                    }
+                });
     }
 
     boolean isRefresh = true;

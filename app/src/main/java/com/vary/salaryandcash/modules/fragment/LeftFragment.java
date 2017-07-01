@@ -92,10 +92,9 @@ public class LeftFragment extends SupportFragment implements MainView {
         mPresenter.getSalaries();
         if (mView != null) {
             rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-            linearLayoutManager = new LinearLayoutManager(rv.getContext());
+            linearLayoutManager = new LinearLayoutManager(getActivity());
             rv.setLayoutManager(linearLayoutManager);
             rv.setHasFixedSize(true);
-            rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
                 @Override
                 public int getView() {
@@ -105,17 +104,6 @@ public class LeftFragment extends SupportFragment implements MainView {
             rv.setAdapter(mCakeAdapter);
         }
 
-        rv.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int current_page) {
-                //maintain scroll position
-                int lastFirstVisiblePosition = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                ((LinearLayoutManager) rv.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-                Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
-                Log.d("TAG","底部");
-//                loadMore(jsonSubreddit);
-            }
-        });
     }
 
     boolean isRefresh = false;
@@ -139,10 +127,23 @@ public class LeftFragment extends SupportFragment implements MainView {
                 ptrFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mCakeAdapter.addCakes(salaries);
+                        mCakeAdapter.setDataList(salaries);
                         ptrFrameLayout.refreshComplete();
                     }
                 }, 1500);
+            }
+        });
+
+        rv.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                //maintain scroll position
+                int lastFirstVisiblePosition = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                ((LinearLayoutManager) rv.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
+                Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
+                Log.d("TAG","底部");
+                mCakeAdapter.addCakes(salaries);
+//                loadMore(jsonSubreddit);
             }
         });
     }

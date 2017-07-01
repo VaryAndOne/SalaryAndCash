@@ -11,9 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
@@ -90,6 +87,13 @@ public class LeftFragment extends SupportFragment implements MainView {
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
         mPresenter.getSalaries();
+        ptrFrameLayout.setLoadingMinTime(1500);
+        ptrFrameLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrFrameLayout.autoRefresh(true);
+            }
+        }, 1500);
         if (mView != null) {
             rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
             linearLayoutManager = new LinearLayoutManager(getActivity());

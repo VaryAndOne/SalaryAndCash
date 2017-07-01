@@ -2,6 +2,7 @@ package com.vary.salaryandcash.modules.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
@@ -9,11 +10,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
@@ -31,7 +27,6 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.MaterialHeader;
-import in.srain.cube.views.ptr.header.StoreHouseHeader;
 import me.yokeyword.fragmentation.SupportFragment;
 /**
  * Created by
@@ -76,9 +71,7 @@ public class MyFragment extends SupportFragment implements MainView {
         if (bundle != null) {
    //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
-        mPresenter.getSalaries();
         rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-//
         ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
         MaterialHeader  header = new MaterialHeader(getContext());
         header.setPadding(0, 20, 0, 20);
@@ -89,6 +82,10 @@ public class MyFragment extends SupportFragment implements MainView {
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        mPresenter.getSalaries();
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        rv.setLayoutManager(staggeredGridLayoutManager);
         photoAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
@@ -96,16 +93,19 @@ public class MyFragment extends SupportFragment implements MainView {
                 return R.layout.item_photo;
             }
         };
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-        rv.setLayoutManager(staggeredGridLayoutManager);
+        ptrFrameLayout.setLoadingMinTime(1500);
+        ptrFrameLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrFrameLayout.autoRefresh(true);
+            }
+        },1500);
         if (mView != null) {
             rv.setAdapter(photoAdapter);
         }
     }
 
     boolean isRefresh = false;
-
     @Override
     public void onSalaryLoaded(final List<Salary> salaries) {
         photoAdapter.setDataList(salaries);

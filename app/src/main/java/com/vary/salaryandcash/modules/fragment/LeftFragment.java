@@ -5,9 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -17,6 +19,7 @@ import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
+import com.vary.salaryandcash.modules.itf.EndlessRecyclerOnScrollListener;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
@@ -25,6 +28,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.MaterialHeader;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -45,7 +52,9 @@ public class LeftFragment extends SupportFragment implements MainView {
     @Inject
     protected SalaryPresenter mPresenter;
     private static MainFragment mMainFragment;
-    private  TwinklingRefreshLayout refreshLayout;
+    private  PtrFrameLayout ptrFrameLayout;
+    private  RecyclerView rv;
+    private  LinearLayoutManager linearLayoutManager;
 
     public static LeftFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
@@ -69,22 +78,12 @@ public class LeftFragment extends SupportFragment implements MainView {
         if (bundle != null) {
             //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
-        refreshLayout = (TwinklingRefreshLayout) mView.findViewById(R.id.refresh);
-        ProgressLayout headerView = new ProgressLayout(getActivity());
-        refreshLayout.setHeaderView(headerView);
-        refreshLayout.setOverScrollRefreshShow(false);
-        mMainFragment.getApp_bar_layout().addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset >= 0) {
-                    refreshLayout.setEnableRefresh(true);
-                    refreshLayout.setEnableOverScroll(false);
-                } else {
-                    refreshLayout.setEnableRefresh(false);
-                    refreshLayout.setEnableOverScroll(false);
-                }
-            }
-        });
+        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
+        MaterialHeader header = new MaterialHeader(getContext());
+        header.setPadding(0, 20, 0, 20);
+        ptrFrameLayout.setDurationToCloseHeader(1500);
+        ptrFrameLayout.setHeaderView(header);
+        ptrFrameLayout.addPtrUIHandler(header);
         return mView;
     }
 
@@ -92,8 +91,9 @@ public class LeftFragment extends SupportFragment implements MainView {
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
         mPresenter.getSalaries();
         if (mView != null) {
-            RecyclerView rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-            rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
+            rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
+            linearLayoutManager = new LinearLayoutManager(rv.getContext());
+            rv.setLayoutManager(linearLayoutManager);
             rv.setHasFixedSize(true);
             rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
@@ -104,27 +104,45 @@ public class LeftFragment extends SupportFragment implements MainView {
             };
             rv.setAdapter(mCakeAdapter);
         }
+
+        rv.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                //maintain scroll position
+                int lastFirstVisiblePosition = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                ((LinearLayoutManager) rv.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
+                Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
+                Log.d("TAG","底部");
+//                loadMore(jsonSubreddit);
+            }
+        });
     }
 
+    boolean isRefresh = false;
     @Override
     public void onSalaryLoaded(final List<Salary> salaries) {
         mCakeAdapter.setDataList(salaries);
-        refreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+        ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
-            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
-                new Handler().postDelayed(new Runnable() {
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                mMainFragment.getApp_bar_layout().addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                     @Override
-                    public void run() {
-                        mCakeAdapter.setDataList(salaries);
-                        refreshLayout.finishRefreshing();
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                        isRefresh = verticalOffset >= 0 ? true : false;
                     }
-                }, 2000);
+                });
+                return isRefresh && PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
 
             @Override
-            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
-                mCakeAdapter.addCakes(salaries);
-                refreshLayout.finishLoadmore();
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                ptrFrameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCakeAdapter.addCakes(salaries);
+                        ptrFrameLayout.refreshComplete();
+                    }
+                }, 1500);
             }
         });
     }

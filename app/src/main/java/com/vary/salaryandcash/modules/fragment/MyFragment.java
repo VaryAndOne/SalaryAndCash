@@ -53,8 +53,7 @@ public class MyFragment extends SupportFragment implements MainView {
     protected SalaryPresenter mPresenter;
     private static MainFragment mMainFragment;
     private  RecyclerView rv;
-    private  TwinklingRefreshLayout refreshLayout;
-//    private  PtrFrameLayout ptrFrameLayout;
+    private  PtrFrameLayout ptrFrameLayout;
 
     public static MyFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
@@ -77,23 +76,15 @@ public class MyFragment extends SupportFragment implements MainView {
         if (bundle != null) {
    //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
+        mPresenter.getSalaries();
         rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-        refreshLayout = (TwinklingRefreshLayout) mView.findViewById(R.id.refresh);
-        ProgressLayout headerView = new ProgressLayout(getActivity());
-        refreshLayout.setHeaderView(headerView);
-        refreshLayout.setOverScrollRefreshShow(false);
-        mMainFragment.getApp_bar_layout().addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset >= 0) {
-                    refreshLayout.setEnableRefresh(true);
-                    refreshLayout.setEnableOverScroll(false);
-                } else {
-                    refreshLayout.setEnableRefresh(false);
-                    refreshLayout.setEnableOverScroll(false);
-                }
-            }
-        });
+//
+        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
+        MaterialHeader  header = new MaterialHeader(getContext());
+        header.setPadding(0, 20, 0, 20);
+        ptrFrameLayout.setDurationToCloseHeader(1500);
+        ptrFrameLayout.setHeaderView(header);
+        ptrFrameLayout.addPtrUIHandler(header);
         return mView;
     }
 
@@ -108,42 +99,39 @@ public class MyFragment extends SupportFragment implements MainView {
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 //        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         rv.setLayoutManager(staggeredGridLayoutManager);
-        refreshLayout.startRefresh();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-//                        adapter.loadMoreCard();
-                mPresenter.getSalaries();
-                refreshLayout.finishRefreshing();
-            }
-        }, 2000);
         if (mView != null) {
             rv.setAdapter(photoAdapter);
         }
     }
 
+    boolean isRefresh = false;
 
     @Override
     public void onSalaryLoaded(final List<Salary> salaries) {
         photoAdapter.setDataList(salaries);
-        refreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+        ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
-            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
-                new Handler().postDelayed(new Runnable() {
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                mMainFragment.getApp_bar_layout().addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                    @Override
+                    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                        isRefresh = verticalOffset >= 0 ? true : false;
+                    }
+                });
+                return isRefresh && PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                ptrFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         photoAdapter.setDataList(salaries);
-                        refreshLayout.finishRefreshing();
+                        ptrFrameLayout.refreshComplete();
                     }
-                }, 2000);
-            }
-            @Override
-            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
-                photoAdapter.addCakes(salaries);
-                refreshLayout.finishLoadmore();
+                }, 1500);
             }
         });
-
     }
 
     @Override

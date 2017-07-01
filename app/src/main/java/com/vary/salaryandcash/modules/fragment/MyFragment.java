@@ -105,7 +105,7 @@ public class MyFragment extends SupportFragment implements MainView {
         }
     }
 
-    boolean isRefresh = false;
+    boolean isRefresh = true;
     @Override
     public void onSalaryLoaded(final List<Salary> salaries) {
         photoAdapter.setDataList(salaries);

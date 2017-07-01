@@ -110,7 +110,7 @@ public class LeftFragment extends SupportFragment implements MainView {
 
     }
 
-    boolean isRefresh = false;
+    boolean isRefresh = true;
     @Override
     public void onSalaryLoaded(final List<Salary> salaries) {
         mCakeAdapter.setDataList(salaries);

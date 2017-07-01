@@ -16,7 +16,6 @@ import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
-import com.vary.salaryandcash.modules.adapter.CatchAdapter;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;

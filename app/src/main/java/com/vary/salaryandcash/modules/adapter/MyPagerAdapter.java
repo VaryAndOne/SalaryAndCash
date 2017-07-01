@@ -32,7 +32,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter{
         super(fm);
         fragments.add(RightFragment.getInstance(1));
         fragments.add(MyFragment.getInstance(2,mainFragment));
-        fragments.add(LeftFragment.getInstance(3));
+        fragments.add(LeftFragment.getInstance(3,mainFragment));
     }
 
     @Override

@@ -1,12 +1,17 @@
 package com.vary.salaryandcash.modules.fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
@@ -39,8 +44,11 @@ public class LeftFragment extends SupportFragment implements MainView {
     private View mView;
     @Inject
     protected SalaryPresenter mPresenter;
+    private static MainFragment mMainFragment;
+    private  TwinklingRefreshLayout refreshLayout;
 
-    public static LeftFragment getInstance(int position){
+    public static LeftFragment getInstance(int position, MainFragment mainFragment){
+        mMainFragment=mainFragment;
         LeftFragment myFragment = new LeftFragment();
         Bundle args = new Bundle();
         args.putInt("position",position);
@@ -61,6 +69,22 @@ public class LeftFragment extends SupportFragment implements MainView {
         if (bundle != null) {
             //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
+        refreshLayout = (TwinklingRefreshLayout) mView.findViewById(R.id.refresh);
+        ProgressLayout headerView = new ProgressLayout(getActivity());
+        refreshLayout.setHeaderView(headerView);
+        refreshLayout.setOverScrollRefreshShow(false);
+        mMainFragment.getApp_bar_layout().addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset >= 0) {
+                    refreshLayout.setEnableRefresh(true);
+                    refreshLayout.setEnableOverScroll(false);
+                } else {
+                    refreshLayout.setEnableRefresh(false);
+                    refreshLayout.setEnableOverScroll(false);
+                }
+            }
+        });
         return mView;
     }
 
@@ -70,7 +94,6 @@ public class LeftFragment extends SupportFragment implements MainView {
         if (mView != null) {
             RecyclerView rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
             rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
-
             rv.setHasFixedSize(true);
             rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
             mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
@@ -84,8 +107,26 @@ public class LeftFragment extends SupportFragment implements MainView {
     }
 
     @Override
-    public void onSalaryLoaded(List<Salary> salaries) {
-        mCakeAdapter.addCakes(salaries);
+    public void onSalaryLoaded(final List<Salary> salaries) {
+        mCakeAdapter.setDataList(salaries);
+        refreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCakeAdapter.setDataList(salaries);
+                        refreshLayout.finishRefreshing();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+                mCakeAdapter.addCakes(salaries);
+                refreshLayout.finishLoadmore();
+            }
+        });
     }
 
     @Override

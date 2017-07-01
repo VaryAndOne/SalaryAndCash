@@ -2,18 +2,25 @@ package com.vary.salaryandcash.modules.adapter;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.mvp.model.Salary;
+import com.vary.salaryandcash.utilities.ImageUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +28,8 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
 
 /**
  * Created by
@@ -37,6 +46,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
 
     private LayoutInflater mLayoutInflater;
     private List<Salary> mCakeList = new ArrayList<>();
+    public boolean isChangeLayout = false;
 
     public SalaryAdapter(LayoutInflater inflater) {
         mLayoutInflater = inflater;
@@ -58,6 +68,14 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
     @Override
     public int getItemCount() {
         return mCakeList.size();
+    }
+
+    public void setDataList(List<Salary> datas) {
+        mCakeList.clear();
+        if (null != datas) {
+            mCakeList.addAll(datas);
+        }
+        notifyDataSetChanged();
     }
 
     public void addCakes(List<Salary> cakes) {
@@ -90,9 +108,33 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
             mCake = cake;
 //            mCakeTitle.setText(cake.getTitle());
 //            mCakePreviewDescription.setText(cake.getPreviewDescription());
-            Glide.with(mContext).load(cake.getMicroVideo())
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(mCakeIcon);
+            if (isChangeLayout == true){
+                Glide.with(itemView.getContext())
+                        .load(cake.getMicroVideo())
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                            @Override
+                            public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+                                //这个bitmap就是你图片url加载得到的结果
+                                //获取bitmap信息，可赋值给外部变量操作，也可在此时行操作。
+                                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mCakeIcon.getLayoutParams();//获取你要填充图片的布局的layoutParam
+//                            layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext()) / 2 );
+                                layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext())/1.2);
+                                //因为是2列,所以宽度是屏幕的一半,高度是根据bitmap的高/宽*屏幕宽的一半
+                                layoutParams.width =  ImageUtils.getScreenWidth(itemView.getContext()) / 2;//这个是布局的宽度
+                                mCakeIcon.setLayoutParams(layoutParams);//容器的宽高设置好了
+                                bitmap = zoomImg(bitmap, layoutParams.width, layoutParams.height);
+                                // 然后在改变一下bitmap的宽高
+                                mCakeIcon.setImageBitmap(bitmap);
+                            }
+                        });
+            }else{
+                Glide.with(mContext).load(cake.getMicroVideo())
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(mCakeIcon);
+            }
+
+
         }
 
         @Override

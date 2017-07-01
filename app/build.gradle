@@ -108,4 +108,7 @@ dependencies {
 
 //    https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh
     compile 'in.srain.cube:ultra-ptr:1.0.11'
+
+//    https://github.com/lcodecorex/TwinklingRefreshLayout
+    compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
 }

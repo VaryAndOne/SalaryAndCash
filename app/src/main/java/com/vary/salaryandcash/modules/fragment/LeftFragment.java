@@ -1,4 +1,5 @@
 package com.vary.salaryandcash.modules.fragment;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
+import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
@@ -48,15 +50,8 @@ import me.yokeyword.fragmentation.SupportFragment;
  * on 2017-06-03.
  */
 
-public class LeftFragment extends SupportFragment implements MainView {
+public class LeftFragment extends BaseSupportFragmentVertical implements MainView {
 
-    private View mView;
-    @Inject
-    protected SalaryPresenter mPresenter;
-    private static MainFragment mMainFragment;
-    private  PtrFrameLayout ptrFrameLayout;
-    private  RecyclerView rv;
-    private  LinearLayoutManager linearLayoutManager;
 
     public static LeftFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
@@ -66,17 +61,12 @@ public class LeftFragment extends SupportFragment implements MainView {
         myFragment.setArguments(args);
         return myFragment;
     }
-    private SalaryAdapter mCakeAdapter;
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_view_pager, container, false);
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(linearLayoutManager);
         rv.setHasFixedSize(true);
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
@@ -85,12 +75,6 @@ public class LeftFragment extends SupportFragment implements MainView {
                 return R.layout.item_food;
             }
         };
-        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
-        MaterialHeader header = new MaterialHeader(getContext());
-        header.setPadding(0, 20, 0, 20);
-        ptrFrameLayout.setDurationToCloseHeader(1500);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -98,11 +82,11 @@ public class LeftFragment extends SupportFragment implements MainView {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                         isRefresh = verticalOffset >= 0 ? true : false;
+                        bus.post(""+verticalOffset);
                     }
                 });
                 return isRefresh && PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
-
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 mPresenter.getSalaries();
@@ -119,22 +103,17 @@ public class LeftFragment extends SupportFragment implements MainView {
                         //maintain scroll position
                         int lastFirstVisiblePosition = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
                         ((LinearLayoutManager) rv.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
-                        Log.d("TAG","底部");
+//                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
+//                        Log.d("TAG","底部");
                         mCakeAdapter.addCakes(mSalaries);
 //                loadMore(jsonSubreddit);
                     }
                 });
             }
         });
-        return mView;
-    }
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         ptrFrameLayout.autoRefresh(true);
         rv.setAdapter(mCakeAdapter);
     }
-    boolean isRefresh = false;
-    List<Salary> mSalaries;
     @Override
     public void onSalaryLoaded(final List<Salary> salaries) {
         mSalaries=salaries ;

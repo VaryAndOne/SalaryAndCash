@@ -1,5 +1,6 @@
 package com.vary.salaryandcash.modules.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
+import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
@@ -55,17 +57,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * on 2017-06-03.
  */
 
-public class MyFragment extends SupportFragment implements MainView {
-
-    private View mView;
-    private SalaryAdapter photoAdapter;
-    @Inject
-    protected SalaryPresenter mPresenter;
-    private static MainFragment mMainFragment;
-    private  RecyclerView rv;
-    private  PtrFrameLayout ptrFrameLayout;
-    private  StaggeredGridLayoutManager mStaggeredGridLayoutManager;
-
+public class MyFragment extends BaseSupportFragmentVertical implements MainView {
     public static MyFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
         MyFragment myFragment = new MyFragment();
@@ -74,36 +66,20 @@ public class MyFragment extends SupportFragment implements MainView {
         myFragment.setArguments(args);
         return myFragment;
     }
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_view_pager, container, false);
-     //   textView = (TextView) layout.findViewById(R.id.position);
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-   //         textView.setText("The page Selected is "+bundle.getInt("position"));
-        }
-        rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-//        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-        rv.setLayoutManager(mStaggeredGridLayoutManager);
-        photoAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
+        mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
                 isChangeLayout = true;
                 return R.layout.item_photo;
             }
         };
-        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
-        MaterialHeader  header = new MaterialHeader(getContext());
-        header.setPadding(0, 20, 0, 20);
-        ptrFrameLayout.setDurationToCloseHeader(1500);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
+        rv.setLayoutManager(mStaggeredGridLayoutManager);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -111,6 +87,7 @@ public class MyFragment extends SupportFragment implements MainView {
                     @Override
                     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                         isRefresh = verticalOffset >= 0 ? true : false;
+                        bus.post(""+verticalOffset);
                     }
                 });
                 return isRefresh && PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
@@ -122,7 +99,7 @@ public class MyFragment extends SupportFragment implements MainView {
                 ptrFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        photoAdapter.setDataList(mSalaries);
+                        mCakeAdapter.setDataList(mSalaries);
                         ptrFrameLayout.refreshComplete();
                     }
                 }, 1500);
@@ -134,16 +111,12 @@ public class MyFragment extends SupportFragment implements MainView {
                         int firstVisibleItem = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(into)[0];
                         // do something...
 //                        getData(current_page);
-                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
-                        photoAdapter.addCakes(mSalaries);
+//                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
+                        mCakeAdapter.addCakes(mSalaries);
                     }
                 });
             }
         });
-        return mView;
-    }
-
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         ptrFrameLayout.setLoadingMinTime(1500);
         ptrFrameLayout.postDelayed(new Runnable() {
             @Override
@@ -151,15 +124,12 @@ public class MyFragment extends SupportFragment implements MainView {
                 ptrFrameLayout.autoRefresh(true);
             }
         }, 1500);
-        rv.setAdapter(photoAdapter);
+        rv.setAdapter(mCakeAdapter);
     }
 
-    List<Salary> mSalaries;
-    boolean isRefresh = true;
     @Override
     public void onSalaryLoaded(final List<Salary> salaries) {
         mSalaries = salaries;
-
     }
 
     @Override
@@ -179,7 +149,7 @@ public class MyFragment extends SupportFragment implements MainView {
 
     @Override
     public void onClearItems() {
-        photoAdapter.clearCakes();
+        mCakeAdapter.clearCakes();
     }
 
 }

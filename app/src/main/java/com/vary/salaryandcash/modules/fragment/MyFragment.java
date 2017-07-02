@@ -11,14 +11,21 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
+import com.vary.salaryandcash.modules.itf.EndlessRecyclerOnScrollListenerStaggered;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -57,6 +64,7 @@ public class MyFragment extends SupportFragment implements MainView {
     private static MainFragment mMainFragment;
     private  RecyclerView rv;
     private  PtrFrameLayout ptrFrameLayout;
+    private  StaggeredGridLayoutManager mStaggeredGridLayoutManager;
 
     public static MyFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
@@ -80,20 +88,9 @@ public class MyFragment extends SupportFragment implements MainView {
    //         textView.setText("The page Selected is "+bundle.getInt("position"));
         }
         rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
-        MaterialHeader  header = new MaterialHeader(getContext());
-        header.setPadding(0, 20, 0, 20);
-        ptrFrameLayout.setDurationToCloseHeader(1500);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
-        return mView;
-    }
-
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        mPresenter.getSalaries();
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 //        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-        rv.setLayoutManager(staggeredGridLayoutManager);
+        rv.setLayoutManager(mStaggeredGridLayoutManager);
         photoAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
@@ -101,59 +98,12 @@ public class MyFragment extends SupportFragment implements MainView {
                 return R.layout.item_photo;
             }
         };
-        ptrFrameLayout.setLoadingMinTime(1500);
-        ptrFrameLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ptrFrameLayout.autoRefresh(true);
-            }
-        },1500);
-        onCodeClick();
-    }
-
-    public void onCodeClick() {
-        final long count =  4; // 设置60秒
-        Observable.interval(0, 1, TimeUnit.SECONDS)
-                .take(count + 1)
-                .map(new Function<Long, Long>() {
-                    @Override
-                    public Long apply(@NonNull Long aLong) throws Exception {
-                        return count - aLong; // 由于是倒计时，需要将倒计时的数字反过来
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(@NonNull Disposable disposable) throws Exception {
-//                        button.setEnabled(false);
-//                        button.setTextColor(Color.GRAY);
-                    }
-                })
-                .subscribe(new Observer<Long>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-                    @Override
-                    public void onNext(Long aLong) {
-//                        button.setText(aLong + "秒后重发");
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-                    @Override
-                    public void onComplete() {
-//                        button.setEnabled(true);
-//                        button.setTextColor(Color.RED);
-//                        button.setText("发送验证码");
-                        rv.setAdapter(photoAdapter);
-                    }
-                });
-    }
-
-    boolean isRefresh = true;
-    @Override
-    public void onSalaryLoaded(final List<Salary> salaries) {
-        photoAdapter.setDataList(salaries);
+        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
+        MaterialHeader  header = new MaterialHeader(getContext());
+        header.setPadding(0, 20, 0, 20);
+        ptrFrameLayout.setDurationToCloseHeader(1500);
+        ptrFrameLayout.setHeaderView(header);
+        ptrFrameLayout.addPtrUIHandler(header);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -168,15 +118,48 @@ public class MyFragment extends SupportFragment implements MainView {
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.getSalaries();
                 ptrFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        photoAdapter.setDataList(salaries);
+                        photoAdapter.setDataList(mSalaries);
                         ptrFrameLayout.refreshComplete();
                     }
                 }, 1500);
+                rv.setOnScrollListener(new EndlessRecyclerOnScrollListenerStaggered(mStaggeredGridLayoutManager) {
+                    @Override
+                    public void onLoadMore(int current_page) {
+                        int mSpanCount = 2;
+                        int[] into = new int[mSpanCount];
+                        int firstVisibleItem = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(into)[0];
+                        // do something...
+//                        getData(current_page);
+                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
+                        photoAdapter.addCakes(mSalaries);
+                    }
+                });
             }
         });
+        return mView;
+    }
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        ptrFrameLayout.setLoadingMinTime(1500);
+        ptrFrameLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrFrameLayout.autoRefresh(true);
+            }
+        }, 1500);
+        rv.setAdapter(photoAdapter);
+    }
+
+    List<Salary> mSalaries;
+    boolean isRefresh = true;
+    @Override
+    public void onSalaryLoaded(final List<Salary> salaries) {
+        mSalaries = salaries;
+
     }
 
     @Override
@@ -198,4 +181,5 @@ public class MyFragment extends SupportFragment implements MainView {
     public void onClearItems() {
         photoAdapter.clearCakes();
     }
+
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -122,6 +123,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
                                 layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext())/1.2);
                                 //因为是2列,所以宽度是屏幕的一半,高度是根据bitmap的高/宽*屏幕宽的一半
                                 layoutParams.width =  ImageUtils.getScreenWidth(itemView.getContext()) / 2;//这个是布局的宽度
+                                Toast.makeText(mContext, "layoutParams.height"+layoutParams.height, Toast.LENGTH_SHORT).show();
                                 mCakeIcon.setLayoutParams(layoutParams);//容器的宽高设置好了
                                 bitmap = zoomImg(bitmap, layoutParams.width, layoutParams.height);
                                 // 然后在改变一下bitmap的宽高

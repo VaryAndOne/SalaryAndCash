@@ -21,6 +21,11 @@ import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -70,50 +75,22 @@ public class LeftFragment extends SupportFragment implements MainView {
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        //   textView = (TextView) layout.findViewById(R.id.position);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            //         textView.setText("The page Selected is "+bundle.getInt("position"));
-        }
+        rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        rv.setLayoutManager(linearLayoutManager);
+        rv.setHasFixedSize(true);
+        mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
+            @Override
+            public int getView() {
+                return R.layout.item_food;
+            }
+        };
         ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
         MaterialHeader header = new MaterialHeader(getContext());
         header.setPadding(0, 20, 0, 20);
         ptrFrameLayout.setDurationToCloseHeader(1500);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-        return mView;
-    }
-
-
-    public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getSalaries();
-        ptrFrameLayout.setLoadingMinTime(1500);
-        ptrFrameLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ptrFrameLayout.autoRefresh(true);
-            }
-        }, 1500);
-        if (mView != null) {
-            rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-            linearLayoutManager = new LinearLayoutManager(getActivity());
-            rv.setLayoutManager(linearLayoutManager);
-            rv.setHasFixedSize(true);
-            mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
-                @Override
-                public int getView() {
-                    return R.layout.item_food;
-                }
-            };
-            rv.setAdapter(mCakeAdapter);
-        }
-
-    }
-
-    boolean isRefresh = true;
-    @Override
-    public void onSalaryLoaded(final List<Salary> salaries) {
-        mCakeAdapter.setDataList(salaries);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -128,28 +105,39 @@ public class LeftFragment extends SupportFragment implements MainView {
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.getSalaries();
                 ptrFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mCakeAdapter.setDataList(salaries);
+                        mCakeAdapter.setDataList(mSalaries);
                         ptrFrameLayout.refreshComplete();
                     }
                 }, 1500);
-            }
-        });
-
-        rv.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int current_page) {
-                //maintain scroll position
-                int lastFirstVisiblePosition = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                ((LinearLayoutManager) rv.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-                Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
-                Log.d("TAG","底部");
-                mCakeAdapter.addCakes(salaries);
+                rv.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+                    @Override
+                    public void onLoadMore(int current_page) {
+                        //maintain scroll position
+                        int lastFirstVisiblePosition = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                        ((LinearLayoutManager) rv.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
+                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
+                        Log.d("TAG","底部");
+                        mCakeAdapter.addCakes(mSalaries);
 //                loadMore(jsonSubreddit);
+                    }
+                });
             }
         });
+        return mView;
+    }
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        ptrFrameLayout.autoRefresh(true);
+        rv.setAdapter(mCakeAdapter);
+    }
+    boolean isRefresh = false;
+    List<Salary> mSalaries;
+    @Override
+    public void onSalaryLoaded(final List<Salary> salaries) {
+        mSalaries=salaries ;
     }
 
     @Override
@@ -171,4 +159,5 @@ public class LeftFragment extends SupportFragment implements MainView {
     public void onClearItems() {
         mCakeAdapter.clearCakes();
     }
+
 }

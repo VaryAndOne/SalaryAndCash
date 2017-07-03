@@ -83,7 +83,7 @@ public abstract class BaseSupportFragmentVertical extends SupportFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(String event) {/* Do something */
         mVerticalOffset = Integer.parseInt(event);
-        Log.d("TAG","mVerticalOffset"+mVerticalOffset);
+//        Log.d("TAG","mVerticalOffset"+mVerticalOffset);
         isRefresh = mVerticalOffset >= 0 ? true : false;
     };
 

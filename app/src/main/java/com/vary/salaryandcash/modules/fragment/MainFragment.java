@@ -34,9 +34,6 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class MainFragment extends BaseSupportFragmentVertical {
-//    private View view;
-//    private ViewPager mPager;
-//    private AppBarLayout app_bar_layout;
     @Bind(R.id.pager)
     ViewPager mPager;
     AppBarLayout app_bar_layout;

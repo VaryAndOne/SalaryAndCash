@@ -53,7 +53,11 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
     private static RightFragment myFragment ;
     public static synchronized RightFragment getInstance(int position){
         if (myFragment == null){
-            myFragment = new RightFragment();
+            synchronized (RightFragment.class){
+                if (myFragment == null){
+                    myFragment = new RightFragment();
+                }
+            }
         }
         Bundle args = new Bundle();
         args.putInt("position",position);

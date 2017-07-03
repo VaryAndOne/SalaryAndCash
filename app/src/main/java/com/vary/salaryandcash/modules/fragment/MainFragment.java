@@ -37,8 +37,12 @@ public class MainFragment extends SupportFragment {
     private static MainFragment mMainFragment;
 
     public static synchronized MainFragment newInstance() {
-        if (mMainFragment == null) {
-            mMainFragment = new MainFragment();
+        if (mMainFragment == null){
+            synchronized (MainFragment.class){
+                if (mMainFragment == null){
+                    mMainFragment = new MainFragment();
+                }
+            }
         }
         return mMainFragment;
     }
@@ -53,7 +57,8 @@ public class MainFragment extends SupportFragment {
         view.findViewById(R.id.account).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start(new HomeFragment());
+                start(HomeFragment.getInstance());
+
             }
         });
         view.findViewById(R.id.camera).setOnClickListener(new View.OnClickListener() {

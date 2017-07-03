@@ -1,5 +1,6 @@
 package com.vary.salaryandcash.modules.fragment;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,6 +29,17 @@ import me.yokeyword.fragmentation.SupportFragment;
 public class HomeFragment extends BaseSupportFragmentVertical {
     private PersonAdapter foodAdapter;
 
+    public static HomeFragment myFragment;
+    public static synchronized HomeFragment getInstance(){
+        if (myFragment == null){
+            synchronized (LeftFragment.class){
+                if (myFragment == null){
+                    myFragment = new HomeFragment();
+                }
+            }
+        }
+        return myFragment;
+    }
     @Override
     protected void initView() {
         rv = (RecyclerView) mView.findViewById(R.id.recyclerview);

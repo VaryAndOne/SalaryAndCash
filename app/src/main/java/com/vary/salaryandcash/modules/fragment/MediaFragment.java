@@ -120,7 +120,7 @@ public class MediaFragment extends SupportFragment implements SurfaceHolder.Call
                         mRecorder.setAudioChannels(1);
                         mRecorder.setVideoSize(640, 480);
                         mRecorder.setVideoFrameRate(30);
-                        mRecorder.setVideoEncodingBitRate(512 * 1024);
+                        mRecorder.setVideoEncodingBitRate(1024 * 1024);
                         mRecorder.setOrientationHint(90);
                         //设置记录会话的最大持续时间（毫秒）
                         mRecorder.setMaxDuration(30 * 1000);

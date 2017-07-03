@@ -64,7 +64,11 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
     public static synchronized MyFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
         if (myFragment == null){
-            myFragment = new MyFragment();
+            synchronized (MyFragment.class){
+                if (myFragment == null){
+                    myFragment = new MyFragment();
+                }
+            }
         }
         Bundle args = new Bundle();
         args.putInt("position",position);

@@ -56,7 +56,11 @@ public class LeftFragment extends BaseSupportFragmentVertical implements MainVie
     public static synchronized LeftFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
         if (myFragment == null){
-            myFragment = new LeftFragment();
+            synchronized (LeftFragment.class){
+                if (myFragment == null){
+                    myFragment = new LeftFragment();
+                }
+            }
         }
         Bundle args = new Bundle();
         args.putInt("position",position);

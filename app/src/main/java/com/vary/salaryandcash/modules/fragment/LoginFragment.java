@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
@@ -24,7 +25,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class LoginFragment extends BaseSupportFragmentVertical {
-
+    EditText userName,password;
     @Override
     public int getBaseView() {
         return R.layout.fragment_login;
@@ -38,5 +39,8 @@ public class LoginFragment extends BaseSupportFragmentVertical {
                 pop();
             }
         });
+        userName = (EditText) mView.findViewById(R.id.ec_edit_username);
+        password = (EditText) mView.findViewById(R.id.ec_edit_password);
+
     }
 }

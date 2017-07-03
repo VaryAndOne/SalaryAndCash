@@ -2,6 +2,7 @@ package com.vary.salaryandcash.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.MaterialHeader;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -74,6 +76,7 @@ public abstract class BaseSupportFragmentVertical extends SupportFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(getBaseView(), container, false);
         bus.register(this);
+        ButterKnife.bind(this,mView);
         initView();
         return mView;
     }
@@ -91,6 +94,7 @@ public abstract class BaseSupportFragmentVertical extends SupportFragment {
     public void onSupportInvisible() {
         super.onSupportInvisible();
         bus.unregister(this);
+        ButterKnife.unbind(this);
     }
 
     public abstract int getBaseView();

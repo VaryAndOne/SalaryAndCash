@@ -1,15 +1,21 @@
 package com.vary.salaryandcash.modules.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -25,12 +31,14 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class LoginFragment extends BaseSupportFragmentVertical {
-    EditText userName,password;
+    @Bind(R.id.ec_edit_username)
+    EditText userName;
+    @Bind(R.id.ec_edit_password)
+    EditText password;
     @Override
     public int getBaseView() {
         return R.layout.fragment_login;
     }
-
     @Override
     protected void initView() {
         mView.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {
@@ -39,8 +47,28 @@ public class LoginFragment extends BaseSupportFragmentVertical {
                 pop();
             }
         });
-        userName = (EditText) mView.findViewById(R.id.ec_edit_username);
-        password = (EditText) mView.findViewById(R.id.ec_edit_password);
+        userName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    InputMethodManager im = (InputMethodManager) SalaryApplication.appContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    InputMethodManager im = (InputMethodManager) SalaryApplication.appContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            }
+        });
+    }
 
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
     }
 }

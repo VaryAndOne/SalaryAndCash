@@ -34,9 +34,13 @@ public class MainFragment extends SupportFragment {
     private View view;
     private ViewPager mPager;
     private AppBarLayout app_bar_layout;
+    private static MainFragment mMainFragment;
 
-    public static MainFragment newInstance() {
-        return new MainFragment();
+    public static synchronized MainFragment newInstance() {
+        if (mMainFragment == null) {
+            mMainFragment = new MainFragment();
+        }
+        return mMainFragment;
     }
 
     @Nullable

@@ -52,7 +52,7 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
  * on 2017-06-03.
  */
 
-public  class BaseSupportFragmentVertical extends SupportFragment {
+public abstract class BaseSupportFragmentVertical extends SupportFragment {
     public View mView;
     public TextView app_title;
     public ImageView remove;
@@ -72,32 +72,26 @@ public  class BaseSupportFragmentVertical extends SupportFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_view_pager, container, false);
-        rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-        mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
-        MaterialHeader header = new MaterialHeader(getContext());
-        header.setPadding(0, 20, 0, 20);
-        ptrFrameLayout.setDurationToCloseHeader(1500);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
+        mView = inflater.inflate(getBaseView(), container, false);
         bus.register(this);
+        initView();
         return mView;
     }
+
+    protected abstract void initView();
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(String event) {/* Do something */
         mVerticalOffset = Integer.parseInt(event);
-        Toast.makeText(getActivity(), "mVerticalOffset"+mVerticalOffset, Toast.LENGTH_SHORT).show();
         Log.d("TAG","mVerticalOffset"+mVerticalOffset);
         isRefresh = mVerticalOffset >= 0 ? true : false;
     };
-
 
     @Override
     public void onSupportInvisible() {
         super.onSupportInvisible();
         bus.unregister(this);
     }
+
+    public abstract int getBaseView();
 }

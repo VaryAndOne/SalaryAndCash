@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -22,19 +23,20 @@ import me.yokeyword.fragmentation.SupportFragment;
  * on 2017-06-03.
  */
 
-public class LoginFragment extends SupportFragment {
+public class LoginFragment extends BaseSupportFragmentVertical {
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.fragment_login, container, false);
+    public int getBaseView() {
+        return R.layout.fragment_login;
+    }
+
+    @Override
+    protected void initView() {
         mView.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pop();
             }
         });
-        return mView;
     }
-
 }

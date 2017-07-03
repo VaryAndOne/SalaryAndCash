@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,11 +52,12 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 
 public class LeftFragment extends BaseSupportFragmentVertical implements MainView {
-
-
-    public static LeftFragment getInstance(int position, MainFragment mainFragment){
+    public static LeftFragment myFragment;
+    public static synchronized LeftFragment getInstance(int position, MainFragment mainFragment){
         mMainFragment=mainFragment;
-        LeftFragment myFragment = new LeftFragment();
+        if (myFragment == null){
+            myFragment = new LeftFragment();
+        }
         Bundle args = new Bundle();
         args.putInt("position",position);
         myFragment.setArguments(args);
@@ -63,18 +65,62 @@ public class LeftFragment extends BaseSupportFragmentVertical implements MainVie
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        DaggerSalaryComponent.builder()
-                .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
-                .salaryModule(new SalaryModule(this))
-                .build().inject(this);
-        rv.setLayoutManager(linearLayoutManager);
-        rv.setHasFixedSize(true);
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
                 return R.layout.item_food;
             }
         };
+        ptrFrameLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrFrameLayout.autoRefresh(true);
+            }
+        }, 1500);
+        rv.setAdapter(mCakeAdapter);
+    }
+    @Override
+    public void onSalaryLoaded(final List<Salary> salaries) {
+        mSalaries=salaries ;
+    }
+
+    @Override
+    public void onShowDialog(String s) {
+
+    }
+
+    @Override
+    public void onHideDialog() {
+
+    }
+
+    @Override
+    public void onShowToast(String s) {
+
+    }
+
+    @Override
+    public void onClearItems() {
+        mCakeAdapter.clearCakes();
+    }
+
+
+    @Override
+    protected void initView() {
+        rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
+        MaterialHeader header = new MaterialHeader(getContext());
+        header.setPadding(0, 20, 0, 20);
+        ptrFrameLayout.setDurationToCloseHeader(1500);
+        ptrFrameLayout.setHeaderView(header);
+        ptrFrameLayout.addPtrUIHandler(header);
+        DaggerSalaryComponent.builder()
+                .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
+                .salaryModule(new SalaryModule(this))
+                .build().inject(this);
+        rv.setLayoutManager(linearLayoutManager);
+        rv.setHasFixedSize(true);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -111,32 +157,10 @@ public class LeftFragment extends BaseSupportFragmentVertical implements MainVie
                 });
             }
         });
-        ptrFrameLayout.autoRefresh(true);
-        rv.setAdapter(mCakeAdapter);
-    }
-    @Override
-    public void onSalaryLoaded(final List<Salary> salaries) {
-        mSalaries=salaries ;
     }
 
     @Override
-    public void onShowDialog(String s) {
-
+    public int getBaseView() {
+        return R.layout.fragment_view_pager;
     }
-
-    @Override
-    public void onHideDialog() {
-
-    }
-
-    @Override
-    public void onShowToast(String s) {
-
-    }
-
-    @Override
-    public void onClearItems() {
-        mCakeAdapter.clearCakes();
-    }
-
 }

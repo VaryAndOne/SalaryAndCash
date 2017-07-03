@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
+import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
@@ -27,6 +30,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.header.MaterialHeader;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -41,72 +46,64 @@ import me.yokeyword.fragmentation.SupportFragment;
  * on 2017-06-03.
  */
 
-public class RightFragment extends SupportFragment implements DiscreteScrollView.OnItemChangedListener,
+public class RightFragment extends BaseSupportFragmentVertical implements DiscreteScrollView.OnItemChangedListener,
         View.OnClickListener, MainView {
-    @Inject
-    protected SalaryPresenter mPresenter;
-
     private TextView currentItemPrice;
     private ReDiscreteScrollView itemPicker;
-    private View mView;
-
-    public static RightFragment getInstance(int position){
-        RightFragment myFragment = new RightFragment();
+    private static RightFragment myFragment ;
+    public static synchronized RightFragment getInstance(int position){
+        if (myFragment == null){
+            myFragment = new RightFragment();
+        }
         Bundle args = new Bundle();
         args.putInt("position",position);
         myFragment.setArguments(args);
         return myFragment;
     }
 
-    private SalaryAdapter mCakeAdapter;
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.activity_shop, container, false);
+    protected void initView() {
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        //   textView = (TextView) layout.findViewById(R.id.position);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            //         textView.setText("The page Selected is "+bundle.getInt("position"));
-        }
         currentItemPrice = (TextView) mView.findViewById(R.id.item_price);
         itemPicker = (ReDiscreteScrollView) mView.findViewById(R.id.item_picker);
         itemPicker.setOrientation(Orientation.HORIZONTAL);
         itemPicker.setOnItemChangedListener(this);
-//        shopAdapter = new ShopAdapter();
+    }
+
+    @Override
+    public int getBaseView() {
+        return R.layout.activity_shop;
+    }
+
+    @Override
+    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
+
+    }
+
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        mPresenter.getSalaries();
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
                 return R.layout.item_shop_card;
             }
         };
-        return mView;
-    }
-
-    @Override
-    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
-        super.onEnterAnimationEnd(savedInstanceState);
-        if (mView != null) {
-            itemPicker.setAdapter(mCakeAdapter);
-            //       itemPicker.setAdapter(new ShopAdapter(data));
+        itemPicker.setAdapter(mCakeAdapter);
+        //       itemPicker.setAdapter(new ShopAdapter(data));
 //        //    itemPicker.setItemTransitionTimeMillis(DiscreteScrollViewOptions.getTransitionTime());
-            itemPicker.setItemTransformer(new ScaleTransformer.Builder()
-                    .setMinScale(0.8f)
-                    .build());
+        itemPicker.setItemTransformer(new ScaleTransformer.Builder()
+                .setMinScale(0.8f)
+                .build());
 //        onItemChanged(data.get(0));
-        }
-    }
-    public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getSalaries();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             default:
                 showUnsupportedSnackBar();
                 break;

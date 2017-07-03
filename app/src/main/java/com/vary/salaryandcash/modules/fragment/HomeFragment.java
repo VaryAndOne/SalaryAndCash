@@ -1,15 +1,11 @@
 package com.vary.salaryandcash.modules.fragment;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.modules.adapter.PersonAdapter;
 import com.vary.salaryandcash.mvp.model.Person;
 
@@ -29,25 +25,14 @@ import me.yokeyword.fragmentation.SupportFragment;
  * on 2017-06-03.
  */
 
-public class HomeFragment extends SupportFragment {
-    private View view;
+public class HomeFragment extends BaseSupportFragmentVertical {
     private PersonAdapter foodAdapter;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_home, container, false);
-        setupRecyclerView((RecyclerView) view.findViewById(R.id.recyclerview));
-        view.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop();
-            }
-        });
-        return view;
-    }
-    private void setupRecyclerView(RecyclerView rv) {
-        rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
+    protected void initView() {
+        rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        rv.setLayoutManager(linearLayoutManager);
         foodAdapter = new PersonAdapter(this);
         View view = View.inflate(getActivity(), R.layout.item_head, null);
         foodAdapter.setHeadHolder(view);
@@ -59,6 +44,17 @@ public class HomeFragment extends SupportFragment {
                 start(new LoginFragment());
             }
         });
+        mView.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
+    }
+
+    @Override
+    public int getBaseView() {
+        return R.layout.fragment_home;
     }
 
     void refreshCard() {

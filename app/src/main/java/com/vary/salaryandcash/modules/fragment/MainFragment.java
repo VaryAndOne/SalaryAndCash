@@ -11,12 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.modules.adapter.MyPagerAdapter;
 
+import butterknife.Bind;
 import me.yokeyword.fragmentation.SupportFragment;
 /**
  * Created by
@@ -30,10 +33,13 @@ import me.yokeyword.fragmentation.SupportFragment;
  * on 2017-06-03.
  */
 
-public class MainFragment extends SupportFragment {
-    private View view;
-    private ViewPager mPager;
-    private AppBarLayout app_bar_layout;
+public class MainFragment extends BaseSupportFragmentVertical {
+//    private View view;
+//    private ViewPager mPager;
+//    private AppBarLayout app_bar_layout;
+    @Bind(R.id.pager)
+    ViewPager mPager;
+    AppBarLayout app_bar_layout;
     private static MainFragment mMainFragment;
 
     public static synchronized MainFragment newInstance() {
@@ -47,28 +53,28 @@ public class MainFragment extends SupportFragment {
         return mMainFragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_main, container, false);
-        mPager = (ViewPager) view.findViewById(R.id.pager);
-//        mPager.setAdapter(new MyPagerAdapter(getActivity().getSupportFragmentManager()));
+    protected void initView() {
         mPager.setAdapter(new MyPagerAdapter(getChildFragmentManager(),this));
-        view.findViewById(R.id.account).setOnClickListener(new View.OnClickListener() {
+        mView.findViewById(R.id.account).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 start(HomeFragment.getInstance());
 
             }
         });
-        view.findViewById(R.id.camera).setOnClickListener(new View.OnClickListener() {
+        mView.findViewById(R.id.camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 start(new MediaFragment());
             }
         });
-        app_bar_layout = (AppBarLayout) view.findViewById(R.id.app_bar_layout);
-        return view;
+        app_bar_layout = (AppBarLayout) mView.findViewById(R.id.app_bar_layout);
+    }
+
+    @Override
+    public int getBaseView() {
+        return R.layout.fragment_main;
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
@@ -79,9 +85,5 @@ public class MainFragment extends SupportFragment {
         return app_bar_layout;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-    }
 }

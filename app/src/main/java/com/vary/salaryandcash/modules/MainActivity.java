@@ -3,6 +3,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewStub;

@@ -3,7 +3,11 @@ package com.vary.salaryandcash.modules.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +51,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
     private LayoutInflater mLayoutInflater;
     private List<Salary> mCakeList = new ArrayList<>();
     public boolean isChangeLayout = false;
+    public boolean isChangeText= false;
 
     public SalaryAdapter(LayoutInflater layoutInflater) {
         mLayoutInflater = layoutInflater;
@@ -93,10 +98,9 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
         @Bind(R.id.iv_icon) protected ImageView mCakeIcon;
         @Bind(R.id.tv_info) protected TextView  tv_info;
 //        @Bind(R.id.textview_preview_description) protected TextView mCakePreviewDescription;
-
         private Context mContext;
         private Salary mCake;
-
+//        SpannableString msp =new SpannableString("我是你爹\n88");
         public Holder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -106,7 +110,12 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
 
         public void bind(Salary cake) {
             mCake = cake;
-            tv_info.setText("我是你爹\n88");
+            if (isChangeText){
+                tv_info.setText("我是你爹\n88");
+            }else{
+                tv_info.setText("400");
+            }
+
 //            mCakePreviewDescription.setText(cake.getPreviewDescription());
             if (isChangeLayout == true){
                 Glide.with(itemView.getContext())

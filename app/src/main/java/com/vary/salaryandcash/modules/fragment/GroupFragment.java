@@ -62,6 +62,7 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
+                mCakeAdapter.isChangeText=true;
                 return R.layout.item_group;
             }
         };

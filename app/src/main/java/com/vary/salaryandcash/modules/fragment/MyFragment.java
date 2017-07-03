@@ -90,7 +90,7 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
             public void run() {
                 ptrFrameLayout.autoRefresh(true);
             }
-        }, 1500);
+        }, 50);
         rv.setAdapter(mCakeAdapter);
     }
 

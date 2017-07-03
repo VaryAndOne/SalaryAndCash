@@ -80,7 +80,7 @@ public class LeftFragment extends BaseSupportFragmentVertical implements MainVie
             public void run() {
                 ptrFrameLayout.autoRefresh(true);
             }
-        }, 1500);
+        }, 50);
         rv.setAdapter(mCakeAdapter);
     }
     @Override

@@ -3,13 +3,8 @@ package com.vary.salaryandcash.modules.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
@@ -20,19 +15,12 @@ import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.widget.ReDiscreteScrollView;
 import com.vary.salaryandcash.mvp.model.Salary;
-import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.Orientation;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import java.util.List;
-
-import javax.inject.Inject;
-
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.header.MaterialHeader;
-import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by
@@ -79,7 +67,7 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
 
     @Override
     public int getBaseView() {
-        return R.layout.activity_shop;
+        return R.layout.fragment_shop;
     }
 
     @Override

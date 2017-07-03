@@ -91,7 +91,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
     public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_icon) protected ImageView mCakeIcon;
-//        @Bind(R.id.textview_title) protected TextView mCakeTitle;
+        @Bind(R.id.tv_info) protected TextView  tv_info;
 //        @Bind(R.id.textview_preview_description) protected TextView mCakePreviewDescription;
 
         private Context mContext;
@@ -106,7 +106,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
 
         public void bind(Salary cake) {
             mCake = cake;
-//            mCakeTitle.setText(cake.getTitle());
+            tv_info.setText("我是你爹\n88");
 //            mCakePreviewDescription.setText(cake.getPreviewDescription());
             if (isChangeLayout == true){
                 Glide.with(itemView.getContext())

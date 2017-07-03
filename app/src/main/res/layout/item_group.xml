@@ -11,6 +11,7 @@
         android:layout_marginLeft="25dp"
         android:background="@drawable/ic_person" />
     <TextView
+        android:id="@+id/tv_info"
         android:text="群组名称\nsegment"
         android:layout_width="wrap_content"
         android:layout_marginLeft="25dp"

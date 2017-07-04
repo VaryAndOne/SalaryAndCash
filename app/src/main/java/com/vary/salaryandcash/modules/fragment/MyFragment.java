@@ -21,6 +21,7 @@ import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
+import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.modules.itf.EndlessRecyclerOnScrollListenerStaggered;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
@@ -80,8 +81,15 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
-                isChangeLayout = true;
+//                isChangeLayout = true;
                 return R.layout.item_photo;
+            }
+
+            @Override
+            public MainHolder getHolder() {
+                MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
+                mainHolder.isChangeLayout=true;
+                return mainHolder;
             }
         };
         ptrFrameLayout.setLoadingMinTime(1500);

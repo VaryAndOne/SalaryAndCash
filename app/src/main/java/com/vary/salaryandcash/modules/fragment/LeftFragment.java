@@ -19,6 +19,7 @@ import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
+import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.modules.itf.EndlessRecyclerOnScrollListener;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
@@ -73,6 +74,12 @@ public class LeftFragment extends BaseSupportFragmentVertical implements MainVie
             @Override
             public int getView() {
                 return R.layout.item_food;
+            }
+
+            @Override
+            public MainHolder getHolder() {
+                MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
+                return mainHolder;
             }
         };
         ptrFrameLayout.postDelayed(new Runnable() {

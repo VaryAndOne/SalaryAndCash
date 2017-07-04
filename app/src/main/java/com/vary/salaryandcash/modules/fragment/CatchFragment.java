@@ -17,6 +17,7 @@ import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
+import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
@@ -64,6 +65,12 @@ public class CatchFragment extends BaseSupportFragment implements MainView {
             @Override
             public int getView() {
                 return R.layout.item_food;
+            }
+
+            @Override
+            public MainHolder getHolder() {
+                MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
+                return mainHolder;
             }
         };
         return mView;

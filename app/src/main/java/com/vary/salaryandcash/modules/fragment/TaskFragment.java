@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.modules.itf.MyOnTouchListener;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragment;
@@ -63,6 +64,12 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
             @Override
             public int getView() {
                 return R.layout.item_task;
+            }
+
+            @Override
+            public MainHolder getHolder() {
+                MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
+                return mainHolder;
             }
         };
         return mView;

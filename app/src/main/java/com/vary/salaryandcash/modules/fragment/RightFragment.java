@@ -13,6 +13,7 @@ import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
+import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.modules.widget.ReDiscreteScrollView;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.view.MainView;
@@ -82,6 +83,12 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
             @Override
             public int getView() {
                 return R.layout.item_shop_card;
+            }
+
+            @Override
+            public MainHolder getHolder() {
+                MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
+                return mainHolder;
             }
         };
         itemPicker.setAdapter(mCakeAdapter);

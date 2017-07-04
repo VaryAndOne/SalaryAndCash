@@ -23,6 +23,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
+import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.utilities.ImageUtils;
 
@@ -47,26 +48,27 @@ import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
  *
  * on 2017-06-03.
  */
-public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.Holder> {
-    private LayoutInflater mLayoutInflater;
-    private List<Salary> mCakeList = new ArrayList<>();
-    public boolean isChangeLayout = false;
-    public boolean isChangeText= false;
+public abstract class SalaryAdapter extends RecyclerView.Adapter<MainHolder> {
+    public LayoutInflater mLayoutInflater;
+    public List<Salary> mCakeList = new ArrayList<>();
+    public View mView;
+//    public boolean isChangeLayout = false;
+//    public boolean isChangeText= false;
 
     public SalaryAdapter(LayoutInflater layoutInflater) {
         mLayoutInflater = layoutInflater;
     }
 
-    public  abstract int getView();
+    public abstract int getView();
 
     @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(getView(),parent, false);
-        return new Holder(view);
+    public MainHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mView = mLayoutInflater.inflate(getView(), parent, false);
+        return getHolder();
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
+    public void onBindViewHolder(MainHolder holder, int position) {
         holder.bind(mCakeList.get(position));
     }
 
@@ -93,76 +95,5 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<SalaryAdapter.H
         notifyDataSetChanged();
     }
 
-    public class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @Bind(R.id.iv_icon) protected ImageView mCakeIcon;
-        @Bind(R.id.tv_info) protected TextView  tv_info;
-//        @Bind(R.id.textview_preview_description) protected TextView mCakePreviewDescription;
-        private Context mContext;
-        private Salary mCake;
-//        SpannableString msp =new SpannableString("我是你爹\n88");
-        public Holder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(this);
-            mContext = itemView.getContext();
-            ButterKnife.bind(this, itemView);
-        }
-
-        public void bind(Salary cake) {
-            mCake = cake;
-            if (isChangeText){
-                tv_info.setText("我是你爹\n88");
-            }else{
-                tv_info.setText("400");
-            }
-
-//            mCakePreviewDescription.setText(cake.getPreviewDescription());
-            if (isChangeLayout == true){
-                Glide.with(itemView.getContext())
-                        .load(cake.getMicroVideo())
-                        .asBitmap()
-                        .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                            @Override
-                            public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                                //这个bitmap就是你图片url加载得到的结果
-                                //获取bitmap信息，可赋值给外部变量操作，也可在此时行操作。
-                                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mCakeIcon.getLayoutParams();//获取你要填充图片的布局的layoutParam
-//                            layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext()) / 2 );
-                                layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext())/1.2);
-                                //因为是2列,所以宽度是屏幕的一半,高度是根据bitmap的高/宽*屏幕宽的一半
-                                layoutParams.width =  ImageUtils.getScreenWidth(itemView.getContext()) / 2;//这个是布局的宽度
-//                                Toast.makeText(mContext, "layoutParams.height"+layoutParams.height, Toast.LENGTH_SHORT).show();
-                                mCakeIcon.setLayoutParams(layoutParams);//容器的宽高设置好了
-                                bitmap = zoomImg(bitmap, layoutParams.width, layoutParams.height);
-                                // 然后在改变一下bitmap的宽高
-                                mCakeIcon.setImageBitmap(bitmap);
-                            }
-                        });
-            }else{
-                Glide.with(mContext).load(cake.getMicroVideo())
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .into(mCakeIcon);
-            }
-
-
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (mCakeClickListener != null) {
-                mCakeClickListener.onClick(mCakeIcon, mCake, getAdapterPosition());
-            }
-        }
-    }
-
-    public void setCakeClickListener(OnCakeClickListener listener) {
-        mCakeClickListener = listener;
-    }
-
-    private OnCakeClickListener mCakeClickListener;
-
-    public interface OnCakeClickListener {
-
-        void onClick(View v, Salary cake, int position);
-    }
+    public abstract MainHolder getHolder();
 }

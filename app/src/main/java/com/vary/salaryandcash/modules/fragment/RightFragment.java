@@ -13,6 +13,7 @@ import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
+import com.vary.salaryandcash.modules.holder.GroupHolder;
 import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.modules.widget.ReDiscreteScrollView;
 import com.vary.salaryandcash.mvp.model.Salary;
@@ -86,8 +87,8 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
             }
 
             @Override
-            public MainHolder getHolder() {
-                MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
+            public GroupHolder getHolder() {
+                GroupHolder mainHolder = new GroupHolder(mCakeAdapter.mView);
                 return mainHolder;
             }
         };

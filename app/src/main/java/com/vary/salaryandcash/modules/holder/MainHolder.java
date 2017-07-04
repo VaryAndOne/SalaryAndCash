@@ -36,7 +36,6 @@ public class MainHolder extends BaseHolder<Salary> implements View.OnClickListen
     public boolean isChangeText= false;
     @Bind(R.id.iv_icon) protected ImageView mCakeIcon;
     @Bind(R.id.tv_info) protected TextView tv_info;
-    //        @Bind(R.id.textview_preview_description) protected TextView mCakePreviewDescription;
     private Context mContext;
     private Salary mCake;
     private static MainHolder mMainHolder;
@@ -45,47 +44,36 @@ public class MainHolder extends BaseHolder<Salary> implements View.OnClickListen
         super(itemView);
         itemView.setOnClickListener(this);
         mContext = itemView.getContext();
-//        ButterKnife.bind(this, itemView);
     }
 
     @Override
     public void bindData(Salary cake) {
         mCake = cake;
-        if (isChangeText){
-            tv_info.setText("我是你爹\n88");
-        }else{
-            tv_info.setText(cake.getPreviewDescription()+".00");
-        }
+        tv_info.setText(cake.getPreviewDescription() + ".00");
 
-//            mCakePreviewDescription.setText(cake.getPreviewDescription());
-        if (isChangeLayout == true){
-            Glide.with(itemView.getContext())
-                    .load(cake.getMicroVideo())
-                    .asBitmap()
-                    .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                        @Override
-                        public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                            //这个bitmap就是你图片url加载得到的结果
-                            //获取bitmap信息，可赋值给外部变量操作，也可在此时行操作。
-                            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mCakeIcon.getLayoutParams();//获取你要填充图片的布局的layoutParam
+        Glide.with(itemView.getContext())
+                .load(cake.getMicroVideo())
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+                        //这个bitmap就是你图片url加载得到的结果
+                        //获取bitmap信息，可赋值给外部变量操作，也可在此时行操作。
+                        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mCakeIcon.getLayoutParams();//获取你要填充图片的布局的layoutParam
 //                            layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext()) / 2 );
-                            layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext())/1.2);
-                            //因为是2列,所以宽度是屏幕的一半,高度是根据bitmap的高/宽*屏幕宽的一半
-                            layoutParams.width =  ImageUtils.getScreenWidth(itemView.getContext()) / 2;//这个是布局的宽度
+                        layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext()) / 1.2);
+                        //因为是2列,所以宽度是屏幕的一半,高度是根据bitmap的高/宽*屏幕宽的一半
+                        layoutParams.width = ImageUtils.getScreenWidth(itemView.getContext()) / 2;//这个是布局的宽度
 //                                Toast.makeText(mContext, "layoutParams.height"+layoutParams.height, Toast.LENGTH_SHORT).show();
-                            mCakeIcon.setLayoutParams(layoutParams);//容器的宽高设置好了
-                            bitmap = zoomImg(bitmap, layoutParams.width, layoutParams.height);
-                            // 然后在改变一下bitmap的宽高
-                            mCakeIcon.setImageBitmap(bitmap);
-                        }
-                    });
-        }else{
-            Glide.with(mContext).load(cake.getMicroVideo())
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(mCakeIcon);
-        }
+                        mCakeIcon.setLayoutParams(layoutParams);//容器的宽高设置好了
+                        bitmap = zoomImg(bitmap, layoutParams.width, layoutParams.height);
+                        // 然后在改变一下bitmap的宽高
+                        mCakeIcon.setImageBitmap(bitmap);
+                    }
+                });
 
     }
+
 
     @Override
     public void onClick(View v) {

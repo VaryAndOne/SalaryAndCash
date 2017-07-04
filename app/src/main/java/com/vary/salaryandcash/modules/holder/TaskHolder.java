@@ -35,8 +35,8 @@ public class TaskHolder extends BaseHolder<Salary> implements View.OnClickListen
     @Override
     public void bindData(Salary cake) {
         mCake = cake;
-        tv_info.setText(cake.getPreviewDescription());
-        tv_state.setText(cake.getTitle());
+        tv_info.setText(cake.getTitle()+ ".00");
+        tv_state.setText(cake.getPreviewDescription());
         Glide.with(mContext).load(cake.getMicroVideo())
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);

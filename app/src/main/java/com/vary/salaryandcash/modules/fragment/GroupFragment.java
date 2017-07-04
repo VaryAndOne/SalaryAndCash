@@ -90,7 +90,7 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getGroup();
+        mPresenter.getTask();
     }
 
     @Override

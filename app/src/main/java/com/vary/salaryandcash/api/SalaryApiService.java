@@ -23,7 +23,7 @@ public interface  SalaryApiService {
     @GET("salary.json")
     Observable<SalariesResponse> getSalaries();
 
-    @GET("most.json")
+    @GET("task.json")
     Observable<SalariesResponse> getTask();
 
     @GET("group.json")

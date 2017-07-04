@@ -37,17 +37,17 @@ public class MainHolder extends BaseHolder<Salary> implements View.OnClickListen
     @Bind(R.id.tv_info) protected TextView tv_info;
     private Salary mCake;
     private static MainHolder mMainHolder;
-    //        SpannableString msp =new SpannableString("我是你爹\n88");
+
     public MainHolder(View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
     }
+    //        SpannableString msp =new SpannableString("我是你爹\n88");
 
     @Override
     public void bindData(final Salary cake) {
         mCake = cake;
         tv_info.setText(cake.getPreviewDescription() + ".00");
-
         Glide.with(itemView.getContext())
                 .load(cake.getMicroVideo())
                 .asBitmap()

@@ -10,10 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.base.BaseHolder;
 import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.modules.adapter.PersonAdapter;
+import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.adapter.SettingAdapter;
 import com.vary.salaryandcash.mvp.model.Person;
+import com.vary.salaryandcash.mvp.model.Salary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +49,7 @@ public class SettingFragment extends BaseSupportFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setupRecyclerView((RecyclerView) mView.findViewById(R.id.recyclerview));
-    }
-
-    private void setupRecyclerView(RecyclerView rv) {
+        RecyclerView rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
         foodAdapter = new SettingAdapter();
         rv.setAdapter(foodAdapter);

@@ -27,8 +27,6 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Sala
     public LayoutInflater mLayoutInflater;
     public List<Salary> mCakeList = new ArrayList<>();
     public View mView;
-//    public boolean isChangeLayout = false;
-//    public boolean isChangeText= false;
 
     public SalaryAdapter(LayoutInflater layoutInflater) {
         mLayoutInflater = layoutInflater;

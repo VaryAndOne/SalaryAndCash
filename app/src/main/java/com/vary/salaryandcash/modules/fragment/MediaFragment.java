@@ -44,7 +44,7 @@ public class MediaFragment extends SupportFragment implements SurfaceHolder.Call
 
     private SurfaceView mSurfaceview;
     private TextView mBtnStartStop;
-    private Button mBtnPlay;
+    private TextView mBtnPlay;
     private boolean mStartedFlg = false;//是否正在录像
     private boolean mIsPlay = false;//是否正在播放录像
     private MediaRecorder mRecorder;
@@ -78,7 +78,7 @@ public class MediaFragment extends SupportFragment implements SurfaceHolder.Call
         });
         mSurfaceview = (SurfaceView) mView.findViewById(R.id.surfaceview);
         mBtnStartStop = (TextView) mView.findViewById(R.id.btnStartStop);
-        mBtnPlay = (Button) mView.findViewById(R.id.btnPlayVideo);
+        mBtnPlay = (TextView) mView.findViewById(R.id.btnPlayVideo);
         textView = (TextView)mView.findViewById(R.id.text);
 //        camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
         camera=Camera.open();

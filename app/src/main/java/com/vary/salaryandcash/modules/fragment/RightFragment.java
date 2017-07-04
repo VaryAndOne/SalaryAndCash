@@ -72,12 +72,6 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
         return R.layout.fragment_shop;
     }
 
-    @Override
-    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
-        super.onEnterAnimationEnd(savedInstanceState);
-
-    }
-
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         mPresenter.getSalaries();
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
@@ -93,12 +87,11 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
             }
         };
         itemPicker.setAdapter(mCakeAdapter);
-        //       itemPicker.setAdapter(new ShopAdapter(data));
 //        //    itemPicker.setItemTransitionTimeMillis(DiscreteScrollViewOptions.getTransitionTime());
         itemPicker.setItemTransformer(new ScaleTransformer.Builder()
                 .setMinScale(0.8f)
                 .build());
-//        onItemChanged(data.get(0));
+
     }
 
     @Override
@@ -109,23 +102,29 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
                 break;
         }
     }
-
     private void onItemChanged(Salary item) {
-        currentItemPrice.setText(item.getId());
+        currentItemPrice.setText(item.getPreviewDescription()+ ".00");
     }
 
     @Override
     public void onCurrentItemChanged(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-//        onItemChanged(data.get(position));
+        onItemChanged(mSalaries.get(position));
     }
 
     private void showUnsupportedSnackBar() {
   //      Snackbar.make(itemPicker, R.string.msg_unsupported_op, Snackbar.LENGTH_SHORT).show();
     }
 
+    List<Salary> mSalaries;
     @Override
     public void onSalaryLoaded(List<Salary> salaries) {
-        mCakeAdapter.addCakes(salaries);
+        mSalaries = salaries;
+        mCakeAdapter.addCakes(mSalaries);
+        if (mSalaries.size()>0){
+            currentItemPrice.setVisibility(View.VISIBLE);
+            onItemChanged(mSalaries.get(0));
+        }
+
     }
 
     @Override

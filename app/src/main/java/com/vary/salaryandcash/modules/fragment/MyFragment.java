@@ -88,7 +88,6 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
             @Override
             public MainHolder getHolder() {
                 MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
-                mainHolder.isChangeLayout=true;
                 return mainHolder;
             }
         };
@@ -141,6 +140,7 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
+//        mStaggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         rv.setLayoutManager(mStaggeredGridLayoutManager);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override

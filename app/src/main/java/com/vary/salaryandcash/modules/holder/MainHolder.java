@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -32,22 +33,18 @@ import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
  */
 
 public class MainHolder extends BaseHolder<Salary> implements View.OnClickListener{
-    public boolean isChangeLayout = false;
-    public boolean isChangeText= false;
     @Bind(R.id.iv_icon) protected ImageView mCakeIcon;
     @Bind(R.id.tv_info) protected TextView tv_info;
-    private Context mContext;
     private Salary mCake;
     private static MainHolder mMainHolder;
     //        SpannableString msp =new SpannableString("我是你爹\n88");
     public MainHolder(View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
-        mContext = itemView.getContext();
     }
 
     @Override
-    public void bindData(Salary cake) {
+    public void bindData(final Salary cake) {
         mCake = cake;
         tv_info.setText(cake.getPreviewDescription() + ".00");
 
@@ -61,9 +58,9 @@ public class MainHolder extends BaseHolder<Salary> implements View.OnClickListen
                         //获取bitmap信息，可赋值给外部变量操作，也可在此时行操作。
                         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mCakeIcon.getLayoutParams();//获取你要填充图片的布局的layoutParam
 //                            layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext()) / 2 );
-                        layoutParams.height = (int) (((float) bitmap.getHeight()) / bitmap.getWidth() * ImageUtils.getScreenWidth(itemView.getContext()) / 1.2);
+                        layoutParams.height = Integer.parseInt(cake.getDetailDescription());
                         //因为是2列,所以宽度是屏幕的一半,高度是根据bitmap的高/宽*屏幕宽的一半
-                        layoutParams.width = ImageUtils.getScreenWidth(itemView.getContext()) / 2;//这个是布局的宽度
+                        layoutParams.width = Integer.parseInt(cake.getTitle());//这个是布局的宽度
 //                                Toast.makeText(mContext, "layoutParams.height"+layoutParams.height, Toast.LENGTH_SHORT).show();
                         mCakeIcon.setLayoutParams(layoutParams);//容器的宽高设置好了
                         bitmap = zoomImg(bitmap, layoutParams.width, layoutParams.height);

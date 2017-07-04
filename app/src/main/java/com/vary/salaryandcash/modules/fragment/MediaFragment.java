@@ -15,6 +15,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
@@ -42,7 +43,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 public class MediaFragment extends SupportFragment implements SurfaceHolder.Callback {
 
     private SurfaceView mSurfaceview;
-    private Button mBtnStartStop;
+    private TextView mBtnStartStop;
     private Button mBtnPlay;
     private boolean mStartedFlg = false;//是否正在录像
     private boolean mIsPlay = false;//是否正在播放录像
@@ -76,7 +77,7 @@ public class MediaFragment extends SupportFragment implements SurfaceHolder.Call
             }
         });
         mSurfaceview = (SurfaceView) mView.findViewById(R.id.surfaceview);
-        mBtnStartStop = (Button) mView.findViewById(R.id.btnStartStop);
+        mBtnStartStop = (TextView) mView.findViewById(R.id.btnStartStop);
         mBtnPlay = (Button) mView.findViewById(R.id.btnPlayVideo);
         textView = (TextView)mView.findViewById(R.id.text);
 //        camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);

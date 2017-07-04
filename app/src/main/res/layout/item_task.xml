@@ -29,12 +29,12 @@
                 android:id="@+id/tv_state"
                 android:text="任务执行中..."
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="120dp"
                 android:textStyle="bold"
                 android:textSize="22sp"
                 android:textColor="#62CC59"
                 android:gravity="center"
-                android:layout_weight="1"/>
+                />
             <TextView
                 android:id="@+id/tv_info"
                 android:layout_width="match_parent"

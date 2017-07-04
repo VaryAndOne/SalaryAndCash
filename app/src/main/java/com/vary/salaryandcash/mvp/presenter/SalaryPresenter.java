@@ -81,4 +81,25 @@ public class SalaryPresenter extends BasePresenter<MainView> {
                     }
                 });
     }
+
+    public void getGroup() {
+        getView().onShowDialog("Loading Group....");
+        mApiService.getGroup()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SalariesResponse>() {
+                    @Override
+                    public void accept(SalariesResponse response) throws Exception {
+                        Log.d("TAG", response.getReleaseDate());
+                        List<Salary> salaries = mSalaryMapper.mapCakes(response);
+                        getView().onClearItems();
+                        getView().onSalaryLoaded(salaries);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.w("Error", throwable);
+                    }
+                });
+    }
 }

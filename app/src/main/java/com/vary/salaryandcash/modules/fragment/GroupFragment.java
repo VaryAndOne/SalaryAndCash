@@ -16,6 +16,7 @@ import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
+import com.vary.salaryandcash.modules.holder.GroupHolder;
 import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
@@ -68,9 +69,9 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
             }
 
             @Override
-            public MainHolder getHolder() {
-                MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
-                mainHolder.isChangeText=true;
+            public GroupHolder getHolder() {
+                GroupHolder mainHolder = new GroupHolder(mCakeAdapter.mView);
+//                mainHolder.isChangeText=true;
                 return mainHolder;
             }
         };
@@ -89,7 +90,7 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getSalaries();
+        mPresenter.getGroup();
     }
 
     @Override

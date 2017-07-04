@@ -45,7 +45,7 @@ public class LeftHolder extends BaseHolder<Salary> implements View.OnClickListen
     @Override
     public void bindData(Salary cake) {
         mCake = cake;
-        tv_info.setText("400"+".00");
+        tv_info.setText(cake.getId()+".00");
         Glide.with(mContext).load(cake.getMicroVideo())
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(personHead);

@@ -26,6 +26,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_state"
                 android:text="任务执行中..."
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

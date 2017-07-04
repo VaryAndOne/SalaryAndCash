@@ -54,7 +54,7 @@ public class MainHolder extends BaseHolder<Salary> implements View.OnClickListen
         if (isChangeText){
             tv_info.setText("我是你爹\n88");
         }else{
-            tv_info.setText("400");
+            tv_info.setText(cake.getPreviewDescription());
         }
 
 //            mCakePreviewDescription.setText(cake.getPreviewDescription());

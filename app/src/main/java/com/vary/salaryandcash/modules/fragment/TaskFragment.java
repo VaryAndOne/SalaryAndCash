@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.modules.holder.MainHolder;
+import com.vary.salaryandcash.modules.holder.TaskHolder;
 import com.vary.salaryandcash.modules.itf.MyOnTouchListener;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragment;
@@ -67,8 +68,8 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
             }
 
             @Override
-            public MainHolder getHolder() {
-                MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
+            public TaskHolder getHolder() {
+                TaskHolder mainHolder = new TaskHolder(mCakeAdapter.mView);
                 return mainHolder;
             }
         };
@@ -85,7 +86,7 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getSalaries();
+        mPresenter.getTask();
     }
 
     @Override

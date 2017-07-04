@@ -21,43 +21,35 @@
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
                  />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#CCF6FD"
-                android:orientation="vertical">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/avatar"
-                    android:layout_width="46dp"
-                    android:layout_height="46dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                     />
-
-                <LinearLayout
+              <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:layout_margin="12dp"
+                    android:background="#CCF6FD"
                     android:layout_toRightOf="@+id/avatar"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <!--#A9AAAA-->
-
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_person"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        android:padding="3dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        />
                     <TextView
                         android:id="@+id/tv_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
+                        android:layout_gravity="center_vertical"
                         android:text=" 400.00"
                         android:textColor="#D9AD84"
                         android:gravity="center"
                         android:drawableLeft="@drawable/ic_priority_high_white_24dp"
                         android:textSize="14sp" />
                 </LinearLayout>
-            </RelativeLayout>
         </LinearLayout>
 
 </android.support.v7.widget.CardView>

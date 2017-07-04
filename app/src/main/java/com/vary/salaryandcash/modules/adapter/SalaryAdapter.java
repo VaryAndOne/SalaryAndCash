@@ -1,41 +1,16 @@
 package com.vary.salaryandcash.modules.adapter;
 
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.vary.salaryandcash.R;
-import com.vary.salaryandcash.app.SalaryApplication;
+import com.vary.salaryandcash.base.BaseHolder;
 import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.mvp.model.Salary;
-import com.vary.salaryandcash.utilities.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
 
 /**
  * Created by
@@ -48,7 +23,7 @@ import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
  *
  * on 2017-06-03.
  */
-public abstract class SalaryAdapter extends RecyclerView.Adapter<MainHolder> {
+public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Salary>> {
     public LayoutInflater mLayoutInflater;
     public List<Salary> mCakeList = new ArrayList<>();
     public View mView;
@@ -62,14 +37,14 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<MainHolder> {
     public abstract int getView();
 
     @Override
-    public MainHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseHolder<Salary> onCreateViewHolder(ViewGroup parent, int viewType) {
         mView = mLayoutInflater.inflate(getView(), parent, false);
         return getHolder();
     }
 
     @Override
-    public void onBindViewHolder(MainHolder holder, int position) {
-        holder.bind(mCakeList.get(position));
+    public void onBindViewHolder(BaseHolder<Salary> holder, int position) {
+        holder.bindData(mCakeList.get(position));
     }
 
     @Override
@@ -95,5 +70,5 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<MainHolder> {
         notifyDataSetChanged();
     }
 
-    public abstract MainHolder getHolder();
+    public abstract BaseHolder<Salary> getHolder();
 }

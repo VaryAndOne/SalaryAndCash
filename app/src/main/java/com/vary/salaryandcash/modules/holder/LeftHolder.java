@@ -2,7 +2,6 @@ package com.vary.salaryandcash.modules.holder;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,8 +15,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.base.BaseHolder;
-import com.vary.salaryandcash.modules.fragment.LeftFragment;
-import com.vary.salaryandcash.modules.fragment.MainFragment;
 import com.vary.salaryandcash.modules.itf.OnCakeClickListener;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.utilities.ImageUtils;
@@ -31,17 +28,18 @@ import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
  * Created by Administrator on 2017-07-04.
  */
 
-public class MainHolder extends BaseHolder<Salary> implements View.OnClickListener{
+public class LeftHolder extends BaseHolder<Salary> implements View.OnClickListener{
     public boolean isChangeLayout = false;
     public boolean isChangeText= false;
     @Bind(R.id.iv_icon) protected ImageView mCakeIcon;
+    @Bind(R.id.iv_person) protected ImageView personHead;
     @Bind(R.id.tv_info) protected TextView tv_info;
     //        @Bind(R.id.textview_preview_description) protected TextView mCakePreviewDescription;
     private Context mContext;
     private Salary mCake;
-    private static MainHolder mMainHolder;
+    private static LeftHolder mMainHolder;
     //        SpannableString msp =new SpannableString("我是你爹\n88");
-    public MainHolder(View itemView) {
+    public LeftHolder(View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
         mContext = itemView.getContext();
@@ -56,7 +54,9 @@ public class MainHolder extends BaseHolder<Salary> implements View.OnClickListen
         }else{
             tv_info.setText("400");
         }
-
+        Glide.with(mContext).load(cake.getMicroVideo())
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(personHead);
 //            mCakePreviewDescription.setText(cake.getPreviewDescription());
         if (isChangeLayout == true){
             Glide.with(itemView.getContext())

@@ -19,6 +19,7 @@ import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
+import com.vary.salaryandcash.modules.holder.LeftHolder;
 import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.modules.itf.EndlessRecyclerOnScrollListener;
 import com.vary.salaryandcash.mvp.model.Salary;
@@ -77,8 +78,8 @@ public class LeftFragment extends BaseSupportFragmentVertical implements MainVie
             }
 
             @Override
-            public MainHolder getHolder() {
-                MainHolder mainHolder = new MainHolder(mCakeAdapter.mView);
+            public LeftHolder getHolder() {
+                LeftHolder mainHolder = new LeftHolder(mCakeAdapter.mView);
                 return mainHolder;
             }
         };

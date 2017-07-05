@@ -87,7 +87,7 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getGroup();
+        mPresenter.getGroup(".json");
     }
 
     @Override

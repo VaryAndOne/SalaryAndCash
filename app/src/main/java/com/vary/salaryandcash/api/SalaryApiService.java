@@ -7,6 +7,7 @@ import com.vary.salaryandcash.mvp.model.SalariesResponse;
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * Created by
@@ -26,9 +27,8 @@ public interface  SalaryApiService {
 
     @GET("task.json")
     Observable<SalariesResponse> getTask();
-
-    @GET("group.json")
-    Observable<SalariesResponse> getGroup();
+    @GET("group{id}")
+    Observable<SalariesResponse> getGroup(@Path("id") String id);
 
     @GET("person.json")
     Observable<AccountResponse> getPerson();

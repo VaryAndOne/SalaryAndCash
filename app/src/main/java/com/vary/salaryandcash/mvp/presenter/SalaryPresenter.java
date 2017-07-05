@@ -83,9 +83,9 @@ public class SalaryPresenter extends BasePresenter<MainView> {
                 });
     }
 
-    public void getGroup() {
+    public void getGroup(String string) {
         getView().onShowDialog("Loading Group....");
-        mApiService.getGroup()
+        mApiService.getGroup(string)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<SalariesResponse>() {

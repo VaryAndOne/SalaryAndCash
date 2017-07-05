@@ -16,6 +16,7 @@ import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.holder.GroupHolder;
 import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.modules.widget.ReDiscreteScrollView;
+import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.view.MainView;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
@@ -145,5 +146,10 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
     @Override
     public void onClearItems() {
         mCakeAdapter.clearCakes();
+    }
+
+    @Override
+    public void onAccountLoaded(AccountResponse response) {
+
     }
 }

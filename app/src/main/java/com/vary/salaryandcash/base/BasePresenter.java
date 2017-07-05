@@ -25,4 +25,9 @@ public class BasePresenter<V extends BaseView> {
     protected V getView() {
         return mView;
     }
+
+    @Inject protected V mPersonView;
+    protected V getPersonView() {
+        return mPersonView;
+    }
 }

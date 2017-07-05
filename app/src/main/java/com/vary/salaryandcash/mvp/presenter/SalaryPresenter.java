@@ -5,6 +5,7 @@ import android.util.Log;
 import com.vary.salaryandcash.api.SalaryApiService;
 import com.vary.salaryandcash.base.BasePresenter;
 import com.vary.salaryandcash.mapper.SalaryMapper;
+import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.SalariesResponse;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.view.MainView;
@@ -94,6 +95,25 @@ public class SalaryPresenter extends BasePresenter<MainView> {
                         List<Salary> salaries = mSalaryMapper.mapCakes(response);
                         getView().onClearItems();
                         getView().onSalaryLoaded(salaries);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.w("Error", throwable);
+                    }
+                });
+    }
+
+    public void getPerson() {
+        getView().onShowDialog("Loading Group....");
+        mApiService.getPerson()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<AccountResponse>() {
+                    @Override
+                    public void accept(AccountResponse response) throws Exception {
+                        Log.d("TAG", response.getReleaseDate());
+                        getView().onAccountLoaded(response);
                     }
                 }, new Consumer<Throwable>() {
                     @Override

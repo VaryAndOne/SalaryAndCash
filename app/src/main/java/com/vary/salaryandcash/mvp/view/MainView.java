@@ -1,4 +1,5 @@
 package com.vary.salaryandcash.mvp.view;
+import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.Salary;
 import java.util.List;
 /**
@@ -23,4 +24,6 @@ public interface MainView extends BaseView{
     void onShowToast(String s);
 
     void onClearItems();
+
+    void onAccountLoaded(AccountResponse response);
 }

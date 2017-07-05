@@ -1,6 +1,7 @@
 package com.vary.salaryandcash.api;
 
 
+import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.SalariesResponse;
 
 import io.reactivex.Observable;
@@ -28,6 +29,9 @@ public interface  SalaryApiService {
 
     @GET("group.json")
     Observable<SalariesResponse> getGroup();
+
+    @GET("person.json")
+    Observable<AccountResponse> getPerson();
 
     @GET("salary.json")
     Call<SalariesResponse> getTheSalaries();

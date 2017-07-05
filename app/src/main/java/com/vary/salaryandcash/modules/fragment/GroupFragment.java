@@ -18,6 +18,7 @@ import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.holder.GroupHolder;
 import com.vary.salaryandcash.modules.holder.MainHolder;
+import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
@@ -116,5 +117,10 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
     @Override
     public void onClearItems() {
         mCakeAdapter.clearCakes();
+    }
+
+    @Override
+    public void onAccountLoaded(AccountResponse response) {
+
     }
 }

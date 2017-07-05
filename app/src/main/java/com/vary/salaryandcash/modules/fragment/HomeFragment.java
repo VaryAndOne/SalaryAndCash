@@ -1,14 +1,24 @@
 package com.vary.salaryandcash.modules.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
+import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
+import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.PersonAdapter;
+import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.Person;
+import com.vary.salaryandcash.mvp.model.Salary;
+import com.vary.salaryandcash.mvp.view.MainView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +36,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * on 2017-06-03.
  */
 
-public class HomeFragment extends BaseSupportFragmentVertical {
+public class HomeFragment extends BaseSupportFragmentVertical implements MainView {
     private PersonAdapter foodAdapter;
 
     public static HomeFragment myFragment;
@@ -40,13 +50,20 @@ public class HomeFragment extends BaseSupportFragmentVertical {
         }
         return myFragment;
     }
+    TextView UniqueID;
     @Override
     protected void initView() {
+        DaggerSalaryComponent.builder()
+                .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
+                .salaryModule(new SalaryModule(this))
+                .build().inject(this);
+        mPresenter.getPerson();
         rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(linearLayoutManager);
         foodAdapter = new PersonAdapter(this);
         View view = View.inflate(getActivity(), R.layout.item_head, null);
+        UniqueID = (TextView) view.findViewById(R.id.tv_info);
         foodAdapter.setHeadHolder(view);
         rv.setAdapter(foodAdapter);
         refreshCard();
@@ -62,6 +79,12 @@ public class HomeFragment extends BaseSupportFragmentVertical {
                 pop();
             }
         });
+
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
     }
 
     @Override
@@ -79,5 +102,34 @@ public class HomeFragment extends BaseSupportFragmentVertical {
         persons.add(new Person("意见反馈",R.drawable.ic_announcement_black_24dp));
         persons.add(new Person("帮助",R.drawable.ic_help_outline_black_24dp));
         foodAdapter.setDataList(persons);
+    }
+
+    @Override
+    public void onSalaryLoaded(List<Salary> salaries) {
+
+    }
+
+    @Override
+    public void onShowDialog(String s) {
+
+    }
+
+    @Override
+    public void onHideDialog() {
+
+    }
+
+    @Override
+    public void onShowToast(String s) {
+
+    }
+
+    @Override
+    public void onClearItems() {
+
+    }
+    @Override
+    public void onAccountLoaded(AccountResponse response) {
+        UniqueID.setText(response.getUniqueID());
     }
 }

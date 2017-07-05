@@ -49,8 +49,6 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
     private SalaryAdapter mCakeAdapter;
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

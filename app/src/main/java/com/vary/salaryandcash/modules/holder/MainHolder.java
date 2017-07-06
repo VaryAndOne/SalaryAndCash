@@ -49,7 +49,7 @@ public class MainHolder extends BaseHolder<Salary> implements View.OnClickListen
         tv_info.setText(cake.getPreviewDescription() + ".00");
         Glide.with(itemView.getContext())
                 .load(cake.getMicroVideo())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.shape_nine_pic)
                 .crossFade()
                 .override(Integer.parseInt(cake.getTitle()), Integer.parseInt(cake.getDetailDescription()))
                 .into(mCakeIcon);

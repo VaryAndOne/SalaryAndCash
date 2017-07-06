@@ -62,9 +62,9 @@ public class SalaryPresenter extends BasePresenter<MainView> {
                 });
     }
 
-    public void getTask() {
+    public void getTask(String string) {
         getView().onShowDialog("Loading Task....");
-        mApiService.getTask()
+        mApiService.getTask(string)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<SalariesResponse>() {
@@ -114,6 +114,27 @@ public class SalaryPresenter extends BasePresenter<MainView> {
                     public void accept(AccountResponse response) throws Exception {
                         Log.d("TAG", response.getReleaseDate());
                         getView().onAccountLoaded(response);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.w("Error", throwable);
+                    }
+                });
+    }
+
+    public void getCatch(String string) {
+        getView().onShowDialog("Loading Group....");
+        mApiService.getCatch(string)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SalariesResponse>() {
+                    @Override
+                    public void accept(SalariesResponse response) throws Exception {
+                        Log.d("TAG", response.getReleaseDate());
+                        List<Salary> salaries = mSalaryMapper.mapCakes(response);
+                        getView().onClearItems();
+                        getView().onSalaryLoaded(salaries);
                     }
                 }, new Consumer<Throwable>() {
                     @Override

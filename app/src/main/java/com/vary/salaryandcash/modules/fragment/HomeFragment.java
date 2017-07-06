@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
@@ -128,8 +129,13 @@ public class HomeFragment extends BaseSupportFragmentVertical implements MainVie
     public void onClearItems() {
 
     }
+    public String getPassword;
+    public String getProduct;
     @Override
     public void onAccountLoaded(AccountResponse response) {
         UniqueID.setText(response.getUniqueID());
+        getPassword = response.getPassWord();
+        getProduct = response.getProduct();
+        Toast.makeText(getActivity(), "getPassword"+getPassword, Toast.LENGTH_SHORT).show();
     }
 }

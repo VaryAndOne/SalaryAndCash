@@ -77,13 +77,13 @@ public class PersonAdapter extends BaseRecyclerAdapter<Person> {
                 public void onClick(View view) {
                     switch (getLayoutPosition()){
                         case 1:
-                            homeFragment.start(new TaskFragment());
+                            homeFragment.start(TaskFragment.getInstance(homeFragment.getProduct));
                             break;
                         case 2:
-                            homeFragment.start(new GroupFragment());
+                            homeFragment.start(GroupFragment.getInstance(homeFragment.getPassword));
                             break;
                         case 3:
-                            homeFragment.start(new CatchFragment());
+                            homeFragment.start(CatchFragment.getInstance(homeFragment.getPassword));
                             break;
                         case 4:
                             ToastUtil.show("缓存已清理");

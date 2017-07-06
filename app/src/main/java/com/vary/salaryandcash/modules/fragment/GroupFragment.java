@@ -49,6 +49,21 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
     private SalaryAdapter mCakeAdapter;
 
+    public static GroupFragment myFragment;
+    public static synchronized GroupFragment getInstance(String getPassword){
+        if (myFragment == null){
+            synchronized (LeftFragment.class){
+                if (myFragment == null){
+                    myFragment = new GroupFragment();
+                }
+            }
+        }
+        Bundle args = new Bundle();
+        args.putString("getPassword",getPassword);
+        myFragment.setArguments(args);
+        return myFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,7 +106,8 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getTask();
+        String getPassword = (String) myFragment.getArguments().get("getPassword");
+        mPresenter.getTask(getPassword);
     }
 
     @Override

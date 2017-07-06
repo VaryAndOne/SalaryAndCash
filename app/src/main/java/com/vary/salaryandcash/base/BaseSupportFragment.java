@@ -1,7 +1,11 @@
 package com.vary.salaryandcash.base;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +15,10 @@ import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.modules.MainActivity;
 import com.vary.salaryandcash.modules.itf.MyOnTouchListener;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import butterknife.ButterKnife;
 import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
@@ -31,8 +39,8 @@ public  class BaseSupportFragment extends SupportFragment {
     public View mView;
     public TextView app_title;
     public ImageView remove;
-
     private float mPosX, mPosY, mCurPosX, mCurPosY;
+
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();

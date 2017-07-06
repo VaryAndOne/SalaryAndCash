@@ -25,10 +25,14 @@ public interface  SalaryApiService {
     @GET("salary.json")
     Observable<SalariesResponse> getSalaries();
 
-    @GET("task.json")
-    Observable<SalariesResponse> getTask();
+    @GET("group/{id}")
+    Observable<SalariesResponse> getTask(@Path("id") String id);
+
     @GET("group{id}")
     Observable<SalariesResponse> getGroup(@Path("id") String id);
+
+    @GET("group/{id}")
+    Observable<SalariesResponse> getCatch(@Path("id") String id);
 
     @GET("person.json")
     Observable<AccountResponse> getPerson();

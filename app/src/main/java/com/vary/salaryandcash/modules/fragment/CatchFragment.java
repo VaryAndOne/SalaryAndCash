@@ -48,6 +48,20 @@ public class CatchFragment extends BaseSupportFragment implements MainView {
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
     private SalaryAdapter mCakeAdapter;
 
+    public static CatchFragment myFragment;
+    public static synchronized CatchFragment getInstance(String getPassword){
+        if (myFragment == null){
+            synchronized (LeftFragment.class){
+                if (myFragment == null){
+                    myFragment = new CatchFragment();
+                }
+            }
+        }
+        Bundle args = new Bundle();
+        args.putString("getPassword",getPassword);
+        myFragment.setArguments(args);
+        return myFragment;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,7 +102,8 @@ public class CatchFragment extends BaseSupportFragment implements MainView {
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        mPresenter.getSalaries();
+        String getPassword = (String) myFragment.getArguments().get("getPassword");
+        mPresenter.getCatch(getPassword);
     }
 
     @Override

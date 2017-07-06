@@ -136,6 +136,5 @@ public class HomeFragment extends BaseSupportFragmentVertical implements MainVie
         UniqueID.setText(response.getUniqueID());
         getPassword = response.getPassWord();
         getProduct = response.getProduct();
-        Toast.makeText(getActivity(), "getPassword"+getPassword, Toast.LENGTH_SHORT).show();
     }
 }

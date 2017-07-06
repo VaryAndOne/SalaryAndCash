@@ -34,11 +34,10 @@ public class GroupHolder extends BaseHolder<Salary> implements View.OnClickListe
         mCake = cake;
         tv_info.setText(cake.getPreviewDescription());
         Glide.with(mContext).load(cake.getMicroVideo())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.shape_nine_pic)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);
-
     }
 
     @Override

@@ -36,7 +36,7 @@ public class TaskHolder extends BaseHolder<Salary> implements View.OnClickListen
         tv_info.setText(cake.getTitle()+ ".00");
         tv_state.setText(cake.getPreviewDescription());
         Glide.with(mContext).load(cake.getMicroVideo())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.shape_nine_pic)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);

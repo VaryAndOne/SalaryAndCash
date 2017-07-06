@@ -56,7 +56,6 @@ public class MainHolder extends BaseHolder<Salary> implements View.OnClickListen
 
     }
 
-
     @Override
     public void onClick(View v) {
         if (mCakeClickListener != null) {

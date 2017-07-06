@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.base.BaseSupportFragment;
 
-import me.yokeyword.fragmentation.SupportFragment;
 /**
  * Created by
  *
@@ -23,12 +22,12 @@ import me.yokeyword.fragmentation.SupportFragment;
  * on 2017-06-03.
  */
 
-public class SuggestFragment extends BaseSupportFragment {
+public class PublishFragment extends BaseSupportFragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_publish, container, false);
+        mView = inflater.inflate(R.layout.fragment_web, container, false);
         app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("意见反馈");
         return mView;

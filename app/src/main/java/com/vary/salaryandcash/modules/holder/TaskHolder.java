@@ -19,8 +19,6 @@ import butterknife.Bind;
  */
 
 public class TaskHolder extends BaseHolder<Salary> implements View.OnClickListener{
-    @Bind(R.id.iv_icon) protected ImageView mCakeIcon;
-    @Bind(R.id.tv_info) protected TextView tv_info;
     @Bind(R.id.tv_state) protected TextView tv_state;
     private Context mContext;
     private Salary mCake;
@@ -38,6 +36,8 @@ public class TaskHolder extends BaseHolder<Salary> implements View.OnClickListen
         tv_info.setText(cake.getTitle()+ ".00");
         tv_state.setText(cake.getPreviewDescription());
         Glide.with(mContext).load(cake.getMicroVideo())
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);
 

@@ -43,6 +43,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Sala
     @Override
     public void onBindViewHolder(BaseHolder<Salary> holder, int position) {
         holder.bindData(mCakeList.get(position));
+//        holder.mCakeIcon
     }
 
     @Override

@@ -19,8 +19,6 @@ import butterknife.Bind;
  */
 
 public class GroupHolder extends BaseHolder<Salary> implements View.OnClickListener{
-    @Bind(R.id.iv_icon) protected ImageView mCakeIcon;
-    @Bind(R.id.tv_info) protected TextView tv_info;
     private Context mContext;
     private Salary mCake;
     private static GroupHolder mMainHolder;
@@ -36,6 +34,8 @@ public class GroupHolder extends BaseHolder<Salary> implements View.OnClickListe
         mCake = cake;
         tv_info.setText(cake.getPreviewDescription());
         Glide.with(mContext).load(cake.getMicroVideo())
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);
 

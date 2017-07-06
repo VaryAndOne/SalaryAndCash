@@ -135,6 +135,7 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
     @Override
     protected void initView() {
         rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
+        rv.getItemAnimator().setChangeDuration(0);
         mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
         MaterialHeader header = new MaterialHeader(getContext());

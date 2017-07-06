@@ -29,9 +29,7 @@ import static com.vary.salaryandcash.utilities.ImageUtils.zoomImg;
  */
 
 public class LeftHolder extends BaseHolder<Salary> implements View.OnClickListener{
-    @Bind(R.id.iv_icon) protected ImageView mCakeIcon;
     @Bind(R.id.iv_person) protected ImageView personHead;
-    @Bind(R.id.tv_info) protected TextView tv_info;
     private Context mContext;
     private Salary mCake;
     private static LeftHolder mMainHolder;
@@ -47,9 +45,13 @@ public class LeftHolder extends BaseHolder<Salary> implements View.OnClickListen
         mCake = cake;
         tv_info.setText(cake.getPreviewDescription()+".00");
         Glide.with(mContext).load(cake.getMicroVideo())
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(personHead);
         Glide.with(mContext).load(cake.getMicroVideo())
+                .placeholder(R.mipmap.ic_launcher)
+                .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);
 

@@ -51,10 +51,6 @@ import in.srain.cube.views.ptr.header.MaterialHeader;
  */
 
 public class TaskFragment extends BaseSupportFragment implements MainView {
-    public SalaryAdapter mCakeAdapter;
-    public PtrFrameLayout ptrFrameLayout;
-    public List<Salary> mSalaries;
-    public LinearLayoutManager linearLayoutManager;
     @Inject
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
@@ -78,8 +74,6 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        mCakeList.setHasFixedSize(true);
-        mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
         MaterialHeader header = new MaterialHeader(getContext());
         header.setPadding(0, 20, 0, 20);
@@ -146,10 +140,8 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
                 return mainHolder;
             }
         };
-        if (mView != null) {
 //        mCakeAdapter.setCakeClickListener(mCakeClickListener);
             mCakeList.setAdapter(mCakeAdapter);
-        }
         ptrFrameLayout.setLoadingMinTime(1500);
         ptrFrameLayout.postDelayed(new Runnable() {
             @Override

@@ -2,6 +2,7 @@ package com.vary.salaryandcash.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,15 +17,19 @@ import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.modules.MainActivity;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.itf.MyOnTouchListener;
+import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
@@ -46,6 +51,11 @@ public abstract class BaseSupportFragment extends SupportFragment {
     public TextView app_title;
     public ImageView remove;
     private float mPosX, mPosY, mCurPosX, mCurPosY;
+
+    public PtrFrameLayout ptrFrameLayout;
+    public List<Salary> mSalaries;
+    public LinearLayoutManager linearLayoutManager;
+    public SalaryAdapter mCakeAdapter;
 
     @Nullable
     @Override

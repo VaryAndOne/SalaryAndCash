@@ -25,12 +25,15 @@ import com.vary.salaryandcash.base.BaseSupportFragment;
  */
 
 public class HelpFragment extends BaseSupportFragment {
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_web, container, false);
+    protected void initView() {
         app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("帮助");
-        return mView;
+    }
+
+    @Override
+    public int getBaseView() {
+        return R.layout.fragment_web;
     }
 }

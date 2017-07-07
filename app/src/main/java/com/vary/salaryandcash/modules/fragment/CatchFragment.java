@@ -43,11 +43,10 @@ import butterknife.Bind;
  */
 
 public class CatchFragment extends BaseSupportFragment implements MainView {
+    public SalaryAdapter mCakeAdapter;
     @Inject
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
-    private SalaryAdapter mCakeAdapter;
-
     public static CatchFragment myFragment;
     public static synchronized CatchFragment getInstance(String getPassword){
         if (myFragment == null){
@@ -62,10 +61,8 @@ public class CatchFragment extends BaseSupportFragment implements MainView {
         myFragment.setArguments(args);
         return myFragment;
     }
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_app, container, false);
+    protected void initView() {
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
@@ -74,9 +71,20 @@ public class CatchFragment extends BaseSupportFragment implements MainView {
         app_title.setText("盯紧");
         remove = (ImageView) mView.findViewById(R.id.iv_remove);
         remove.setVisibility(View.VISIBLE);
-        mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+    }
+
+    @Override
+    public int getBaseView() {
+        return R.layout.fragment_app;
+    }
+
+    @Override
+    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
+        String getPassword = (String) myFragment.getArguments().get("getPassword");
+        mPresenter.getCatch(getPassword);
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
@@ -89,21 +97,10 @@ public class CatchFragment extends BaseSupportFragment implements MainView {
                 return mainHolder;
             }
         };
-        return mView;
-    }
-
-    @Override
-    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
-        super.onEnterAnimationEnd(savedInstanceState);
         if (mView != null) {
 //        mCakeAdapter.setCakeClickListener(mCakeClickListener);
             mCakeList.setAdapter(mCakeAdapter);
         }
-    }
-
-    public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        String getPassword = (String) myFragment.getArguments().get("getPassword");
-        mPresenter.getCatch(getPassword);
     }
 
     @Override

@@ -17,10 +17,14 @@ import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.adapter.SettingAdapter;
 import com.vary.salaryandcash.mvp.model.Person;
 import com.vary.salaryandcash.mvp.model.Salary;
+import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import butterknife.Bind;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -37,22 +41,24 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 public class SettingFragment extends BaseSupportFragment {
     private SettingAdapter foodAdapter;
-    @Nullable
+    @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_app, container, false);
+    protected void initView() {
         app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("设置");
-        return mView;
+    }
+
+    @Override
+    public int getBaseView() {
+        return R.layout.fragment_app;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RecyclerView rv = (RecyclerView) mView.findViewById(R.id.recyclerview);
-        rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
+        mCakeList.setLayoutManager(new LinearLayoutManager(getActivity()));
         foodAdapter = new SettingAdapter();
-        rv.setAdapter(foodAdapter);
+        mCakeList.setAdapter(foodAdapter);
         refreshCard();
     }
     void refreshCard() {

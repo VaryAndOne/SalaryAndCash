@@ -44,11 +44,10 @@ import butterknife.Bind;
  */
 
 public class TaskFragment extends BaseSupportFragment implements MainView {
+    public SalaryAdapter mCakeAdapter;
     @Inject
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
-    private SalaryAdapter mCakeAdapter;
-
     public static TaskFragment myFragment;
     public static synchronized TaskFragment getInstance(String getPassword){
         if (myFragment == null){
@@ -63,18 +62,27 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
         myFragment.setArguments(args);
         return myFragment;
     }
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_task, container, false);
+    protected void initView() {
         DaggerSalaryComponent.builder()
                 .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
-        mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+    }
+
+    @Override
+    public int getBaseView() {
+        return R.layout.fragment_task;
+    }
+
+    @Override
+    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
+        String getPassword = (String) myFragment.getArguments().get("getPassword");
+//        mPresenter.getGroup(".json");
+        mPresenter.getGroup(getPassword);
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
@@ -87,22 +95,10 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
                 return mainHolder;
             }
         };
-        return mView;
-    }
-
-    @Override
-    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
-        super.onEnterAnimationEnd(savedInstanceState);
         if (mView != null) {
 //        mCakeAdapter.setCakeClickListener(mCakeClickListener);
             mCakeList.setAdapter(mCakeAdapter);
         }
-    }
-
-    public void onLazyInitView(@Nullable Bundle savedInstanceState){
-        String getPassword = (String) myFragment.getArguments().get("getPassword");
-//        mPresenter.getGroup(".json");
-        mPresenter.getGroup(getPassword);
     }
 
     @Override

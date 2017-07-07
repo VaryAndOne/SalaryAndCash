@@ -2,6 +2,7 @@ package com.vary.salaryandcash.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,11 +14,16 @@ import android.widget.Toast;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.modules.MainActivity;
+import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.itf.MyOnTouchListener;
+import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import javax.inject.Inject;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
@@ -35,11 +41,23 @@ import me.yokeyword.fragmentation.anim.FragmentAnimator;
  * on 2017-06-03.
  */
 
-public  class BaseSupportFragment extends SupportFragment {
+public abstract class BaseSupportFragment extends SupportFragment {
     public View mView;
     public TextView app_title;
     public ImageView remove;
     private float mPosX, mPosY, mCurPosX, mCurPosY;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mView = inflater.inflate(getBaseView(), container, false);
+        ButterKnife.bind(this,mView);
+        initView();
+        return mView;
+    }
+
+    protected abstract void initView();
+    public abstract int getBaseView();
 
     @Override
     public void onSupportVisible() {
@@ -90,4 +108,9 @@ public  class BaseSupportFragment extends SupportFragment {
 //        return super.onCreateFragmentAnimator();
     }
 
+    @Override
+    public void onSupportInvisible() {
+        super.onSupportInvisible();
+        ButterKnife.unbind(this);
+    }
 }

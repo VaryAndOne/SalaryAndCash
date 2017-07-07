@@ -141,6 +141,7 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
             personHeard.setVisibility(View.VISIBLE);
             onItemChanged(mSalaries.get(0));
         }
+        itemPicker.scrollToPosition(1);
 
     }
 

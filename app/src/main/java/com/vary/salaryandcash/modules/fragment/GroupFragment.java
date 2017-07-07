@@ -74,6 +74,7 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
         mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mCakeList.setHasFixedSize(true);
         mCakeList.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
     }
 
     @Override

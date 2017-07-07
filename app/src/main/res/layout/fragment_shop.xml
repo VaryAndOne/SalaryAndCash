@@ -8,44 +8,45 @@
     android:orientation="vertical"
     >
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="75dp"
-         />
+    <!--<Space-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="75dp"-->
+         <!--/>-->
 
     <TextView
         android:id="@+id/item_price"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textColor="#D9AD84"
         android:textStyle="bold"
         android:paddingRight="15dp"
+        android:layout_marginTop="75dp"
         android:paddingLeft="3dp"
         android:visibility="gone"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="90dp"
         android:drawablePadding="5dp"
-        android:gravity="center_vertical"
-        android:maxLines="1"
         android:background="@drawable/shape_pwd_act"
         android:drawableLeft="@drawable/icon_app"
         tools:text="$24.00 USD" />
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="16dp" />
+    <!--<Space-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="16dp" />-->
 
     <com.vary.salaryandcash.modules.widget.ReDiscreteScrollView
         android:id="@+id/item_picker"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_height="280dp"
         android:overScrollMode="never"/>
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="24dp" />
+    <!--<Space-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="24dp" />-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_person"
+        android:layout_marginTop="24dp"
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:visibility="gone"

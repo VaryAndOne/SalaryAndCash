@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
@@ -19,11 +21,14 @@ import com.vary.salaryandcash.modules.widget.ReDiscreteScrollView;
 import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.view.MainView;
+import com.vary.salaryandcash.utilities.ColorUtils;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.Orientation;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by
@@ -41,6 +46,7 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
         View.OnClickListener, MainView {
     private TextView currentItemPrice;
     private ReDiscreteScrollView itemPicker;
+    private CircleImageView personHeard;
     private static RightFragment myFragment ;
     public static synchronized RightFragment getInstance(int position){
         if (myFragment == null){
@@ -63,6 +69,7 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
                 .salaryModule(new SalaryModule(this))
                 .build().inject(this);
         currentItemPrice = (TextView) mView.findViewById(R.id.item_price);
+        personHeard = (CircleImageView) mView.findViewById(R.id.iv_person);
         itemPicker = (ReDiscreteScrollView) mView.findViewById(R.id.item_picker);
         itemPicker.setOrientation(Orientation.HORIZONTAL);
         itemPicker.setOnItemChangedListener(this);
@@ -103,8 +110,16 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
                 break;
         }
     }
+    int customizedColor = ColorUtils.CustomizedColors()[ColorUtils.getInstance().nextInt(ColorUtils.CustomizedColors().length)];
     private void onItemChanged(Salary item) {
         currentItemPrice.setText(item.getPreviewDescription()+ ".00");
+//        personHeard.set(item.getPreviewDescription()+ ".00");
+        Glide.with(getActivity()).load(item.getMicroVideo())
+                .placeholder(customizedColor)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(personHeard);
+
     }
 
     @Override
@@ -123,6 +138,7 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
         mCakeAdapter.addCakes(mSalaries);
         if (mSalaries.size()>0){
             currentItemPrice.setVisibility(View.VISIBLE);
+            personHeard.setVisibility(View.VISIBLE);
             onItemChanged(mSalaries.get(0));
         }
 

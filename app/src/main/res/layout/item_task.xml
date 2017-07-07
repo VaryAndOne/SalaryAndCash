@@ -42,10 +42,12 @@
                 android:layout_height="wrap_content"
                 android:text="400.00"
                 android:textColor="#D9AD84"
-                android:background="#CCF6FD"
+                android:background="#fff"
                 android:gravity="left|center_vertical"
-                android:drawableLeft="@drawable/ic_priority_high_white_24dp"
+                android:drawableLeft="@drawable/icon_app"
                 android:textSize="14sp"
+                android:layout_marginLeft="3dp"
+                android:drawablePadding="5dp"
                 android:drawableRight="@drawable/ic_group_black_24dp"
                 android:paddingRight="10dp"/>
         </LinearLayout>

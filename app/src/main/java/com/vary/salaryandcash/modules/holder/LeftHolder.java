@@ -17,6 +17,7 @@ import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.base.BaseHolder;
 import com.vary.salaryandcash.modules.itf.OnCakeClickListener;
 import com.vary.salaryandcash.mvp.model.Salary;
+import com.vary.salaryandcash.utilities.ColorUtils;
 import com.vary.salaryandcash.utilities.ImageUtils;
 
 import butterknife.Bind;
@@ -44,13 +45,14 @@ public class LeftHolder extends BaseHolder<Salary> implements View.OnClickListen
     public void bindData(Salary cake) {
         mCake = cake;
         tv_info.setText(cake.getPreviewDescription()+".00");
+        int customizedColor = ColorUtils.CustomizedColors()[ColorUtils.getInstance().nextInt(ColorUtils.CustomizedColors().length)];
         Glide.with(mContext).load(cake.getMicroVideo())
                 .placeholder(R.drawable.ic_person)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(personHead);
         Glide.with(mContext).load(cake.getMicroVideo())
-                .placeholder(R.drawable.shape_nine_pic)
+                .placeholder(customizedColor)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);

@@ -79,6 +79,51 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
         itemPicker = (ReDiscreteScrollView) mView.findViewById(R.id.item_picker);
         itemPicker.setOrientation(Orientation.HORIZONTAL);
         itemPicker.setOnItemChangedListener(this);
+
+        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.pull_to_refresh);
+        MaterialHeader header = new MaterialHeader(getContext());
+        header.setPadding(0, 20, 0, 20);
+        ptrFrameLayout.setDurationToCloseHeader(1500);
+        ptrFrameLayout.setHeaderView(header);
+        ptrFrameLayout.addPtrUIHandler(header);
+//        mStaggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        ptrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+//                return  PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+                return  false;
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.getSalaries();
+                ptrFrameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCakeAdapter.setDataList(mSalaries);
+                        if (mSalaries.size()>0){
+                            currentItemPrice.setVisibility(View.VISIBLE);
+                            personHeard.setVisibility(View.VISIBLE);
+                            onItemChanged(mSalaries.get(0));
+                        }
+                        itemPicker.scrollToPosition(1);
+                        ptrFrameLayout.refreshComplete();
+                    }
+                }, 1500);
+//                rv.setOnScrollListener(new EndlessRecyclerOnScrollListenerStaggered(mStaggeredGridLayoutManager) {
+//                    @Override
+//                    public void onLoadMore(int current_page) {
+//                        int mSpanCount = 2;
+//                        int[] into = new int[mSpanCount];
+//                        int firstVisibleItem = mStaggeredGridLayoutManager.findFirstVisibleItemPositions(into)[0];
+//                        // do something...
+////                        getData(current_page);
+////                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
+//                        mCakeAdapter.addCakes(mSalaries);
+//                    }
+//                });
+            }
+        });
     }
 
     @Override
@@ -87,7 +132,7 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
     }
 
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        mPresenter.getSalaries();
+//        mPresenter.getSalaries();
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
@@ -100,6 +145,14 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
                 return mainHolder;
             }
         };
+        ptrFrameLayout.setLoadingMinTime(1500);
+        ptrFrameLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrFrameLayout.autoRefresh(true);
+            }
+        }, 50);
+
         itemPicker.setAdapter(mCakeAdapter);
 //        //    itemPicker.setItemTransitionTimeMillis(DiscreteScrollViewOptions.getTransitionTime());
         itemPicker.setItemTransformer(new ScaleTransformer.Builder()
@@ -137,17 +190,9 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
   //      Snackbar.make(itemPicker, R.string.msg_unsupported_op, Snackbar.LENGTH_SHORT).show();
     }
 
-    List<Salary> mSalaries;
     @Override
     public void onSalaryLoaded(List<Salary> salaries) {
         mSalaries = salaries;
-        mCakeAdapter.addCakes(mSalaries);
-        if (mSalaries.size()>0){
-            currentItemPrice.setVisibility(View.VISIBLE);
-            personHeard.setVisibility(View.VISIBLE);
-            onItemChanged(mSalaries.get(0));
-        }
-        itemPicker.scrollToPosition(1);
 
     }
 

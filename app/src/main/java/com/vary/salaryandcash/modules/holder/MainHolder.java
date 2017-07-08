@@ -3,6 +3,7 @@ package com.vary.salaryandcash.modules.holder;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseHolder;
 import com.vary.salaryandcash.modules.itf.OnCakeClickListener;
 import com.vary.salaryandcash.mvp.model.Salary;
@@ -32,7 +33,7 @@ public class MainHolder extends BaseHolder<Salary> implements View.OnClickListen
                 .load(cake.getMicroVideo())
                 .placeholder(customizedColor)
                 .crossFade()
-                .override(Integer.parseInt(cake.getTitle()), Integer.parseInt(cake.getDetailDescription()))
+                .override(SalaryApplication.getWidth()/2, Integer.parseInt(cake.getDetailDescription()))
                 .into(mCakeIcon);
     }
 

@@ -1,7 +1,9 @@
 package com.vary.salaryandcash.app;
 
 import android.app.Application;
+import android.app.WallpaperManager;
 import android.content.Context;
+import android.view.WindowManager;
 
 import com.vary.salaryandcash.di.components.ApplicationComponent;
 import com.vary.salaryandcash.di.components.DaggerApplicationComponent;
@@ -41,6 +43,12 @@ public class SalaryApplication extends Application {
                 // 显示悬浮球 ; 其他Mode:SHAKE: 摇一摇唤出   NONE：隐藏
                 .stackViewMode(Fragmentation.BUBBLE)
                 .install();
+    }
+
+    public static int getWidth(){
+        WindowManager wm = (WindowManager) appContext.getSystemService(appContext.WINDOW_SERVICE);
+        int width = wm.getDefaultDisplay().getWidth();
+        return width;
     }
 
     public static SalaryApplication getInstance() {

@@ -38,7 +38,6 @@ public class GroupHolder extends BaseHolder<Salary> implements View.OnClickListe
         Glide.with(mContext).load(cake.getMicroVideo())
                 .placeholder(customizedColor)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);
     }
 

@@ -185,7 +185,6 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
         Glide.with(getActivity()).load(item.getMicroVideo())
                 .placeholder(customizedColor)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(personHeard);
 
     }

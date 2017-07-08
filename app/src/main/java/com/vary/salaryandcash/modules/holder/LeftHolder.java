@@ -49,12 +49,10 @@ public class LeftHolder extends BaseHolder<Salary> implements View.OnClickListen
         Glide.with(mContext).load(cake.getMicroVideo())
                 .placeholder(R.drawable.ic_person)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(personHead);
         Glide.with(mContext).load(cake.getMicroVideo())
                 .placeholder(customizedColor)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);
 
     }

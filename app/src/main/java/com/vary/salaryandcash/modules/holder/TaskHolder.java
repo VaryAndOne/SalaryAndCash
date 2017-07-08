@@ -40,7 +40,6 @@ public class TaskHolder extends BaseHolder<Salary> implements View.OnClickListen
         Glide.with(mContext).load(cake.getMicroVideo())
                 .placeholder(customizedColor)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mCakeIcon);
 
     }

@@ -3,6 +3,7 @@ package com.vary.salaryandcash.modules.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.holder.GroupHolder;
 import com.vary.salaryandcash.modules.holder.MainHolder;
+import com.vary.salaryandcash.modules.itf.EndlessRecyclerOnScrollListenerStaggered;
 import com.vary.salaryandcash.modules.widget.ReDiscreteScrollView;
 import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.Salary;
@@ -29,6 +31,10 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import in.srain.cube.views.ptr.header.MaterialHeader;
 
 /**
  * Created by

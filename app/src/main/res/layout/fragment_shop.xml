@@ -1,58 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical"
-    >
-
-    <!--<Space-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="75dp"-->
-         <!--/>-->
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/item_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textColor="#D9AD84"
-        android:textStyle="bold"
-        android:paddingRight="15dp"
-        android:layout_marginTop="75dp"
-        android:paddingLeft="3dp"
-        android:visibility="gone"
         android:layout_marginLeft="90dp"
-        android:drawablePadding="5dp"
+        android:layout_marginTop="55dp"
+        android:gravity="center_vertical"
         android:background="@drawable/shape_pwd_act"
         android:drawableLeft="@drawable/icon_app"
-        tools:text="$24.00 USD" />
-
-    <!--<Space-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="16dp" />-->
-
+        android:drawablePadding="5dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="15dp"
+        android:text="$24.00 USD"
+        android:textColor="#D9AD84"
+        android:textStyle="bold"
+        android:visibility="gone" />
     <com.vary.salaryandcash.modules.widget.ReDiscreteScrollView
         android:id="@+id/item_picker"
         android:layout_width="match_parent"
-        android:layout_marginTop="16dp"
         android:layout_height="280dp"
-        android:overScrollMode="never"/>
+        android:layout_marginTop="16dp"
+        android:overScrollMode="never" />
 
-    <!--<Space-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="24dp" />-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_person"
-        android:layout_marginTop="24dp"
         android:layout_width="46dp"
         android:layout_height="46dp"
-        android:visibility="gone"
-        android:padding="3dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:padding="3dp"
         android:src="@color/purple"
-        />
-
+        android:visibility="gone"/>
 </LinearLayout>

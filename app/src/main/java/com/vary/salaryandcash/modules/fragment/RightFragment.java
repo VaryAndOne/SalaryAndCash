@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -51,6 +52,7 @@ import in.srain.cube.views.ptr.header.MaterialHeader;
 public class RightFragment extends BaseSupportFragmentVertical implements DiscreteScrollView.OnItemChangedListener,
         View.OnClickListener, MainView {
     private TextView currentItemPrice;
+    private ImageView refresh;
     private ReDiscreteScrollView itemPicker;
     private CircleImageView personHeard;
     private static RightFragment myFragment ;
@@ -77,6 +79,7 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
         currentItemPrice = (TextView) mView.findViewById(R.id.item_price);
         personHeard = (CircleImageView) mView.findViewById(R.id.iv_person);
         itemPicker = (ReDiscreteScrollView) mView.findViewById(R.id.item_picker);
+        refresh = (ImageView) mView.findViewById(R.id.iv_refresh);
         itemPicker.setOrientation(Orientation.HORIZONTAL);
         itemPicker.setOnItemChangedListener(this);
 
@@ -122,6 +125,17 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
 //                        mCakeAdapter.addCakes(mSalaries);
 //                    }
 //                });
+            }
+        });
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ptrFrameLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ptrFrameLayout.autoRefresh(true);
+                    }
+                }, 50);
             }
         });
     }

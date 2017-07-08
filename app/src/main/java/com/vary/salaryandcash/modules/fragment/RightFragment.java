@@ -104,11 +104,6 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
                     @Override
                     public void run() {
                         mCakeAdapter.setDataList(mSalaries);
-                        if (mSalaries.size()>0){
-                            currentItemPrice.setVisibility(View.VISIBLE);
-                            personHeard.setVisibility(View.VISIBLE);
-                            onItemChanged(mSalaries.get(0));
-                        }
                         itemPicker.scrollToPosition(1);
                         ptrFrameLayout.refreshComplete();
                     }

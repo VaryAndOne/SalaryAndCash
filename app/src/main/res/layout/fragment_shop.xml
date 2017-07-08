@@ -34,7 +34,7 @@
             android:text="$24.00 USD"
             android:textColor="#D9AD84"
             android:textStyle="bold"
-            android:visibility="gone" />
+             />
 
         <com.vary.salaryandcash.modules.widget.ReDiscreteScrollView
             android:id="@+id/item_picker"
@@ -50,7 +50,7 @@
             android:layout_gravity="center_horizontal"
             android:padding="3dp"
             android:src="@color/purple"
-            android:visibility="visible" />
+             />
 
         <LinearLayout
             android:layout_width="match_parent"

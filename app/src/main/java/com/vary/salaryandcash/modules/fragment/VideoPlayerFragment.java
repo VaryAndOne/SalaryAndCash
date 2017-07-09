@@ -14,6 +14,7 @@ import com.vary.salaryandcash.base.BaseSupportFragment;
 import com.vary.salaryandcash.modules.widget.ViewServer;
 import com.vary.salaryandcash.modules.widget.media.AndroidMediaController;
 import com.vary.salaryandcash.modules.widget.media.IjkVideoView;
+import com.vary.salaryandcash.mvp.model.Salary;
 
 import me.yokeyword.fragmentation.SupportFragment;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
@@ -42,7 +43,7 @@ public class VideoPlayerFragment extends BaseSupportFragment {
             }
         }
 //        Bundle args = new Bundle();
-//        args.putInt("position",position);
+//        args.pu("position",position);
 //        myFragment.setArguments(args);
         return myFragment;
     }

@@ -93,18 +93,6 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
                 return mainHolder;
             }
         };
-
-        mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
-                // 这里的DetailFragment在flow包里
-                // 这里是父Fragment启动,要注意 栈层级
-//                ((SupportFragment) getParentFragment()).start(new VideoPlayerFragment());
-                ((SupportFragment) getParentFragment()).start(VideoPlayerFragment.getInstance());
-                Toast.makeText(getActivity(), "position"+position, Toast.LENGTH_SHORT).show();
-            }
-        });
-
         ptrFrameLayout.setLoadingMinTime(1500);
         ptrFrameLayout.postDelayed(new Runnable() {
             @Override
@@ -182,6 +170,15 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
                     @Override
                     public void run() {
                         mCakeAdapter.setDataList(mSalaries);
+                        mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
+                                // 这里的DetailFragment在flow包里
+                                // 这里是父Fragment启动,要注意 栈层级
+                                ((SupportFragment) getParentFragment()).start(VideoPlayerFragment.getInstance());
+                                Toast.makeText(getActivity(), "position"+position, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         ptrFrameLayout.refreshComplete();
                     }
                 }, 1500);

@@ -31,7 +31,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="3dp"
             android:paddingRight="15dp"
-            android:text="$24.00 USD"
+            android:text="任务"
             android:textColor="#D9AD84"
             android:textStyle="bold"
              />

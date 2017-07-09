@@ -30,12 +30,25 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
  * on 2017-06-03.
  */
 
-public class VideoPlayerFragment extends SupportFragment {
+public class VideoPlayerFragment extends BaseSupportFragment {
     IjkVideoView videoView;
-    @Nullable
+    public static VideoPlayerFragment myFragment;
+    public static synchronized VideoPlayerFragment getInstance(){
+        if (myFragment == null){
+            synchronized (VideoPlayerFragment.class){
+                if (myFragment == null){
+                    myFragment = new VideoPlayerFragment();
+                }
+            }
+        }
+//        Bundle args = new Bundle();
+//        args.putInt("position",position);
+//        myFragment.setArguments(args);
+        return myFragment;
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.activity_videoplayer, container, false);
+    protected void initView() {
         IjkMediaPlayer.loadLibrariesOnce(null);
         IjkMediaPlayer.native_profileBegin("libijkplayer.so");
         videoView = (IjkVideoView) mView.findViewById(R.id.ijkPlayer);
@@ -52,7 +65,11 @@ public class VideoPlayerFragment extends SupportFragment {
 //        String url = cake.getImage();
         videoView.setVideoURI(Uri.parse(url));
         videoView.start();
-        return mView;
+    }
+
+    @Override
+    public int getBaseView() {
+        return R.layout.activity_videoplayer;
     }
 
     @Override

@@ -10,10 +10,12 @@ import android.widget.Toast;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
+import com.vary.salaryandcash.base.BaseHolder;
 import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
 import com.vary.salaryandcash.di.components.DaggerSalaryComponent;
 import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.PersonAdapter;
+import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.Person;
 import com.vary.salaryandcash.mvp.model.Salary;

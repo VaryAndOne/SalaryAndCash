@@ -23,6 +23,7 @@ import com.vary.salaryandcash.di.module.SalaryModule;
 import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.modules.itf.EndlessRecyclerOnScrollListenerStaggered;
+import com.vary.salaryandcash.modules.itf.OnItemClickListener;
 import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
@@ -92,6 +93,17 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
                 return mainHolder;
             }
         };
+
+        mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
+                // 这里的DetailFragment在flow包里
+                // 这里是父Fragment启动,要注意 栈层级
+                ((SupportFragment) getParentFragment()).start(new VideoPlayerFragment());
+                Toast.makeText(getActivity(), "position"+position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         ptrFrameLayout.setLoadingMinTime(1500);
         ptrFrameLayout.postDelayed(new Runnable() {
             @Override

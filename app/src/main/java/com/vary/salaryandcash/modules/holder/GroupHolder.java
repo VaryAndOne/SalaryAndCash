@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.base.BaseHolder;
-import com.vary.salaryandcash.modules.itf.OnCakeClickListener;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.utilities.ColorUtils;
 
@@ -19,20 +18,17 @@ import butterknife.Bind;
  * Created by Administrator on 2017-07-04.
  */
 
-public class GroupHolder extends BaseHolder<Salary> implements View.OnClickListener{
+public class GroupHolder extends BaseHolder<Salary> {
     private Context mContext;
-    private Salary mCake;
     private static GroupHolder mMainHolder;
     //        SpannableString msp =new SpannableString("我是你爹\n88");
     public GroupHolder(View itemView) {
         super(itemView);
-        itemView.setOnClickListener(this);
         mContext = itemView.getContext();
     }
 
     @Override
     public void bindData(Salary cake) {
-        mCake = cake;
         tv_info.setText(cake.getPreviewDescription());
         int customizedColor = ColorUtils.CustomizedColors()[ColorUtils.getInstance().nextInt(ColorUtils.CustomizedColors().length)];
         Glide.with(mContext).load(cake.getMicroVideo())
@@ -40,18 +36,5 @@ public class GroupHolder extends BaseHolder<Salary> implements View.OnClickListe
                 .crossFade()
                 .into(mCakeIcon);
     }
-
-    @Override
-    public void onClick(View v) {
-        if (mCakeClickListener != null) {
-            mCakeClickListener.onClick(mCakeIcon, mCake, getAdapterPosition());
-        }
-    }
-
-    public void setCakeClickListener(OnCakeClickListener listener) {
-        mCakeClickListener = listener;
-    }
-
-    private OnCakeClickListener mCakeClickListener;
 
 }

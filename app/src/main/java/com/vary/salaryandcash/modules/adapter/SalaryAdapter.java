@@ -5,8 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseHolder;
 import com.vary.salaryandcash.modules.holder.MainHolder;
+import com.vary.salaryandcash.modules.itf.OnItemClickListener;
 import com.vary.salaryandcash.mvp.model.Salary;
 
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Sala
     public LayoutInflater mLayoutInflater;
     public List<Salary> mCakeList = new ArrayList<>();
     public View mView;
+    private OnItemClickListener mClickListener;
 
     public SalaryAdapter(LayoutInflater layoutInflater) {
         mLayoutInflater = layoutInflater;
@@ -41,9 +46,17 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Sala
     }
 
     @Override
-    public void onBindViewHolder(BaseHolder<Salary> holder, int position) {
+    public void onBindViewHolder(final BaseHolder<Salary> holder, final int position) {
         holder.bindData(mCakeList.get(position));
 //        holder.mCakeIcon
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mClickListener != null) {
+                    mClickListener.onItemClick(position, v, holder);
+                }
+            }
+        });
     }
 
     @Override
@@ -70,4 +83,9 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Sala
     }
 
     public abstract BaseHolder<Salary> getHolder();
+
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
 }

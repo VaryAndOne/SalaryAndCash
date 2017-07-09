@@ -8,8 +8,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseHolder;
-import com.vary.salaryandcash.modules.itf.OnCakeClickListener;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.utilities.ColorUtils;
 
@@ -19,42 +19,23 @@ import butterknife.Bind;
  * Created by Administrator on 2017-07-04.
  */
 
-public class TaskHolder extends BaseHolder<Salary> implements View.OnClickListener{
+public class TaskHolder extends BaseHolder<Salary> {
     @Bind(R.id.tv_state) protected TextView tv_state;
-    private Context mContext;
-    private Salary mCake;
     private static TaskHolder mMainHolder;
     //        SpannableString msp =new SpannableString("我是你爹\n88");
     public TaskHolder(View itemView) {
         super(itemView);
-        itemView.setOnClickListener(this);
-        mContext = itemView.getContext();
     }
 
     @Override
     public void bindData(Salary cake) {
-        mCake = cake;
         tv_info.setText(cake.getTitle()+ ".00");
         tv_state.setText(cake.getPreviewDescription());
         int customizedColor = ColorUtils.CustomizedColors()[ColorUtils.getInstance().nextInt(ColorUtils.CustomizedColors().length)];
-        Glide.with(mContext).load(cake.getMicroVideo())
+        Glide.with(SalaryApplication.appContext).load(cake.getMicroVideo())
                 .placeholder(customizedColor)
                 .crossFade()
                 .into(mCakeIcon);
 
     }
-
-    @Override
-    public void onClick(View v) {
-        if (mCakeClickListener != null) {
-            mCakeClickListener.onClick(mCakeIcon, mCake, getAdapterPosition());
-        }
-    }
-
-    public void setCakeClickListener(OnCakeClickListener listener) {
-        mCakeClickListener = listener;
-    }
-
-    private OnCakeClickListener mCakeClickListener;
-
 }

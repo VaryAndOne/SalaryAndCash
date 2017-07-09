@@ -28,12 +28,26 @@
             android:hint="VaryAndOne@163.com"
              />
     </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="诚意值: 1 = 1元"
-        android:textColor="#000"
-        android:textSize="18sp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="诚意值: "
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 = 1元"
+            android:textColor="#DF5543"
+            android:textSize="18sp" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,14 +56,30 @@
             android:text="10"
             android:textSize="20sp"
             android:layout_width="0dp"
+            android:background="@drawable/shape_register_normal"
             android:layout_weight="1"
+            android:textColor="#fff"
             android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_height="wrap_content" />
         <TextView
             android:text="50"
             android:textSize="20sp"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textColor="#fff"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_register_normal"
             android:gravity="center"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -61,14 +91,30 @@
             android:text="100"
             android:textSize="20sp"
             android:layout_width="0dp"
+            android:background="@drawable/shape_register_normal"
             android:layout_weight="1"
+            android:textColor="#fff"
             android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_height="wrap_content" />
         <TextView
-            android:text="500"
+            android:text="150"
             android:textSize="20sp"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textColor="#fff"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_register_normal"
             android:gravity="center"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -77,36 +123,72 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:text="1000"
+            android:text="200"
+            android:textSize="20sp"
+            android:layout_width="0dp"
+            android:background="@drawable/shape_register_normal"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="300"
             android:textSize="20sp"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textColor="#fff"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_register_normal"
             android:gravity="center"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:text="500"
+            android:textSize="20sp"
+            android:layout_width="0dp"
+            android:background="@drawable/shape_register_normal"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_height="wrap_content" />
         <TextView
             android:text="其他金额"
             android:textSize="20sp"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textColor="#fff"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_register_normal"
             android:gravity="center"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_zhifubao" />
-        <TextView
-            android:layout_marginLeft="25dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:drawableLeft="@drawable/ic_weixin" />
-    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
+import com.vary.salaryandcash.base.BaseHolder;
 import com.vary.salaryandcash.base.BaseRecyclerAdapter;
 import com.vary.salaryandcash.base.CommonHolder;
 import com.vary.salaryandcash.modules.fragment.CatchFragment;
@@ -19,7 +20,9 @@ import com.vary.salaryandcash.modules.fragment.HomeFragment;
 import com.vary.salaryandcash.modules.fragment.SettingFragment;
 import com.vary.salaryandcash.modules.fragment.SuggestFragment;
 import com.vary.salaryandcash.modules.fragment.TaskFragment;
+import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.mvp.model.Person;
+import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.utilities.ToastUtil;
 
 import butterknife.Bind;
@@ -35,7 +38,7 @@ import butterknife.Bind;
  *
  * on 2017-06-03.
  */
-public class PersonAdapter extends BaseRecyclerAdapter<Person> {
+public  class PersonAdapter extends BaseRecyclerAdapter<Person> {
     private HomeFragment homeFragment;
     public PersonAdapter(HomeFragment homeFragment) {
         super();

@@ -27,9 +27,9 @@ import java.util.List;
  *
  * on 2017-06-03.
  */
-public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Salary>> {
+public abstract class SalaryAdapter<T> extends RecyclerView.Adapter<BaseHolder<T>> {
     public LayoutInflater mLayoutInflater;
-    public List<Salary> mCakeList = new ArrayList<>();
+    public List<T> mCakeList = new ArrayList<>();
     public View mView;
     private OnItemClickListener mClickListener;
 
@@ -40,13 +40,13 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Sala
     public abstract int getView();
 
     @Override
-    public BaseHolder<Salary> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseHolder<T> onCreateViewHolder(ViewGroup parent, int viewType) {
         mView = mLayoutInflater.inflate(getView(), parent, false);
         return getHolder();
     }
 
     @Override
-    public void onBindViewHolder(final BaseHolder<Salary> holder, final int position) {
+    public void onBindViewHolder(final BaseHolder<T> holder, final int position) {
         holder.bindData(mCakeList.get(position));
 //        holder.mCakeIcon
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +64,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Sala
         return mCakeList.size();
     }
 
-    public void setDataList(List<Salary> datas) {
+    public void setDataList(List<T> datas) {
         mCakeList.clear();
         if (null != datas) {
             mCakeList.addAll(datas);
@@ -72,7 +72,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Sala
         notifyDataSetChanged();
     }
 
-    public void addCakes(List<Salary> cakes) {
+    public void addCakes(List<T> cakes) {
         mCakeList.addAll(cakes);
         notifyDataSetChanged();
     }
@@ -82,7 +82,7 @@ public abstract class SalaryAdapter extends RecyclerView.Adapter<BaseHolder<Sala
         notifyDataSetChanged();
     }
 
-    public abstract BaseHolder<Salary> getHolder();
+    public abstract BaseHolder<T> getHolder();
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;

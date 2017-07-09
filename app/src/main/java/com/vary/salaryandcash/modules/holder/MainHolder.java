@@ -1,11 +1,14 @@
 package com.vary.salaryandcash.modules.holder;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseHolder;
+import com.vary.salaryandcash.modules.fragment.MainFragment;
+import com.vary.salaryandcash.modules.fragment.MyFragment;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.utilities.ColorUtils;
 
@@ -16,7 +19,7 @@ import java.util.Random;
  */
 
 public class MainHolder extends BaseHolder<Salary> {
-    private static MainHolder mMainHolder;
+    private static MainHolder myFragment;
 
     public MainHolder(View itemView) {
         super(itemView);

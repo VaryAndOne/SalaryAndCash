@@ -38,7 +38,6 @@ public class LeftHolder extends BaseHolder<Salary>{
         tv_info.setText(cake.getPreviewDescription()+".00");
         int customizedColor = ColorUtils.CustomizedColors()[ColorUtils.getInstance().nextInt(ColorUtils.CustomizedColors().length)];
         Glide.with(SalaryApplication.appContext).load(cake.getMicroVideo())
-                .placeholder(R.drawable.ic_person)
                 .crossFade()
                 .into(personHead);
         Glide.with(SalaryApplication.appContext).load(cake.getMicroVideo())

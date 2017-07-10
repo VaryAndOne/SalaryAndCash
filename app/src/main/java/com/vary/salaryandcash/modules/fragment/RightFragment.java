@@ -178,12 +178,10 @@ public class RightFragment extends BaseSupportFragmentVertical implements Discre
                 break;
         }
     }
-    int customizedColor = ColorUtils.CustomizedColors()[ColorUtils.getInstance().nextInt(ColorUtils.CustomizedColors().length)];
     private void onItemChanged(Salary item) {
         currentItemPrice.setText(item.getPreviewDescription()+ ".00");
 //        personHeard.set(item.getPreviewDescription()+ ".00");
         Glide.with(getActivity()).load(item.getMicroVideo())
-                .placeholder(customizedColor)
                 .crossFade()
                 .into(personHeard);
 

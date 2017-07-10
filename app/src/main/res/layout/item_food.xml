@@ -35,6 +35,7 @@
                         android:layout_width="46dp"
                         android:layout_height="46dp"
                         android:padding="3dp"
+                        app:srcCompat="@drawable/ic_person"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="16dp"
                         />

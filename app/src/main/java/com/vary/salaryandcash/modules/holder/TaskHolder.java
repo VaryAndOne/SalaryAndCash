@@ -1,12 +1,14 @@
 package com.vary.salaryandcash.modules.holder;
 
-import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseHolder;
@@ -22,7 +24,6 @@ import butterknife.Bind;
 public class TaskHolder extends BaseHolder<Salary> {
     @Bind(R.id.tv_state) protected TextView tv_state;
     private static TaskHolder mMainHolder;
-    //        SpannableString msp =new SpannableString("我是你爹\n88");
     public TaskHolder(View itemView) {
         super(itemView);
     }
@@ -30,7 +31,13 @@ public class TaskHolder extends BaseHolder<Salary> {
     @Override
     public void bindData(Salary cake) {
         tv_info.setText(cake.getTitle()+ ".00");
-        tv_state.setText(cake.getPreviewDescription());
+//        SpannableString msp = new SpannableString("测试文字测\n试文字测试文字测试文字测试文字");
+        SpannableString msp = new SpannableString(cake.getPreviewDescription());
+        msp.setSpan(new AbsoluteSizeSpan(22,true), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        msp.setSpan(new ForegroundColorSpan(SalaryApplication.appContext.getResources().getColor(R.color.green)), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_state.setText(msp);
+//        tv_state.setText(cake.getPreviewDescription());
+
         int customizedColor = ColorUtils.CustomizedColors()[ColorUtils.getInstance().nextInt(ColorUtils.CustomizedColors().length)];
         Glide.with(SalaryApplication.appContext).load(cake.getMicroVideo())
                 .placeholder(customizedColor)
@@ -38,4 +45,5 @@ public class TaskHolder extends BaseHolder<Salary> {
                 .into(mCakeIcon);
 
     }
+
 }

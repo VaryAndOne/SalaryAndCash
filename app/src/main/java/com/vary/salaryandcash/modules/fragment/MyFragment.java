@@ -175,7 +175,7 @@ public class MyFragment extends BaseSupportFragmentVertical implements MainView 
                             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
                                 // 这里的DetailFragment在flow包里
                                 // 这里是父Fragment启动,要注意 栈层级
-                                ((SupportFragment) getParentFragment()).start(VideoPlayerFragment.getInstance());
+                                ((SupportFragment) getParentFragment()).start(VideoPlayerFragment.getInstance(mSalaries.get(position).getImage()));
                                 Toast.makeText(getActivity(), "position"+position, Toast.LENGTH_SHORT).show();
                             }
                         });

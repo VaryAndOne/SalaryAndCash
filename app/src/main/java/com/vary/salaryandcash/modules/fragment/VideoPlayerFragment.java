@@ -34,7 +34,7 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 public class VideoPlayerFragment extends BaseSupportFragment {
     IjkVideoView videoView;
     public static VideoPlayerFragment myFragment;
-    public static synchronized VideoPlayerFragment getInstance(){
+    public static synchronized VideoPlayerFragment getInstance(String image){
         if (myFragment == null){
             synchronized (VideoPlayerFragment.class){
                 if (myFragment == null){
@@ -42,9 +42,9 @@ public class VideoPlayerFragment extends BaseSupportFragment {
                 }
             }
         }
-//        Bundle args = new Bundle();
-//        args.pu("position",position);
-//        myFragment.setArguments(args);
+        Bundle args = new Bundle();
+        args.putString("image",image);
+        myFragment.setArguments(args);
         return myFragment;
     }
 
@@ -61,10 +61,9 @@ public class VideoPlayerFragment extends BaseSupportFragment {
         });
         AndroidMediaController controller = new AndroidMediaController(getActivity(), false);
         videoView.setMediaController(controller);
-        String url = "http://vary.oss-cn-beijing.aliyuncs.com/video/20100101_105339.m3u8";
 //        String url = "https://wdl.wallstreetcn.com/41aae4d2-390a-48ff-9230-ee865552e72d";
-//        String url = cake.getImage();
-        videoView.setVideoURI(Uri.parse(url));
+        String getImage = (String) myFragment.getArguments().get("image");
+        videoView.setVideoURI(Uri.parse(getImage));
         videoView.start();
     }
 

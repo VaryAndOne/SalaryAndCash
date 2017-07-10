@@ -61,7 +61,7 @@ public class MainActivity extends SupportActivity {
             @Override
             public void run() {
                 View mainView = mainLayout.inflate();
-                initView(mainView);
+//                initView(mainView);
             }
         });
         
@@ -78,12 +78,12 @@ public class MainActivity extends SupportActivity {
         super.onResume();
     }
 
-    private void initView(View pMainView) {
-        if (pMainView != null) {
-            mNetLoadingBar = (ProgressBar) pMainView.findViewById(R.id.progressbar);
-            mNetLoadingBar.setVisibility(View.VISIBLE);
-        }
-    }
+//    private void initView(View pMainView) {
+//        if (pMainView != null) {
+//            mNetLoadingBar = (ProgressBar) pMainView.findViewById(R.id.progressbar);
+//            mNetLoadingBar.setVisibility(View.VISIBLE);
+//        }
+//    }
 
     private static class MyHandler extends Handler {
         private WeakReference<MainActivity> wRef;

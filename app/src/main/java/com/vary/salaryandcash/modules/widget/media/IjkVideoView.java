@@ -19,6 +19,8 @@ import android.widget.FrameLayout;
 import android.widget.MediaController;
 
 import com.vary.salaryandcash.R;
+import com.vary.salaryandcash.modules.itf.OnItemClickListener;
+import com.vary.salaryandcash.modules.itf.ShowImageListener;
 
 import java.util.Map;
 
@@ -56,7 +58,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     }
 
     private IRenderView.ISurfaceHolder mSurfaceHolder = null;
-    protected IMediaPlayer mMediaPlayer = null;
+    public IMediaPlayer mMediaPlayer = null;
     private IRenderView mRenderView;
     private static final int[] s_allAspectRatio = {
             IRenderView.AR_ASPECT_FIT_PARENT,
@@ -137,11 +139,18 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         mRenderView.setVideoRotation(mVideoRotationDegree);
     }
 
+    public ShowImageListener mShowImageListener;
+    public void setShowImageListener(ShowImageListener itemClickListener) {
+        this.mShowImageListener = itemClickListener;
+    }
     @Override
     public void start() {
         if (isInPlaybackState()) {
             mMediaPlayer.start();
             mCurrentState = STATE_PLAYING;
+        }
+        if (mShowImageListener != null) {
+            mShowImageListener.isShow(isInPlaybackState()) ;
         }
         mTargetState = STATE_PLAYING;
     }
@@ -170,7 +179,6 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         if (isInPlaybackState()) {
             return (int) mMediaPlayer.getDuration();
         }
-
         return -1;
     }
 
@@ -236,7 +244,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     private Uri mUri;
     private Map<String, String> mHeaders;
-    private IMediaController mMediaController;
+    public IMediaController mMediaController;
 
     private int mCurrentState = STATE_IDLE;
     private int mTargetState = STATE_IDLE;
@@ -299,7 +307,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         }
     }
 
-    private boolean isInPlaybackState() {
+    public boolean isInPlaybackState() {
         return (mMediaPlayer != null &&
                 mCurrentState != STATE_ERROR &&
                 mCurrentState != STATE_IDLE &&
@@ -394,7 +402,6 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             am.abandonAudioFocus(null);
         }
     }
-
 
     IMediaPlayer.OnVideoSizeChangedListener mSizeChangedListener =
             new IMediaPlayer.OnVideoSizeChangedListener() {

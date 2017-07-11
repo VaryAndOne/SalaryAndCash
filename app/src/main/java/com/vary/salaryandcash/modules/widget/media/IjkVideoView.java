@@ -246,8 +246,10 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     private Map<String, String> mHeaders;
     public IMediaController mMediaController;
 
-    private int mCurrentState = STATE_IDLE;
-    private int mTargetState = STATE_IDLE;
+//    private int mCurrentState = STATE_IDLE;
+    private int mCurrentState = STATE_PREPARED;
+//    private int mTargetState = STATE_IDLE;
+    private int mTargetState = STATE_PREPARED;
     private int mCurrentBufferPercentage;
 
     private IMediaPlayer.OnCompletionListener mOnCompletionListener;
@@ -282,7 +284,8 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setScreenOnWhilePlaying(true);
             mMediaPlayer.prepareAsync();
-            mCurrentState = STATE_PREPARING;
+//            mCurrentState = STATE_PREPARING;
+            mCurrentState = STATE_PREPARED;
         } catch (Exception ex) {
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;

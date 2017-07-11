@@ -67,7 +67,6 @@ public class VideoPlayerFragment extends BaseSupportFragment {
         IjkMediaPlayer.loadLibrariesOnce(null);
         IjkMediaPlayer.native_profileBegin("libijkplayer.so");
         videoView = (IjkVideoView) mView.findViewById(R.id.ijkPlayer);
-
         mView.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

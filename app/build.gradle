@@ -109,4 +109,7 @@ dependencies {
 //    https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh
     compile 'in.srain.cube:ultra-ptr:1.0.11'
 
+//    https://github.com/google/ExoPlayer
+    compile 'com.google.android.exoplayer:exoplayer:r1.5.8'
+
 }

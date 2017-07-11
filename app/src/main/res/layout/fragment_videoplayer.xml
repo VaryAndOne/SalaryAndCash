@@ -16,22 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="500dp">
-
                 <com.vary.salaryandcash.modules.widget.media.IjkVideoView
                     android:id="@+id/ijkPlayer"
                     android:layout_width="match_parent"
                     android:layout_height="500dp" />
-                <ViewStub
-                    android:layout="@layout/main_layout"
-                    android:id="@+id/content_viewstub"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

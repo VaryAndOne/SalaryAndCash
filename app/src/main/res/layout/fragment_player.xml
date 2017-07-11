@@ -30,6 +30,12 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"/>
                 </com.google.android.exoplayer.AspectRatioFrameLayout>
+
+                <ViewStub
+                    android:layout="@layout/main_layout"
+                    android:id="@+id/content_viewstub"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"

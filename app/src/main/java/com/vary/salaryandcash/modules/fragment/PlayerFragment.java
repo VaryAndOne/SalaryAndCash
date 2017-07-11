@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaCodec;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewStub;
@@ -69,8 +70,26 @@ public class PlayerFragment extends BaseSupportFragment implements ManifestFetch
     private TrackRenderer videoRenderer;
     private MediaCodecAudioTrackRenderer audioRenderer;
 
+    private void initMainView(View pMainView) {
+        if (pMainView != null) {
+            shadow = (ImageView) pMainView.findViewById(R.id.iv_shadow);
+            shadow.setVisibility(View.VISIBLE);
+        }
+    }
+    private ImageView shadow;
+
     @Override
     protected void initView() {
+
+        final ViewStub mainLayout = (ViewStub) mView.findViewById(R.id.content_viewstub);
+        getActivity().getWindow().getDecorView().post(new Runnable() {
+            @Override
+            public void run() {
+                View mainView = mainLayout.inflate();
+                initMainView(mainView);
+            }
+        });
+
         surface_view = (SurfaceView) mView.findViewById(R.id.surface_view);
         player = ExoPlayer.Factory.newInstance(2);
         playerControl = new PlayerControl(player);
@@ -80,7 +99,12 @@ public class PlayerFragment extends BaseSupportFragment implements ManifestFetch
         userAgent = Util.getUserAgent(getActivity(),"MainActivity");
         HlsPlaylistParser parser = new HlsPlaylistParser();
         playListFetcher = new ManifestFetcher<>(video_url,new DefaultUriDataSource(getActivity(),userAgent),parser);
-        playListFetcher.singleLoad(mainHandler.getLooper(), this);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mHandler.sendEmptyMessage(0);
+            }
+        },1500);
     }
 
     @Override
@@ -88,9 +112,18 @@ public class PlayerFragment extends BaseSupportFragment implements ManifestFetch
         return R.layout.fragment_player;
     }
 
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            shadow.setVisibility(View.GONE);
+        }
+    };
+
     @Override
     protected void onEnterAnimationEnd(Bundle savedInstanceState) {
         super.onEnterAnimationEnd(savedInstanceState);
+        playListFetcher.singleLoad(mainHandler.getLooper(), this);
     }
 
     @Override

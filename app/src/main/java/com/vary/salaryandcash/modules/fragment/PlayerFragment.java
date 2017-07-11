@@ -104,7 +104,7 @@ public class PlayerFragment extends BaseSupportFragment implements ManifestFetch
             public void run() {
                 mHandler.sendEmptyMessage(0);
             }
-        },1500);
+        },1200);
     }
 
     @Override

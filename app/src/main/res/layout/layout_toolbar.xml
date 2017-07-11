@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF8080"
+        android:background="#EBC700"
         app:layout_scrollFlags="scroll|enterAlways|snap">
 
         <ImageView
@@ -46,7 +46,7 @@
             android:layout_gravity="left"
             android:layout_marginRight="25dp"
             android:layout_marginTop="28dp"
-            app:srcCompat="@drawable/ic_priority_high_white_24dp" />
+            app:srcCompat="@drawable/icon_app" />
 
     </android.support.v7.widget.Toolbar>
 

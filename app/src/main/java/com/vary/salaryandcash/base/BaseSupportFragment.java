@@ -68,7 +68,7 @@ public abstract class BaseSupportFragment extends SupportFragment {
 
     protected abstract void initView();
     public abstract int getBaseView();
-
+    public MyOnTouchListener onTouchListener;
     @Override
     public void onSupportVisible() {
         super.onSupportVisible();
@@ -80,7 +80,7 @@ public abstract class BaseSupportFragment extends SupportFragment {
             }
         });
 
-        MyOnTouchListener onTouchListener = new MyOnTouchListener() {
+        onTouchListener = new MyOnTouchListener() {
             @Override
             public boolean onTouch(MotionEvent ev) {
                 switch (ev.getAction()) {
@@ -122,5 +122,6 @@ public abstract class BaseSupportFragment extends SupportFragment {
     public void onSupportInvisible() {
         super.onSupportInvisible();
         ButterKnife.unbind(this);
+        ((MainActivity) getActivity()).unregisterMyOnTouchListener(onTouchListener);
     }
 }

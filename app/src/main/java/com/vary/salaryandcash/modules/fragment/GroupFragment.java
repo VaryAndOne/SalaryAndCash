@@ -19,6 +19,7 @@ import com.vary.salaryandcash.modules.adapter.SalaryAdapter;
 import com.vary.salaryandcash.modules.holder.GroupHolder;
 import com.vary.salaryandcash.modules.holder.MainHolder;
 import com.vary.salaryandcash.modules.itf.EndlessRecyclerOnScrollListener;
+import com.vary.salaryandcash.modules.itf.OnItemClickListener;
 import com.vary.salaryandcash.mvp.model.AccountResponse;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
@@ -33,6 +34,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.header.MaterialHeader;
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by
@@ -116,7 +118,6 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
 //                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
 //                        Log.d("TAG","底部");
                         mCakeAdapter.addCakes(mSalaries);
-//                loadMore(jsonSubreddit);
                     }
                 });
             }
@@ -148,7 +149,13 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
                 return mainHolder;
             }
         };
-//        mCakeAdapter.setCakeClickListener(mCakeClickListener);
+        mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
+                start(new SessionFragment());
+                Toast.makeText(getActivity(), "position"+position, Toast.LENGTH_SHORT).show();
+            }
+        });
             mCakeList.setAdapter(mCakeAdapter);
         ptrFrameLayout.setLoadingMinTime(1500);
         ptrFrameLayout.postDelayed(new Runnable() {

@@ -5,13 +5,10 @@ import android.media.AudioManager;
 import android.media.MediaCodec;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.SupportActivity;
-import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.ViewStub;
+import android.widget.ImageView;
 
 import com.google.android.exoplayer.DefaultLoadControl;
 import com.google.android.exoplayer.ExoPlaybackException;
@@ -38,7 +35,6 @@ import com.google.android.exoplayer.util.Util;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragment;
-import com.vary.salaryandcash.modules.PlayerActivity;
 
 import java.io.IOException;
 
@@ -73,14 +69,6 @@ public class PlayerFragment extends BaseSupportFragment implements ManifestFetch
     private TrackRenderer videoRenderer;
     private MediaCodecAudioTrackRenderer audioRenderer;
 
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View mView = View.inflate(getActivity(), R.layout.fragment_player, null);
-//
-//        return mView;
-//    }
-
     @Override
     protected void initView() {
         surface_view = (SurfaceView) mView.findViewById(R.id.surface_view);
@@ -98,6 +86,11 @@ public class PlayerFragment extends BaseSupportFragment implements ManifestFetch
     @Override
     public int getBaseView() {
         return R.layout.fragment_player;
+    }
+
+    @Override
+    protected void onEnterAnimationEnd(Bundle savedInstanceState) {
+        super.onEnterAnimationEnd(savedInstanceState);
     }
 
     @Override

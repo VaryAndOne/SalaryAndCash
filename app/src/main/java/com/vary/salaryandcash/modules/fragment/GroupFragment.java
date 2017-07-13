@@ -1,5 +1,6 @@
 package com.vary.salaryandcash.modules.fragment;
 
+import android.app.admin.SystemUpdatePolicy;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
@@ -103,6 +104,9 @@ public class GroupFragment extends BaseSupportFragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         mCakeList.setLayoutManager(linearLayoutManager);
         mCakeList.setHasFixedSize(true);
+
+        final long[] mHits = new long[2];
+
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -125,7 +129,6 @@ public class GroupFragment extends BaseSupportFragment {
                             .subscribe(new Consumer<List<EMGroup>>() {
                                 @Override
                                 public void accept(final List<EMGroup> s) throws Exception {
-                                    Toast.makeText(getActivity(), s.toString()+"", Toast.LENGTH_SHORT).show();
                                     mCakeAdapter.setDataList(s);
                                     ptrFrameLayout.refreshComplete();
                                     mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -137,7 +140,13 @@ public class GroupFragment extends BaseSupportFragment {
                                                 Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
                                                 return;
                                             }
-                                            start(SessionFragment.getInstance(chatId));
+                                            System.arraycopy(mHits,1,mHits,0,mHits.length-1);
+                                            mHits[mHits.length - 1] = SystemClock.uptimeMillis();
+                                            if (mHits[0] >= (SystemClock.uptimeMillis() -  300)){
+
+                                            }else {
+                                                start(SessionFragment.getInstance(chatId));
+                                            }
                                             Toast.makeText(getActivity(), "position"+chatId, Toast.LENGTH_SHORT).show();
                                         }
                                     });

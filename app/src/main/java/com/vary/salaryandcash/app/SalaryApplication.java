@@ -3,8 +3,10 @@ package com.vary.salaryandcash.app;
 import android.app.Application;
 import android.app.WallpaperManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.WindowManager;
 
+import com.hyphenate.easeui.EaseUI;
 import com.vary.salaryandcash.di.components.ApplicationComponent;
 import com.vary.salaryandcash.di.components.DaggerApplicationComponent;
 import com.vary.salaryandcash.di.module.ApplicationModule;
@@ -30,11 +32,10 @@ public class SalaryApplication extends Application {
     static {
         System.loadLibrary("native-lib");
     }
-
+    public static SharedPreferences sharedPreferences;
     @Override
     public void onCreate() {
         super.onCreate();
-
         appContext = this;
         instance = this;
         initializeApplicationComponent();
@@ -43,6 +44,8 @@ public class SalaryApplication extends Application {
                 // 显示悬浮球 ; 其他Mode:SHAKE: 摇一摇唤出   NONE：隐藏
                 .stackViewMode(Fragmentation.BUBBLE)
                 .install();
+        EaseUI.getInstance().init(this,null);
+        sharedPreferences = getSharedPreferences("test", MODE_PRIVATE);
     }
 
     public static int getWidth(){
@@ -53,6 +56,10 @@ public class SalaryApplication extends Application {
 
     public static SalaryApplication getInstance() {
         return instance;
+    }
+
+    public static SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
     }
 
     private void initializeApplicationComponent() {

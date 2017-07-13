@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragment;
@@ -152,11 +155,17 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
         mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
-                start(new SessionFragment());
+                String currUsername = EMClient.getInstance().getCurrentUser();
+                String chatId = "15738040549377";
+                if (chatId.equals(currUsername)) {
+                    Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                start(SessionFragment.getInstance(chatId));
                 Toast.makeText(getActivity(), "position"+position, Toast.LENGTH_SHORT).show();
             }
         });
-            mCakeList.setAdapter(mCakeAdapter);
+        mCakeList.setAdapter(mCakeAdapter);
         ptrFrameLayout.setLoadingMinTime(1500);
         ptrFrameLayout.postDelayed(new Runnable() {
             @Override

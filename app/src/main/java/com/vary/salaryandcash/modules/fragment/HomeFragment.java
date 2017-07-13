@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +87,14 @@ public class HomeFragment extends BaseSupportFragmentVertical implements MainVie
     }
 
     @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        if (!TextUtils.isEmpty(SalaryApplication.getSharedPreferences().getString("username", "username"))) {
+            UniqueID.setText(SalaryApplication.getSharedPreferences().getString("username", "唯一ID"));
+        }
+    }
+
+    @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
     }
@@ -135,7 +144,7 @@ public class HomeFragment extends BaseSupportFragmentVertical implements MainVie
     public String getProduct;
     @Override
     public void onAccountLoaded(AccountResponse response) {
-        UniqueID.setText(response.getUniqueID());
+//        UniqueID.setText(response.getUniqueID());
         getPassword = response.getPassWord();
         getProduct = response.getProduct();
     }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -68,11 +69,10 @@ import static io.reactivex.Flowable.*;
  * on 2017-06-03.
  */
 
-public class GroupFragment extends BaseSupportFragment implements MainView {
+public class GroupFragment extends BaseSupportFragment {
     @Inject
     protected SalaryPresenter mPresenter;
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
-    private static String TAG = GroupFragment.class.getSimpleName();
 
     public static GroupFragment myFragment;
     public static synchronized GroupFragment getInstance(String getPassword){
@@ -91,12 +91,6 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
 
     @Override
     protected void initView() {
-        DaggerSalaryComponent.builder()
-                .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
-                .salaryModule(new SalaryModule(this))
-                .build().inject(this);
-
-
         app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("群组");
         mCakeList = (RecyclerView) mView.findViewById(R.id.recyclerview);
@@ -106,10 +100,6 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
         ptrFrameLayout.setDurationToCloseHeader(1500);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-        DaggerSalaryComponent.builder()
-                .applicationComponent(((SalaryApplication) (getActivity().getApplication())).getApplicationComponent())
-                .salaryModule(new SalaryModule(this))
-                .build().inject(this);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         mCakeList.setLayoutManager(linearLayoutManager);
         mCakeList.setHasFixedSize(true);
@@ -120,14 +110,11 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
             }
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-//                mPresenter.getSalaries();
-//                String getPassword = (String) myFragment.getArguments().get("getPassword");
-//                mPresenter.getTask(getPassword);
                 Flowable.create(new FlowableOnSubscribe<List<EMGroup>>() {
                     @Override
                     public void subscribe(FlowableEmitter<List<EMGroup>> e) throws Exception {
                         List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
-                        SystemClock.sleep(2000);
+//                        SystemClock.sleep(1000);
                         e.onNext(grouplist);
                         e.onComplete();
                     }
@@ -140,19 +127,21 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
                                 Toast.makeText(getActivity(), s.toString()+"", Toast.LENGTH_SHORT).show();
                                 mCakeAdapter.setDataList(s);
                                 ptrFrameLayout.refreshComplete();
+                                mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
+                                        String currUsername = EMClient.getInstance().getCurrentUser();
+                                        String chatId = s.get(position).getGroupId();
+                                        if (chatId.equals(currUsername) ) {
+                                            Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                        start(SessionFragment.getInstance(chatId));
+                                        Toast.makeText(getActivity(), "position"+chatId, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         });
-                mCakeList.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
-                    @Override
-                    public void onLoadMore(int current_page) {
-                        //maintain scroll position
-                        int lastFirstVisiblePosition = ((LinearLayoutManager) mCakeList.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                        ((LinearLayoutManager) mCakeList.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-//                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
-//                        Log.d("TAG","底部");
-//                        mCakeAdapter.addCakes(mSalaries);
-                    }
-                });
             }
         });
 
@@ -166,35 +155,17 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
     @Override
     protected void onEnterAnimationEnd(Bundle savedInstanceState) {
         super.onEnterAnimationEnd(savedInstanceState);
-//        String getPassword = (String) myFragment.getArguments().get("getPassword");
-//        mPresenter.getTask(getPassword);
         mCakeAdapter = new SalaryAdapter(getLayoutInflater(savedInstanceState)) {
             @Override
             public int getView() {
-//                mCakeAdapter.isChangeText=true;
                 return R.layout.item_group;
             }
-
             @Override
             public GroupListHolder getHolder() {
                 GroupListHolder mainHolder = new GroupListHolder(mCakeAdapter.mView);
-//                mainHolder.isChangeText=true;
                 return mainHolder;
             }
         };
-        mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
-                String currUsername = EMClient.getInstance().getCurrentUser();
-                String chatId = "15738040549377";
-                if (chatId.equals(currUsername)) {
-                    Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                start(SessionFragment.getInstance(chatId));
-                Toast.makeText(getActivity(), "position"+chatId, Toast.LENGTH_SHORT).show();
-            }
-        });
         mCakeList.setAdapter(mCakeAdapter);
         ptrFrameLayout.setLoadingMinTime(1500);
         ptrFrameLayout.postDelayed(new Runnable() {
@@ -203,37 +174,5 @@ public class GroupFragment extends BaseSupportFragment implements MainView {
                 ptrFrameLayout.autoRefresh(true);
             }
         }, 50);
-
-    }
-
-    @Override
-    public void onSalaryLoaded(List<Salary> salaries) {
-//        mCakeAdapter.addCakes(salaries);
-        mSalaries = salaries;
-    }
-
-    @Override
-    public void onShowDialog(String s) {
-//        showDialog(s);
-    }
-
-    @Override
-    public void onHideDialog() {
-//        hideDialog();
-    }
-
-    @Override
-    public void onShowToast(String s) {
-        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onClearItems() {
-        mCakeAdapter.clearCakes();
-    }
-
-    @Override
-    public void onAccountLoaded(AccountResponse response) {
-
     }
 }

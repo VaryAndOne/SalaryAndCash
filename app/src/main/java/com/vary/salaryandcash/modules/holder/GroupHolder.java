@@ -60,5 +60,4 @@ public class GroupHolder extends BaseHolder<Salary> {
                 .into(mCakeIcon);
     }
 
-
 }

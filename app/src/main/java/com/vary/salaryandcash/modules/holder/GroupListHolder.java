@@ -19,23 +19,9 @@ public class GroupListHolder extends BaseHolder<EMGroup> {
     private Context mContext;
     private static GroupListHolder mMainHolder;
     //        SpannableString msp =new SpannableString("我是你爹\n88");
-//    List<EMGroup> grouplist;
     public GroupListHolder(View itemView) {
         super(itemView);
         mContext = itemView.getContext();
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                SystemClock.sleep(5000);
-//
-//                try {
-//                    grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
-//                } catch (HyphenateException e) {
-//                    e.printStackTrace();
-//                }
-//                mHandler.sendEmptyMessageDelayed(0,5000);
-//            }
-//        }).start();
     }
 
 

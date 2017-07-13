@@ -22,7 +22,7 @@
         android:layout_centerVertical="true"
         android:layout_margin="12dp"
         android:layout_toRightOf="@+id/avatar"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <!--#A9AAAA-->
 

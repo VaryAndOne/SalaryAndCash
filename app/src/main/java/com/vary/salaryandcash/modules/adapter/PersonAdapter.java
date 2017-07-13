@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.hyphenate.chat.EMClient;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseHolder;

@@ -110,38 +110,43 @@ public class GroupFragment extends BaseSupportFragment {
             }
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                Flowable.create(new FlowableOnSubscribe<List<EMGroup>>() {
-                    @Override
-                    public void subscribe(FlowableEmitter<List<EMGroup>> e) throws Exception {
-                        List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+                if (EMClient.getInstance().isLoggedInBefore()) {
+                    Flowable.create(new FlowableOnSubscribe<List<EMGroup>>() {
+                        @Override
+                        public void subscribe(FlowableEmitter<List<EMGroup>> e) throws Exception {
+                            List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
 //                        SystemClock.sleep(1000);
-                        e.onNext(grouplist);
-                        e.onComplete();
-                    }
-                }, BackpressureStrategy.BUFFER)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<List<EMGroup>>() {
-                            @Override
-                            public void accept(final List<EMGroup> s) throws Exception {
-                                Toast.makeText(getActivity(), s.toString()+"", Toast.LENGTH_SHORT).show();
-                                mCakeAdapter.setDataList(s);
-                                ptrFrameLayout.refreshComplete();
-                                mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
-                                        String currUsername = EMClient.getInstance().getCurrentUser();
-                                        String chatId = s.get(position).getGroupId();
-                                        if (chatId.equals(currUsername) ) {
-                                            Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
-                                            return;
+                            e.onNext(grouplist);
+                            e.onComplete();
+                        }
+                    }, BackpressureStrategy.BUFFER)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Consumer<List<EMGroup>>() {
+                                @Override
+                                public void accept(final List<EMGroup> s) throws Exception {
+                                    Toast.makeText(getActivity(), s.toString()+"", Toast.LENGTH_SHORT).show();
+                                    mCakeAdapter.setDataList(s);
+                                    ptrFrameLayout.refreshComplete();
+                                    mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
+                                            String currUsername = EMClient.getInstance().getCurrentUser();
+                                            String chatId = s.get(position).getGroupId();
+                                            if (chatId.equals(currUsername) ) {
+                                                Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
+                                                return;
+                                            }
+                                            start(SessionFragment.getInstance(chatId));
+                                            Toast.makeText(getActivity(), "position"+chatId, Toast.LENGTH_SHORT).show();
                                         }
-                                        start(SessionFragment.getInstance(chatId));
-                                        Toast.makeText(getActivity(), "position"+chatId, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        });
+                                    });
+                                }
+                            });
+                    return;
+                }else {
+                    ptrFrameLayout.refreshComplete();
+                }
             }
         });
 

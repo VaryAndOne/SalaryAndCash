@@ -104,18 +104,6 @@ public class TaskFragment extends BaseSupportFragment implements MainView {
                         ptrFrameLayout.refreshComplete();
                     }
                 }, 1500);
-                mCakeList.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
-                    @Override
-                    public void onLoadMore(int current_page) {
-                        //maintain scroll position
-                        int lastFirstVisiblePosition = ((LinearLayoutManager) mCakeList.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                        ((LinearLayoutManager) mCakeList.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-//                        Toast.makeText(getActivity(), "底部", Toast.LENGTH_SHORT).show();
-//                        Log.d("TAG","底部");
-                        mCakeAdapter.addCakes(mSalaries);
-//                loadMore(jsonSubreddit);
-                    }
-                });
             }
         });
     }

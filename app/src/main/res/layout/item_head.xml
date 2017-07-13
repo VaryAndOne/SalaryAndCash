@@ -28,12 +28,28 @@
 
         <TextView
             android:id="@+id/tv_info"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:gravity="center"
+            android:gravity="center_vertical|left"
             android:text="唯一ID"
             android:textColor="#000"
             android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:gravity="center"
+            android:background="@drawable/shape_pay_orange"
+            android:text="复制"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+
     </LinearLayout>
 </RelativeLayout>

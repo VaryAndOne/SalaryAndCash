@@ -1,5 +1,8 @@
 package com.vary.salaryandcash.modules.fragment;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,7 +57,8 @@ public class HomeFragment extends BaseSupportFragmentVertical implements MainVie
         }
         return myFragment;
     }
-    TextView UniqueID;
+    TextView UniqueID,copyText;
+    ClipData clipDacta;
     @Override
     protected void initView() {
         DaggerSalaryComponent.builder()
@@ -68,6 +72,7 @@ public class HomeFragment extends BaseSupportFragmentVertical implements MainVie
         foodAdapter = new PersonAdapter(this);
         View view = View.inflate(getActivity(), R.layout.item_head, null);
         UniqueID = (TextView) view.findViewById(R.id.tv_info);
+        copyText = (TextView) view.findViewById(R.id.tv_copy);
         foodAdapter.setHeadHolder(view);
         rv.setAdapter(foodAdapter);
         refreshCard();
@@ -83,6 +88,19 @@ public class HomeFragment extends BaseSupportFragmentVertical implements MainVie
                 pop();
             }
         });
+
+        final ClipboardManager clipboard = (ClipboardManager)
+                SalaryApplication.appContext.getSystemService(Context.CLIPBOARD_SERVICE);
+
+        copyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = UniqueID.getText().toString();
+                clipDacta = ClipData.newPlainText("text",text);
+                clipboard.setPrimaryClip(clipDacta);
+            }
+        });
+
 
     }
 

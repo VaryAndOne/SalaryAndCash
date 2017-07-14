@@ -214,7 +214,6 @@ public class LoginFragment extends BaseSupportFragmentVertical {
                     @Override
                     public void run() {
                         mDialog.dismiss();
-
                         // 加载所有会话到内存
                         EMClient.getInstance().chatManager().loadAllConversations();
                         // 加载所有群组到内存，如果使用了群组的话
@@ -224,9 +223,6 @@ public class LoginFragment extends BaseSupportFragmentVertical {
                         editor.putString("username", username);
                         editor.commit();
                         pop();
-//                        Intent intent = new Intent(ECLoginActivity.this, ECMainActivity.class);
-//                        startActivity(intent);
-//                        finish();
                     }
                 });
             }

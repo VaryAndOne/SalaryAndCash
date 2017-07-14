@@ -10,6 +10,9 @@ import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.base.BaseSupportFragment;
+import com.vary.salaryandcash.modules.MainActivity;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by
@@ -24,8 +27,6 @@ import com.vary.salaryandcash.base.BaseSupportFragment;
  */
 
 public class SessionFragment extends BaseSupportFragment {
-    private  EaseChatFragment chatFragment;
-
     public static SessionFragment myFragment;
     public static synchronized SessionFragment getInstance(String chatId){
         if (myFragment == null){
@@ -42,20 +43,38 @@ public class SessionFragment extends BaseSupportFragment {
         return myFragment;
     }
 
+    public static EaseChatFragment easeChatFragment;
+    public static synchronized EaseChatFragment getEaseChatFragment(){
+        if (easeChatFragment == null){
+            synchronized (EaseChatFragment.class){
+                if (easeChatFragment == null){
+                    easeChatFragment = new EaseChatFragment();
+                }
+            }
+        }
+        easeChatFragment.setArguments(myFragment.getArguments());
+        return easeChatFragment;
+    }
+    private  EaseChatFragment chatFragment;
     @Override
     protected void initView() {
         app_title = (TextView) mView.findViewById(R.id.app_title);
         app_title.setText("聊天");
-        // 这里直接使用EaseUI封装好的聊天界面
-        chatFragment = new EaseChatFragment();
-        // 将参数传递给聊天界面
-        chatFragment.setArguments(myFragment.getArguments());
+        chatFragment = getEaseChatFragment();
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.ec_layout_container, chatFragment).commit();
     }
 
     @Override
     public int getBaseView() {
         return R.layout.fragment_session;
+    }
+
+    @Override
+    public void onSupportInvisible() {
+        super.onSupportInvisible();
+        ButterKnife.unbind(this);
+        ((MainActivity) getActivity()).unregisterMyOnTouchListener(onTouchListener);
+        getActivity().getSupportFragmentManager().beginTransaction().remove(chatFragment).commit();
     }
 
 }

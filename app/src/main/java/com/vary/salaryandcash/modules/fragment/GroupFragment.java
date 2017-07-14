@@ -30,6 +30,7 @@ import com.vary.salaryandcash.mvp.model.SalariesResponse;
 import com.vary.salaryandcash.mvp.model.Salary;
 import com.vary.salaryandcash.mvp.presenter.SalaryPresenter;
 import com.vary.salaryandcash.mvp.view.MainView;
+import com.vary.salaryandcash.utilities.NetworkUtils;
 
 import org.reactivestreams.Subscriber;
 
@@ -114,43 +115,47 @@ public class GroupFragment extends BaseSupportFragment {
             }
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                if (EMClient.getInstance().isLoggedInBefore()) {
-                    Flowable.create(new FlowableOnSubscribe<List<EMGroup>>() {
-                        @Override
-                        public void subscribe(FlowableEmitter<List<EMGroup>> e) throws Exception {
-                            List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
+                if(NetworkUtils.isNetAvailable(getActivity())) {
+                    if (EMClient.getInstance().isLoggedInBefore()) {
+                        Flowable.create(new FlowableOnSubscribe<List<EMGroup>>() {
+                            @Override
+                            public void subscribe(FlowableEmitter<List<EMGroup>> e) throws Exception {
+                                List<EMGroup> grouplist = EMClient.getInstance().groupManager().getJoinedGroupsFromServer();
 //                        SystemClock.sleep(1000);
-                            e.onNext(grouplist);
-                            e.onComplete();
-                        }
-                    }, BackpressureStrategy.BUFFER)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Consumer<List<EMGroup>>() {
-                                @Override
-                                public void accept(final List<EMGroup> s) throws Exception {
-                                    mCakeAdapter.setDataList(s);
-                                    ptrFrameLayout.refreshComplete();
-                                    mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
-                                            String currUsername = EMClient.getInstance().getCurrentUser();
-                                            String chatId = s.get(position).getGroupId();
-                                            if (chatId.equals(currUsername) ) {
-                                                Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
-                                                return;
+                                e.onNext(grouplist);
+                                e.onComplete();
+                            }
+                        }, BackpressureStrategy.BUFFER)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Consumer<List<EMGroup>>() {
+                                    @Override
+                                    public void accept(final List<EMGroup> s) throws Exception {
+                                        mCakeAdapter.setDataList(s);
+                                        ptrFrameLayout.refreshComplete();
+                                        mCakeAdapter.setOnItemClickListener(new OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(int position, View view, RecyclerView.ViewHolder vh) {
+                                                String currUsername = EMClient.getInstance().getCurrentUser();
+                                                String chatId = s.get(position).getGroupId();
+                                                if (chatId.equals(currUsername) ) {
+                                                    Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
+                                                    return;
+                                                }
+                                                if (isStart){
+                                                    start(SessionFragment.getInstance(chatId));
+                                                    timer.start();
+                                                }
+                                                Toast.makeText(getActivity(), "position"+chatId, Toast.LENGTH_SHORT).show();
                                             }
-                                            if (isStart){
-                                                start(SessionFragment.getInstance(chatId));
-                                                timer.start();
-                                            }
-                                            Toast.makeText(getActivity(), "position"+chatId, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            });
-                    return;
-                }else {
+                                        });
+                                    }
+                                });
+                        return;
+                    }else {
+                        ptrFrameLayout.refreshComplete();
+                    }
+                } else {
                     ptrFrameLayout.refreshComplete();
                 }
             }

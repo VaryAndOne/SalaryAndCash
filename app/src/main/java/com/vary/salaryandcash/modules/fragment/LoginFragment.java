@@ -50,6 +50,21 @@ public class LoginFragment extends BaseSupportFragmentVertical {
     TextView mSignInBtn;
     // 注册按钮
     private TextView mSignUpBtn;
+
+
+    public static LoginFragment myFragment;
+
+    public static synchronized LoginFragment getInstance(){
+        if (myFragment == null){
+            synchronized (LoginFragment.class){
+                if (myFragment == null){
+                    myFragment = new LoginFragment();
+                }
+            }
+        }
+        return myFragment;
+    }
+
     @Override
     public int getBaseView() {
         return R.layout.fragment_login;

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseHolder;
@@ -79,7 +80,9 @@ public class HomeFragment extends BaseSupportFragmentVertical implements MainVie
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start(new LoginFragment());
+                if (!EMClient.getInstance().isLoggedInBefore()) {
+                    start(LoginFragment.getInstance());
+                }
             }
         });
         mView.findViewById(R.id.navigate_back).setOnClickListener(new View.OnClickListener() {

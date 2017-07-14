@@ -2,6 +2,7 @@ package com.vary.salaryandcash.modules.fragment;
 
 import android.app.admin.SystemUpdatePolicy;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -76,6 +77,7 @@ public class GroupFragment extends BaseSupportFragment {
     @Bind(R.id.recyclerview) protected RecyclerView mCakeList;
 
     public static GroupFragment myFragment;
+    public static String TAG = GroupFragment.class.getSimpleName();
     public static synchronized GroupFragment getInstance(String getPassword){
         if (myFragment == null){
             synchronized (LeftFragment.class){
@@ -104,8 +106,6 @@ public class GroupFragment extends BaseSupportFragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         mCakeList.setLayoutManager(linearLayoutManager);
         mCakeList.setHasFixedSize(true);
-
-        final long[] mHits = new long[2];
 
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
@@ -140,12 +140,9 @@ public class GroupFragment extends BaseSupportFragment {
                                                 Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
                                                 return;
                                             }
-                                            System.arraycopy(mHits,1,mHits,0,mHits.length-1);
-                                            mHits[mHits.length - 1] = SystemClock.uptimeMillis();
-                                            if (mHits[0] >= (SystemClock.uptimeMillis() -  300)){
-
-                                            }else {
+                                            if (isStart){
                                                 start(SessionFragment.getInstance(chatId));
+                                                timer.start();
                                             }
                                             Toast.makeText(getActivity(), "position"+chatId, Toast.LENGTH_SHORT).show();
                                         }
@@ -160,6 +157,25 @@ public class GroupFragment extends BaseSupportFragment {
         });
 
     }
+
+    boolean isStart = true;
+    CountDownTimer timer = new CountDownTimer(4000,1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            isStart =false;
+            try {
+                Thread.sleep(1200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.e("CountDown",millisUntilFinished+"");
+        }
+        @Override
+        public void onFinish() {
+            Log.d(TAG,"完成");
+            isStart = true;
+        }
+    };
 
     @Override
     public int getBaseView() {

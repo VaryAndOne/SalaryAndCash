@@ -24,6 +24,7 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.vary.salaryandcash.R;
 import com.vary.salaryandcash.app.SalaryApplication;
 import com.vary.salaryandcash.base.BaseSupportFragmentVertical;
+import com.vary.salaryandcash.utilities.NetworkUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -100,14 +101,19 @@ public class LoginFragment extends BaseSupportFragmentVertical {
         mSignUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUp();
+                if(NetworkUtils.isNetAvailable(getActivity())) {
+                    signUp();
+                }
+
             }
         });
 
         mSignInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn();
+                if(NetworkUtils.isNetAvailable(getActivity())) {
+                    signIn();
+                }
             }
         });
     }
